@@ -17,6 +17,8 @@ namespace NukoBot.Database.Models
 
         public ulong ModLogChannelId { get; set; }
 
+        public ulong ScreenshotChannelId { get; set; }
+
         public ulong WelcomeChannelId { get; set; }
 
         public string WelcomeMessage { get; set; } = string.Empty;

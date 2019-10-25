@@ -6,13 +6,14 @@ namespace NukoBot.Services
 {
     public sealed class Text
     {
-        public Task SendAsync(IMessageChannel channel, string description, string title = null, Color? color = null)
+        public Task SendAsync(IMessageChannel channel, string description, string title = null, Color? color = null, string imageUrl = null)
         {
             var builder = new EmbedBuilder
             {
                 Color = color ?? Configuration.Color(),
                 Description = description,
-                Title = title
+                Title = title,
+                ImageUrl = imageUrl
             };
 
             return channel.SendMessageAsync("", false, builder.Build());
@@ -26,6 +27,11 @@ namespace NukoBot.Services
         public Task ReplyErrorAsync(IUser user, IMessageChannel channel, string description)
         {
             return ReplyAsync(user, channel, description, null, Configuration.ErrorColor);
+        }
+
+        public Task SendScreenshotAsync(IMessageChannel channel, string description, Attachment image)
+        {
+            return SendAsync(channel, description, null, null, image.Url);
         }
     }
 }
