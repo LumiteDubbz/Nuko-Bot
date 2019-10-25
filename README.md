@@ -1,5 +1,4 @@
-# NukoBot
-![Discord](https://img.shields.io/discord/636682997801943051) | ![GitHub](https://img.shields.io/github/license/lumitedubbz/NukoBot) | ![GitHub last commit](https://img.shields.io/github/last-commit/lumitedubbz/NukoBot)
+# NukoBot <a href="https://discord.gg/4rChQ4p"><img src="https://img.shields.io/discord/636682997801943051" alt="Discord server" /></a> <a href="https://github.com/LumiteDubbz/NukoBot/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a> <a href="#"><img src="https://img.shields.io/github/last-commit/lumitedubbz/NukoBot" alt="Latest commit" /></a>
 
 ## Quick start
 1. Clone this repository: `git clone https://github.com/LumiteDubbz/NukoBot.git`.
