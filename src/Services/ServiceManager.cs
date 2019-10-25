@@ -4,7 +4,10 @@ using NukoBot.Common;
 using NukoBot.Events;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
+using NukoBot.Database.Models;
+using NukoBot.Database.Repositories;
 
 namespace NukoBot.Services
 {
@@ -23,6 +26,26 @@ namespace NukoBot.Services
             _credentials = credentials;
 
             var database = ConfigureDatabase();
+            var runCounterCollection = database.GetCollection<Run>("runCount");
+            var runCounter = runCounterCollection.AsQueryable();
+            var isEmpty = !runCounter.Any();
+
+            int runNumber = 1;
+
+            if (!isEmpty)
+            {
+                var query = runCounter.OrderByDescending(x => x.RunNumber).Take(1);
+
+                runNumber = query.First().RunNumber + 1;
+            }
+
+            var count = new Run()
+            {
+                TimeCommenced = DateTime.Now,
+                RunNumber = runNumber
+            };
+
+            runCounterCollection.InsertOne(count);
 
             var services = new ServiceCollection()
                 .AddSingleton<Logger>()
@@ -32,7 +55,12 @@ namespace NukoBot.Services
                 .AddSingleton(_client)
                 .AddSingleton(_commandService)
                 .AddSingleton(_credentials)
-                .AddSingleton(database);
+                .AddSingleton(database.GetCollection<Guild>("guilds"))
+                .AddSingleton(database.GetCollection<Mute>("mutes"))
+                .AddSingleton(database.GetCollection<User>("users"))
+                .AddSingleton<GuildRepository>()
+                .AddSingleton<MuteRepository>()
+                .AddSingleton<UserRepository>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

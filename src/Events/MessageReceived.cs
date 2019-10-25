@@ -6,6 +6,8 @@ using Discord;
 using Discord.Commands;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
+using NukoBot.Database.Repositories;
 
 namespace NukoBot.Events
 {
@@ -15,6 +17,7 @@ namespace NukoBot.Events
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
+        private readonly GuildRepository _guildRepo;
 
         public MessageReceived(DiscordSocketClient client, CommandService commandService, IServiceProvider serviceProvider)
         {
@@ -22,6 +25,7 @@ namespace NukoBot.Events
             _commandService = commandService;
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();
+            _guildRepo = _serviceProvider.GetRequiredService<GuildRepository>();
 
             _client.MessageReceived += HandleMessageAsync;
         }
@@ -35,7 +39,15 @@ namespace NukoBot.Events
 
             if (!message.HasStringPrefix(Configuration.Prefix, ref argPos)) return;
 
-            var context = new SocketCommandContext(_client, message);
+            //var context = new SocketCommandContext(_client, message);
+            var context = new Context(_client, message, _serviceProvider);
+
+            await context.InitializeAsync();
+
+            //var dbGuild = await _guildRepo.GetGuildAsync(context.Guild.Id);
+
+            //Console.WriteLine("dbGuild.GuildId: " + dbGuild.GuildId);
+            //Console.WriteLine("context.Guild.Id: " + context.Guild.Id);
 
             var result = await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
 
@@ -46,7 +58,7 @@ namespace NukoBot.Events
                     return;
                 }
 
-                await _text.ReplyErrorAsync(message.Author, context.Channel, $"I'm sorry but an error occurred whilst executing that command:\n\n```{result.ErrorReason}");
+                await _text.ReplyErrorAsync(message.Author, context.Channel, $"I'm sorry but an error occurred whilst executing that command:\n\n```{result.ErrorReason}```");
             }
         }
     }

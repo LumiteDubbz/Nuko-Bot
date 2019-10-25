@@ -5,7 +5,7 @@ using NukoBot.Extensions;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace Lia_Next.Modules
+namespace NukoBot.Modules
 {
     [Name("System")]
     [Summary("The most basic commands available to all users.")]
@@ -88,6 +88,13 @@ namespace Lia_Next.Modules
         public Task Support()
         {
             return _text.ReplyAsync(Context.User, Context.Channel, "For bot support, selfhosting support, feature requests or just to chat, join the support server [here](" + Configuration.SupportServerLink + ").");
+        }
+
+        [Command("echo")]
+        [Alias("say", "embed")]
+        public Task Echo([Remainder] string message)
+        {
+            return _text.SendAsync(Context.Channel, message);
         }
     }
 }
