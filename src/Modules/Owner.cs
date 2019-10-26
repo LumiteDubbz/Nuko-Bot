@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Database.Repositories;
@@ -16,18 +15,15 @@ namespace NukoBot.Modules
     [Summary("These commands can only be used by the owner of the server they are ran in.")]
     [RequireContext(ContextType.Guild)]
     [RequireGuildOwner]
-
     public sealed class Owner : ModuleBase<Context>
     {
-        private IServiceProvider _serviceProvider;
-        private readonly DiscordSocketClient _client;
+        private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
         private readonly GuildRepository _guildRepo;
 
-        public Owner(CommandService commandService, IServiceProvider serviceProvider)
+        public Owner(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
             _text = _serviceProvider.GetRequiredService<Text>();
             _guildRepo = _serviceProvider.GetRequiredService<GuildRepository>();
         }

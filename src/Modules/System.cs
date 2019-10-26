@@ -63,7 +63,7 @@ namespace NukoBot.Modules
                         commands += $"{StringExtension.FirstCharToUpper(command.Name)}: *{command.Summary}*\n";
                     }
 
-                    message += $"**Commands in the {foundModule.Name} module**:\n{commands}";
+                    message += $"**Commands in the {foundModule.Name} module**:\n{commands}\n";
                 }
 
                 message += foundCommand != null ? $"\n\n**Miscellaneous commands:**\n{StringExtension.FirstCharToUpper(foundCommand.Name)}: *{foundCommand.Summary}*" : null;
@@ -79,7 +79,7 @@ namespace NukoBot.Modules
 
             foreach (var module in _commandService.Modules)
             {
-                modules += $"{module.Name}: *{module.Summary}*, ";
+                modules += $"__{module.Name}__: *{module.Summary}*\n";
             }
 
             await _text.SendAsync(userDm, $"**Modules**:\n{modules.Remove(modules.Length - 2)}\n\nTo view the commands in any given module, please say `{Configuration.Prefix}module <moduleName>`.", "Module information");

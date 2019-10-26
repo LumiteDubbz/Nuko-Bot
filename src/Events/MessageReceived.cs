@@ -39,15 +39,9 @@ namespace NukoBot.Events
 
             if (!message.HasStringPrefix(Configuration.Prefix, ref argPos)) return;
 
-            //var context = new SocketCommandContext(_client, message);
-            var context = new Context(_client, message, _serviceProvider);
+            var context = new Context(message, _serviceProvider, _client);
 
             await context.InitializeAsync();
-
-            //var dbGuild = await _guildRepo.GetGuildAsync(context.Guild.Id);
-
-            //Console.WriteLine("dbGuild.GuildId: " + dbGuild.GuildId);
-            //Console.WriteLine("context.Guild.Id: " + context.Guild.Id);
 
             var result = await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
 

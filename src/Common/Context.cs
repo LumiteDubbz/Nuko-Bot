@@ -20,7 +20,7 @@ namespace NukoBot.Common
         private readonly UserRepository _userRepo;
         private readonly GuildRepository _guildRepo;
 
-        public Context(DiscordSocketClient client, SocketUserMessage msg, IServiceProvider serviceProvider) : base(client, msg)
+        public Context(SocketUserMessage msg, IServiceProvider serviceProvider, DiscordSocketClient client = null) : base(client, msg)
         {
             _serviceProvider = serviceProvider;
             _userRepo = _serviceProvider.GetService<UserRepository>();

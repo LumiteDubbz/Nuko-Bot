@@ -13,14 +13,13 @@ namespace NukoBot.Modules
 {
     [Name("General")]
     [Summary("General commands not directly related to the core functionality of the bot.")]
-
     public sealed class General : ModuleBase<Context>
     {
-        private IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         private readonly DiscordSocketClient _client;
         private readonly Text _text;
 
-        public General(CommandService commandService, IServiceProvider serviceProvider)
+        public General(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
