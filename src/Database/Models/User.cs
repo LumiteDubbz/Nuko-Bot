@@ -11,7 +11,5 @@
         public ulong UserId { get; set; }
 
         public ulong GuildId { get; set; }
-
-        public decimal TestField { get; set; } = 1;
     }
 }

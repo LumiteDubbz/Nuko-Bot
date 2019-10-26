@@ -30,6 +30,7 @@ namespace NukoBot.Modules
         [Alias("submit-screenshot")]
         [Summary("Submit a screenshot of your game to the staff for points.")]
         [RequireAttachedImage]
+        [RequireContext(ContextType.Guild)]
         public async Task Submit()
         {
             await _text.SendScreenshotAsync(_client.GetChannel(Context.DbGuild.ScreenshotChannelId) as IMessageChannel, $"**{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}** has submitted this screenshot.", Context.Message.Attachments.ElementAt(0));

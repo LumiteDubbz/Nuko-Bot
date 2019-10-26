@@ -9,7 +9,7 @@ namespace NukoBot.Common
 
         public static readonly string Game = Prefix + "help";
 
-        public static readonly string SupportServerLink = "https://discord.gg/VbMANv", BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8", HelpMessage = "Hey, I'm Nuko, a Discord bot for MayMod 2: Cock and Ball Torture.";
+        public static readonly string SupportServerLink = "https://discord.gg/MU9jaut", BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8", HelpMessage = "Hey, I'm Nuko, a Discord bot for community management for Mayrom's new mod and server.\n\nTo view all command modules, say `>modules`.\n\nTo view all commands in any given module, say `>module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `>support` command and join the server.";
 
         public static Color Color()
         {

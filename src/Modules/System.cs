@@ -11,7 +11,6 @@ namespace NukoBot.Modules
 {
     [Name("System")]
     [Summary("The most basic commands available to all users.")]
-
     public sealed class System : ModuleBase
     {
         private readonly CommandService _commandService;
