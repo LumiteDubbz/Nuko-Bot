@@ -21,8 +21,12 @@ namespace NukoBot.Database.Models
 
         public ulong WelcomeChannelId { get; set; }
 
+        public ulong NewUserRole { get; set; }
+
         public string WelcomeMessage { get; set; } = string.Empty;
 
         public int CaseNumber { get; set; } = 1;
+
+        public int Points { get; set; } = 0;
     }
 }

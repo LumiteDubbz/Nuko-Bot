@@ -6,7 +6,6 @@ using Discord;
 using Discord.Commands;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
 using NukoBot.Database.Repositories;
 
 namespace NukoBot.Events
@@ -39,9 +38,15 @@ namespace NukoBot.Events
 
             if (!message.HasStringPrefix(Configuration.Prefix, ref argPos)) return;
 
+            Console.WriteLine("message.HasStringPrefix() passed");
+
             var context = new Context(message, _serviceProvider, _client);
 
+            Console.WriteLine("new Context() passed");
+
             await context.InitializeAsync();
+
+            Console.WriteLine("InitializeAsync() passed");
 
             var result = await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
 

@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace NukoBot.Preconditions.Command
+namespace NukoBot.Common.Preconditions.Command
 {
     public sealed class RequireGuildOwner : PreconditionAttribute
     {

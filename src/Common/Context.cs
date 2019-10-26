@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
 using Discord;
-using MongoDB.Driver;
 
 namespace NukoBot.Common
 {

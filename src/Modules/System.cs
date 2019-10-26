@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace NukoBot.Modules
 {
     [Name("System")]
-    [Summary("The most basic commands available to all users.")]
+    [Summary("Commands relating to the core functions of the bot.")]
     public sealed class System : ModuleBase
     {
         private readonly CommandService _commandService;
@@ -90,7 +90,7 @@ namespace NukoBot.Modules
         [Summary("Displays the invitation link to the support server.")]
         public Task Support()
         {
-            return _text.ReplyAsync(Context.User, Context.Channel, "For bot support, selfhosting support, feature requests or just to chat, join the support server [here](" + Configuration.SupportServerLink + ").");
+            return _text.ReplyAsync(Context.User, Context.Channel, "for bot support, selfhosting support or feature requests, join the support server [here](" + Configuration.SupportServerLink + ").");
         }
 
         [Command("echo")]

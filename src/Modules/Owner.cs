@@ -3,7 +3,7 @@ using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Database.Repositories;
-using NukoBot.Preconditions.Command;
+using NukoBot.Common.Preconditions.Command;
 using NukoBot.Services;
 using System;
 using System.Linq;

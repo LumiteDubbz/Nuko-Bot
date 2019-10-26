@@ -2,15 +2,13 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using NukoBot.Common;
-using NukoBot.Database.Models;
 using NukoBot.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace NukoBot.Preconditions.Command
+namespace NukoBot.Common.Preconditions.Command
 {
-    public sealed class RequireAdministrator : PreconditionAttribute
+    public sealed class RequireModerator : PreconditionAttribute
     {
         public async override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider serviceProvider)
         {
@@ -23,7 +21,7 @@ namespace NukoBot.Preconditions.Command
             var moderationService = serviceProvider.GetRequiredService<ModerationService>();
             var permissionLevel = moderationService.GetPermissionLevel(nukoContext.DbGuild, context.User as IGuildUser);
 
-            if (permissionLevel < 2) return await Task.FromResult(PreconditionResult.FromError("This command may only by used by users with a permission level of 2 or the Administrator role permission."));
+            if (permissionLevel < 1) return await Task.FromResult(PreconditionResult.FromError("This command may only by used by users with a permission level of at least 1."));
 
             return await Task.FromResult(PreconditionResult.FromSuccess());
         }
