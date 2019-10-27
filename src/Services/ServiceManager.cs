@@ -59,6 +59,7 @@ namespace NukoBot.Services
                 .AddSingleton<Text>()
                 .AddSingleton<MessageReceived>()
                 .AddSingleton<Ready>()
+                .AddSingleton<UserJoined>()
                 .AddSingleton<GuildRepository>()
                 .AddSingleton<MuteRepository>()
                 .AddSingleton<UserRepository>()

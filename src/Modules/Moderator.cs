@@ -43,7 +43,7 @@ namespace NukoBot.Modules
                 return;
             }
 
-            var poll = await _pollRepository.CreatePollAsync(Context, name, choicesArray, TimeSpan.FromHours(hoursToLast));
+            var poll = await _pollRepository.CreatePollAsync(Context.User.Id, Context.Guild.Id, name, choicesArray, TimeSpan.FromHours(hoursToLast));
 
             if (poll == null)
             {
@@ -63,12 +63,14 @@ namespace NukoBot.Modules
         [Command("deletepoll")]
         [Alias("removepoll", "destroypoll")]
         [Summary("Delete a poll.")]
-        public async Task DeletePoll(string name)
+        public async Task DeletePoll(int index)
         {
-            var poll = await _pollRepository.GetPollAsync(Context, name, Context.Guild.Id);
+            var poll = await _pollRepository.GetPollAsync(index, Context.Guild.Id);
 
             if (poll != null)
             {
+                await _pollRepository.RemovePollAsync(index, Context.Guild.Id);
+
                 var message = string.Empty;
 
                 var votes = poll.Votes();
@@ -84,7 +86,7 @@ namespace NukoBot.Modules
                         percentage = 0;
                     }
 
-                    message+= $"{x + 1}. {choice}: {votes[choice]} Votes ({percentage.ToString("P")})\n";
+                    message += $"{x + 1}. {choice}: {votes[choice]} Votes ({percentage.ToString("P")})\n";
                 }
 
                 var user = Context.Client.GetUser(poll.CreatorId);
@@ -93,14 +95,12 @@ namespace NukoBot.Modules
 
                 await _text.SendAsync(userDm, $"These are the results from your poll **{poll.Name}**\n{message}");
 
-                await _pollRepository.DeleteAsync(poll);
-
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully deleted the poll **{poll.Name}** and the results have been sent to the poll creator in their DMs.");
 
                 return;
             }
 
-            await _text.ReplyErrorAsync(Context.User, Context.Channel, "no such poll with that name was found.");
+            await _text.ReplyErrorAsync(Context.User, Context.Channel, "no poll with that index (ID) was found.");
         }
     }
 }

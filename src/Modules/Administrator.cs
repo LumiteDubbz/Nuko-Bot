@@ -167,5 +167,22 @@ namespace NukoBot.Modules
 
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
         }
+
+        [Command("deductguild")]
+        [Alias("removepointsguild")]
+        [Summary("Remove points from a guild's total.")]
+        public async Task DeductGuild(int amountOfPoints)
+        {
+            if (Context.DbGuild.Points - amountOfPoints < 0)
+            {
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points = 0);
+            }
+            else
+            {
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from this guild's total.");
+        }
     }
 }

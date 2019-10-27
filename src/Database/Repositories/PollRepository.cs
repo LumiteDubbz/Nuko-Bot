@@ -11,21 +11,30 @@ namespace NukoBot.Database.Repositories
     {
         public PollRepository(IMongoCollection<Poll> polls) : base(polls) { }
 
-        public async Task<Poll> GetPollAsync(Context context, string name, ulong guildId)
+        public async Task<Poll> GetPollAsync(int index, ulong guildId)
         {
-            var poll = await GetAsync(x => x.Name.ToLower() == name.ToLower() && x.GuildId == context.Guild.Id);
+            var polls = await AllAsync(x => x.GuildId == guildId);
 
-            return poll;
+            polls = polls.OrderBy(x => x.CreatedAt).ToList();
+
+            try
+            {
+                return polls[index - 1];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
         }
 
-        public async Task<Poll> CreatePollAsync(Context context, string name, string[] choices, TimeSpan? length = null)
+        public async Task<Poll> CreatePollAsync(ulong userId, ulong guildId, string name, string[] choices, TimeSpan? length = null)
         {
-            if (await AnyAsync(x => x.Name.ToLower() == name.ToLower() && x.GuildId == context.Guild.Id))
+            if (await AnyAsync(x => x.Name.ToLower() == name.ToLower() && x.GuildId == guildId))
             {
                 return null;
             }
 
-            var createdPoll = new Poll(name, context.User.Id, context.Guild.Id, choices);
+            var createdPoll = new Poll(name, userId, guildId, choices);
 
             if (length.HasValue)
             {
@@ -33,7 +42,17 @@ namespace NukoBot.Database.Repositories
             }
 
             await InsertAsync(createdPoll);
+
             return createdPoll;
+        }
+
+        public async Task RemovePollAsync(int index, ulong guildId)
+        {
+            var polls = (await AllAsync(x => x.GuildId == guildId)).OrderBy(x => x.CreatedAt).ToList();
+            
+            var poll = polls[index - 1];
+
+            await DeleteAsync(x => x.Id == poll.Id);
         }
     }
 }

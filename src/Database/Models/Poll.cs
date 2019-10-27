@@ -26,7 +26,7 @@ namespace NukoBot.Database.Models
 
         public DateTime CreatedAt { get; set; }
 
-        public double Length { get; set; } = 3600000;
+        public double Length { get; set; } = 1;
 
         public IReadOnlyDictionary<string, int> Votes()
         {

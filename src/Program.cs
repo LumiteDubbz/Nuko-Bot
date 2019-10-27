@@ -49,6 +49,7 @@ namespace NukoBot
 
             serviceProvider.GetRequiredService<MessageReceived>();
             serviceProvider.GetRequiredService<Ready>();
+            serviceProvider.GetRequiredService<UserJoined>();
 
             await commandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
 
