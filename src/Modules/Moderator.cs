@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
@@ -20,6 +21,8 @@ namespace NukoBot.Modules
         private readonly GuildRepository _guildRepository;
         private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
+        private readonly MuteRepository _muteRepository;
+        private readonly ModerationService _moderationService;
 
         public Moderator(IServiceProvider serviceProvider)
         {
@@ -28,6 +31,8 @@ namespace NukoBot.Modules
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
+            _muteRepository = _serviceProvider.GetRequiredService<MuteRepository>();
+            _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
         }
 
         [Command("createpoll")]
@@ -102,5 +107,68 @@ namespace NukoBot.Modules
 
             await _text.ReplyErrorAsync(Context.User, Context.Channel, "no poll with that index (ID) was found.");
         }
+
+        [Command("mute")]
+        [Alias("silence")]
+        [Summary("Mute a user until they are manually unmuted.")]
+        public async Task MuteAsync(IGuildUser userToMute, [Remainder] string reason = null)
+        {
+            var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
+
+            if (mutedRole == null)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
+
+                return;
+            }
+            else if (_moderationService.GetPermissionLevel(Context.DbGuild, userToMute) > 0)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"{userToMute.Mention} is a moderator and thus cannot be muted.");
+
+                return;
+            }
+
+            await userToMute.AddRoleAsync(mutedRole);
+
+            await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromDays(365));
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully muted {userToMute.Mention}.");
+
+            // use moderation service to try and DM the usertoMute
+            // log it to modlog
+        }
+
+        //[Command("custommute")]
+        //[Alias("customsilence")]
+        //[Summary("Mute a user for a set amount of time.")]
+        //public async Task CustomMuteAsync(double hours, IGuildUser userToMute, [Remainder] string reason = null)
+        //{
+        //    if (hours < 1)
+        //    {
+        //        await _text.ReplyErrorAsync(Context.User, Context.Channel, "you cannot mute anyone for less than 1 hour.");
+
+        //        return;
+        //    }
+
+        //    var time = hours == 1 ? "hour" : "hours";
+
+        //    var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
+
+        //    if (mutedRole == null)
+        //    {
+        //        await _text.ReplyErrorAsync(Context.User, Context.Channel, "there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
+
+        //        return;
+        //    }
+
+        //    await userToMute.AddRoleAsync(mutedRole);
+
+        //    await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromHours(hours));
+
+        //    await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully muted {userToMute.Mention} for {hours} {time}.");
+
+        //    // use moderation service to try and DM the usertoMute
+        //    // log it to modlog
+        //}
     }
 }

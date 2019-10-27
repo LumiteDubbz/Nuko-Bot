@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
 using NukoBot.Database.Repositories;
+using NukoBot.Database.Models;
 using NukoBot.Services;
 using System;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace NukoBot.Modules
         private readonly Text _text;
         private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
+        private readonly GuildRepository _guildRepository;
 
         public General(IServiceProvider serviceProvider)
         {
@@ -30,6 +32,7 @@ namespace NukoBot.Modules
             _text = _serviceProvider.GetRequiredService<Text>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
+            _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
         }
 
         [Command("submit")]
@@ -92,6 +95,48 @@ namespace NukoBot.Modules
             }
 
             await _text.ReplyErrorAsync(Context.User, Context.Channel, "no poll with that index (ID) was found.");
+        }
+
+        [Command("leaderboard")]
+        [Alias("top3", "lb")]
+        [Summary("View 3 users with the most points in the server.")]
+        public async Task Leaderboard()
+        {
+            var users = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points);
+
+            string message = string.Empty;
+
+            int position = 1;
+
+            if (users.Count() == 0)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "there are no users on the learderboard yet.");
+
+                return;
+            }
+
+            var guildInterface = Context.Guild as IGuild;
+
+            foreach (User dbUser in users)
+            {
+                var user = await guildInterface.GetUserAsync(dbUser.UserId);
+
+                if (user == null)
+                {
+                    continue;
+                }
+
+                message += $"**{position}**. {user.Mention}: {dbUser.Points} points\n";
+
+                if (position >= 3)
+                {
+                    break;
+                }
+
+                position++;
+            }
+
+            await _text.SendAsync(Context.Channel, message);
         }
     }
 }

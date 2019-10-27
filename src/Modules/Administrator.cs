@@ -138,6 +138,7 @@ namespace NukoBot.Modules
             if (dbUser == null)
             {
                 await _text.ReplyErrorAsync(Context.User, Context.Channel, $"that user was found.");
+
                 return;
             }
 
@@ -151,38 +152,52 @@ namespace NukoBot.Modules
         [Command("deduct")]
         [Alias("deductpoints", "removepoints")]
         [Summary("Remove points from a user which will also decrease the global point counter.")]
-        public async Task Deduct(int amountOfPoints, [Remainder] IGuildUser user)
+        public async Task Deduct(int amountOfPoints, [Remainder] IGuildUser user = null)
         {
-            var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
-
-            if (dbUser == null)
+            if (user == null)
             {
-                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"that user was found.");
-                return;
-            }
+                if (Context.DbGuild.Points - amountOfPoints < 0)
+                {
+                    await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points = 0);
+                }
+                else
+                {
+                    await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
+                }
 
-            await _userRepository.ModifyAsync(dbUser, x => x.Points -= amountOfPoints);
-
-            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
-
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
-        }
-
-        [Command("deductguild")]
-        [Alias("removepointsguild")]
-        [Summary("Remove points from a guild's total.")]
-        public async Task DeductGuild(int amountOfPoints)
-        {
-            if (Context.DbGuild.Points - amountOfPoints < 0)
-            {
-                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points = 0);
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from this guild's total.");
             }
             else
             {
-                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
-            }
+                var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from this guild's total.");
+                if (dbUser == null)
+                {
+                    await _text.ReplyErrorAsync(Context.User, Context.Channel, $"that user was found.");
+
+                    return;
+                }
+
+                if (Context.DbUser.Points - amountOfPoints < 0)
+                {
+                    await _userRepository.ModifyAsync(dbUser, x => x.Points = 0);
+                }
+                else
+                {
+                    await _userRepository.ModifyAsync(dbUser, x => x.Points -= amountOfPoints);
+                }
+
+                if (Context.DbGuild.Points - amountOfPoints < 0)
+                {
+                    await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points = 0);
+                }
+                else
+                {
+                    await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
+                }
+
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
+            }
         }
     }
 }
