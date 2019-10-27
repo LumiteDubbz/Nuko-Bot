@@ -31,61 +31,101 @@ namespace NukoBot.Modules
         [Command("setscreenshotchannel")]
         [Alias("updatescreenshotchannel")]
         [Summary("Set the channel for screenshots to be submitted to.")]
-        public async Task SetScreenshotChannel([Remainder] ITextChannel screenshotChannel)
+        public async Task SetScreenshotChannel([Remainder] ITextChannel screenshotChannel = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ScreenshotChannelId = screenshotChannel.Id);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the screenshot channel to {screenshotChannel.Mention}.");
+            if (screenshotChannel != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the screenshot channel to {screenshotChannel.Mention}.");
+
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the screenshot channel.");
         }
 
         [Command("setmutedrole")]
         [Alias("setmuterole")]
         [Summary("Set the role to be given to those who are muted.")]
-        public async Task SetMutedRole([Remainder] IRole mutedRole)
+        public async Task SetMutedRole([Remainder] IRole mutedRole = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.MutedRoleId = mutedRole.Id);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the muted role to {mutedRole.Mention}.");
+            if (mutedRole != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the muted role to {mutedRole.Mention}.");
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the muted role.");
         }
 
         [Command("setmodlogchannel")]
         [Alias("setlogchannel")]
         [Summary("Set the channel for all moderator actions to be logged to.")]
-        public async Task SetModLogChannel([Remainder] ITextChannel modLogChannel)
+        public async Task SetModLogChannel([Remainder] ITextChannel modLogChannel = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ModLogChannelId = modLogChannel.Id);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the mod log channel to {modLogChannel.Mention}.");
+            if (modLogChannel != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the mod log channel to {modLogChannel.Mention}.");
+
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the mod log channel.");
         }
 
         [Command("setwelcomechannel")]
         [Alias("setwelcomemessagechannel")]
         [Summary("Set the channel for welcome messages to be sent to.")]
-        public async Task SetWelcomeChannel([Remainder] ITextChannel welcomeChannel)
+        public async Task SetWelcomeChannel([Remainder] ITextChannel welcomeChannel = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.WelcomeChannelId = welcomeChannel.Id);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the welcome channel to {welcomeChannel.Mention}.");
+            if (welcomeChannel != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the welcome channel to {welcomeChannel.Mention}.");
+
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the welcome channel.");
         }
 
         [Command("setwelcomemessage")]
-        [Alias("setwelcomemsg")]
+        [Alias("setwelcomemsg", "deletewelcomemessage", "deletewelcomemsg", "removewelcomemessage", "removewelcomemsg")]
         [Summary("Set the message to sent when a user joins this server.")]
-        public async Task SetWelcomeChannel([Remainder] string welcomeMessage)
+        public async Task SetWelcomeChannel([Remainder] string welcomeMessage = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.WelcomeMessage = welcomeMessage);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the welcome message to **{welcomeMessage}**");
+            if (welcomeMessage != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the welcome message to **{welcomeMessage}**");
+
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the welcome message.");
         }
 
         [Command("setnewuserrole")]
         [Alias("setdefaultrole")]
         [Summary("Set the role to be given to all new users in the server.")]
-        public async Task SetNewUserRole([Remainder] IRole newUserRole)
+        public async Task SetNewUserRole([Remainder] IRole newUserRole = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.NewUserRole = newUserRole.Id);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the new user role to {newUserRole.Mention}.");
+            if (newUserRole != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the new user role to {newUserRole.Mention}.");
+
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the new user role.");
         }
 
         [Command("award")]

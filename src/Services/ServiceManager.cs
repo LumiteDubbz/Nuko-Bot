@@ -54,6 +54,7 @@ namespace NukoBot.Services
                 .AddSingleton(database.GetCollection<Guild>("guilds"))
                 .AddSingleton(database.GetCollection<Mute>("mutes"))
                 .AddSingleton(database.GetCollection<User>("users"))
+                .AddSingleton(database.GetCollection<Poll>("polls"))
                 .AddSingleton<Logger>()
                 .AddSingleton<Text>()
                 .AddSingleton<MessageReceived>()
@@ -61,6 +62,7 @@ namespace NukoBot.Services
                 .AddSingleton<GuildRepository>()
                 .AddSingleton<MuteRepository>()
                 .AddSingleton<UserRepository>()
+                .AddSingleton<PollRepository>()
                 .AddSingleton<ModerationService>();
 
             ServiceProvider = services.BuildServiceProvider();
