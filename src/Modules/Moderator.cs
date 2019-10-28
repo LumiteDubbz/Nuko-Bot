@@ -96,9 +96,7 @@ namespace NukoBot.Modules
 
                 var user = Context.Client.GetUser(poll.CreatorId);
 
-                var userDm = await user.GetOrCreateDMChannelAsync();
-
-                await _text.SendAsync(userDm, $"These are the results from your poll **{poll.Name}**\n{message}");
+                await _moderationService.InformUserAsync(user as IGuildUser, $"These are the results from your poll **{poll.Name}**\n{message}");
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully deleted the poll **{poll.Name}** and the results have been sent to the poll creator in their DMs.");
                 return;
@@ -131,8 +129,16 @@ namespace NukoBot.Modules
 
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully muted {userToMute.Mention}.");
 
-            // use moderation service to try and DM the usertoMute
-            // log it to modlog
+            string message = $"**{Context.User.Mention}** has permanently muted you";
+
+            if (reason.Length > 0)
+            {
+                message += $" for **{reason}**";
+            }
+
+            await _moderationService.InformUserAsync(userToMute, message + ".");
+
+            await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
         }
 
         //[Command("custommute")]
