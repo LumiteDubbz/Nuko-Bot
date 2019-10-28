@@ -19,6 +19,7 @@ namespace NukoBot.Modules
         private readonly Text _text;
         private readonly GuildRepository _guildRepository;
         private readonly UserRepository _userRepository;
+        private readonly ModerationService _moderationService;
 
         public Administrator(IServiceProvider serviceProvider)
         {
@@ -26,6 +27,7 @@ namespace NukoBot.Modules
             _text = _serviceProvider.GetRequiredService<Text>();
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
+            _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
         }
 
         [Command("setscreenshotchannel")]
@@ -175,6 +177,31 @@ namespace NukoBot.Modules
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
             }
+        }
+
+        [Command("ban")]
+        [Alias("banish")]
+        [Summary("Ban any user from being in the server.")]
+        public async Task Ban([Summary("The user to ban.")] IGuildUser userToBan, [Summary("The reason for banning the user.")] [Remainder] string reason = null)
+        {
+            if (_moderationService.GetPermissionLevel(Context.DbGuild, userToBan) > 0)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"{userToBan.Mention} is a moderator and thus cannot be banned.");
+                return;
+            }
+
+            string message = $"{Context.User.Mention} has banned you from **{Context.Guild.Name}**";
+
+            if (reason.Length > 0)
+            {
+                message += $" for **{reason}**";
+            }
+
+            await _moderationService.InformUserAsync(userToBan, message + ".");
+
+            await userToBan.BanAsync(0, reason);
+
+            await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Ban", Configuration.KickColor, reason, Context.User as IGuildUser, userToBan);
         }
     }
 }

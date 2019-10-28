@@ -18,8 +18,6 @@ namespace NukoBot.Modules
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
-        private readonly GuildRepository _guildRepository;
-        private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
         private readonly MuteRepository _muteRepository;
         private readonly ModerationService _moderationService;
@@ -28,8 +26,6 @@ namespace NukoBot.Modules
         {
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();
-            _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
-            _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
             _muteRepository = _serviceProvider.GetRequiredService<MuteRepository>();
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
@@ -108,7 +104,7 @@ namespace NukoBot.Modules
         [Command("mute")]
         [Alias("silence")]
         [Summary("Mute a user until they are manually unmuted.")]
-        public async Task MuteAsync([Summary("The user you want to mute")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
+        public async Task Mute([Summary("The user you want to mute")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
         {
             var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
 
@@ -129,7 +125,7 @@ namespace NukoBot.Modules
 
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully muted {userToMute.Mention}.");
 
-            string message = $"**{Context.User.Mention}** has permanently muted you";
+            string message = $"**{Context.User.Mention}** has permanently muted you in **{Context.Guild.Name}**";
 
             if (reason.Length > 0)
             {
@@ -173,5 +169,30 @@ namespace NukoBot.Modules
         //    // use moderation service to try and DM the usertoMute
         //    // log it to modlog
         //}
+
+        [Command("kick")]
+        [Alias("boot")]
+        [Summary("Kick any player from the server.")]
+        public async Task Kick([Summary("The user you wish to kick.")] IGuildUser userToKick, [Summary("The reason for kicking the user.")] [Remainder] string reason = null)
+        {
+            if (_moderationService.GetPermissionLevel(Context.DbGuild, userToKick) > 0)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"{userToKick.Mention} is a moderator and thus cannot be kicked.");
+                return;
+            }
+
+            string message = $"{Context.User.Mention} has kicked you from **{Context.Guild.Name}**";
+
+            if (reason.Length > 0)
+            {
+                message += $" for **{reason}**";
+            }
+
+            await _moderationService.InformUserAsync(userToKick, message + ".");
+
+            await userToKick.KickAsync(reason);
+
+            await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Kick", Configuration.KickColor, reason, Context.User as IGuildUser, userToKick);
+        }
     }
 }

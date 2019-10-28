@@ -18,9 +18,13 @@ namespace NukoBot.Common
 
         public static readonly Random Randomizer = new Random();
 
-        public static readonly Color ErrorColor = new Color(255, 0, 0);
+        public static readonly Color BanColor = ErrorColor;
+
+        public static readonly Color KickColor = MuteColor;
 
         public static readonly Color MuteColor = new Color(255, 140, 25);
+
+        public static readonly Color ErrorColor = new Color(255, 0, 0);
 
         private static readonly Color[] Colors =
         {
