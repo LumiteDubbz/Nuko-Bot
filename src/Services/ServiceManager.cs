@@ -55,7 +55,6 @@ namespace NukoBot.Services
                 .AddSingleton(database.GetCollection<Mute>("mutes"))
                 .AddSingleton(database.GetCollection<User>("users"))
                 .AddSingleton(database.GetCollection<Poll>("polls"))
-                .AddSingleton<Logger>()
                 .AddSingleton<Text>()
                 .AddSingleton<MessageReceived>()
                 .AddSingleton<Ready>()

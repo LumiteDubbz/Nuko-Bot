@@ -1,8 +1,7 @@
 ﻿using Discord.WebSocket;
 using System.Threading.Tasks;
 using NukoBot.Common;
-using NukoBot.Services;
-using Discord;
+using System;
 
 namespace NukoBot.Events
 {
@@ -21,7 +20,7 @@ namespace NukoBot.Events
         {
             await _client.SetGameAsync(Configuration.Game);
 
-            await new Logger().LogAsync(LogSeverity.Info, $"{_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator} ({_client.CurrentUser.Id}) has connected to Discord.");
+            Console.WriteLine($"{_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator} ({_client.CurrentUser.Id}) has connected to Discord.");
         }
     }
 }

@@ -47,7 +47,7 @@ namespace NukoBot.Modules
         [Command("points")]
         [Alias("pointcount")]
         [Summary("View the amount of points you or a mentioned user has.")]
-        public async Task Points([Remainder] IUser user = null)
+        public async Task Points([Summary("The user you want to look at the results of.")] [Remainder] IUser user = null)
         {
             if (user != null)
             {
@@ -63,7 +63,7 @@ namespace NukoBot.Modules
         [Command("vote")]
         [Alias("votepoll")]
         [Summary("Vote on any active poll")]
-        public async Task Vote(int pollIndex, int choiceIndex)
+        public async Task Vote([Summary("The number corresponding to the poll you want to delete.")] int pollIndex, [Summary("The number corresponding to you choice you want to vote for.")] int choiceIndex)
         {
             var poll = await _pollRepository.GetPollAsync(pollIndex, Context.Guild.Id);
 
@@ -72,7 +72,6 @@ namespace NukoBot.Modules
                 if (poll.VotesDocument.Any(x => x.Name == Context.User.Id.ToString()))
                 {
                     await _text.ReplyErrorAsync(Context.User, Context.Channel, "you have already voted on this poll.");
-
                     return;
                 }
 
@@ -90,7 +89,6 @@ namespace NukoBot.Modules
                 await _pollRepository.ModifyAsync(poll, x => x.VotesDocument.Add(Context.User.Id.ToString(), choice));
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully voted on **{poll.Name}**.");
-
                 return;
             }
 
@@ -111,7 +109,6 @@ namespace NukoBot.Modules
             if (users.Count() == 0)
             {
                 await _text.ReplyErrorAsync(Context.User, Context.Channel, "there are no users on the learderboard yet.");
-
                 return;
             }
 

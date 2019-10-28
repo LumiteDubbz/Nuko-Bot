@@ -38,7 +38,7 @@ namespace NukoBot.Modules
         [Command("createpoll")]
         [Alias("makepoll", "addpoll")]
         [Summary("Create a poll for people to vote on.")]
-        public async Task CreatePoll(string name, string choices, [Remainder] double hoursToLast = 1)
+        public async Task CreatePoll([Summary("The question of the poll.")] string name, [Summary("The chocies people can vote for, separated by `~`s")] string choices, [Summary("The number of hours the poll should last.")] [Remainder] double hoursToLast = 1)
         {
             var choicesArray = choices.Split('~');
 
@@ -68,7 +68,7 @@ namespace NukoBot.Modules
         [Command("deletepoll")]
         [Alias("removepoll", "destroypoll")]
         [Summary("Delete a poll.")]
-        public async Task DeletePoll(int index)
+        public async Task DeletePoll([Summary("The number corresponding to the poll you want to delete.")] int index)
         {
             var poll = await _pollRepository.GetPollAsync(index, Context.Guild.Id);
 
@@ -101,7 +101,6 @@ namespace NukoBot.Modules
                 await _text.SendAsync(userDm, $"These are the results from your poll **{poll.Name}**\n{message}");
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully deleted the poll **{poll.Name}** and the results have been sent to the poll creator in their DMs.");
-
                 return;
             }
 
@@ -111,20 +110,18 @@ namespace NukoBot.Modules
         [Command("mute")]
         [Alias("silence")]
         [Summary("Mute a user until they are manually unmuted.")]
-        public async Task MuteAsync(IGuildUser userToMute, [Remainder] string reason = null)
+        public async Task MuteAsync([Summary("The user you want to mute")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
         {
             var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
 
             if (mutedRole == null)
             {
                 await _text.ReplyErrorAsync(Context.User, Context.Channel, "there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
-
                 return;
             }
             else if (_moderationService.GetPermissionLevel(Context.DbGuild, userToMute) > 0)
             {
                 await _text.ReplyErrorAsync(Context.User, Context.Channel, $"{userToMute.Mention} is a moderator and thus cannot be muted.");
-
                 return;
             }
 

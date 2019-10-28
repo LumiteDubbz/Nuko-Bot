@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using System.Threading.Tasks;
-using NukoBot.Common;
 using NukoBot.Services;
 using Discord;
 using System;
@@ -14,12 +13,14 @@ namespace NukoBot.Events
         private readonly DiscordSocketClient _client;
         private readonly IServiceProvider _serviceProvider;
         private readonly GuildRepository _guildRepository;
+        private readonly Text _text;
 
         public UserJoined(DiscordSocketClient client, IServiceProvider serviceProvider)
         {
             _client = client;
             _serviceProvider = serviceProvider;
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
+            _text = _serviceProvider.GetRequiredService<Text>();
 
             _client.UserJoined += HandleUserJoinedAsync;
         }
@@ -31,6 +32,13 @@ namespace NukoBot.Events
             var dbGuild = await _guildRepository.GetGuildAsync(user.GuildId);
 
             await user.AddRoleAsync(user.Guild.GetRole(dbGuild.NewUserRole));
+
+            if (dbGuild.WelcomeMessage != null)
+            {
+                var userDm = await user.GetOrCreateDMChannelAsync();
+
+                await _text.SendAsync(userDm, dbGuild.WelcomeMessage);
+            }
         }
     }
 }

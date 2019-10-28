@@ -31,7 +31,7 @@ namespace NukoBot.Modules
         [Command("addmodrole")]
         [Alias("addmoderatorrole", "modifymodrole", "modifymoderatorrole")]
         [Summary("Add a role to the list of moderators.")]
-        public async Task AddModRole(IRole modRole, int permissionLevel = 1)
+        public async Task AddModRole([Summary("The role you wish to assign a permission level.")] IRole modRole, [Summary("The permission level you want to give the role.")] int permissionLevel = 1)
         {
             if (permissionLevel < 1 || permissionLevel > 3)
             {
@@ -59,7 +59,7 @@ namespace NukoBot.Modules
         [Command("removemodrole")]
         [Alias("removemoderatorrole")]
         [Summary("Remove a role from the list of moderators.")]
-        public async Task RemoveModRole(IRole modRole)
+        public async Task RemoveModRole([Summary("The role you want to remove from the list of mod roles")] [Remainder] IRole modRole)
         {
             if (Context.DbGuild.ModRoles.Any(x => x.Name == modRole.Id.ToString()))
             {

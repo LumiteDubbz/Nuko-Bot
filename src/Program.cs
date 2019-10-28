@@ -28,7 +28,7 @@ namespace NukoBot
             }
             catch(IOException error)
             {
-                await new Logger().LogAsync(LogSeverity.Critical, "An exception occurred while loading Credentials.json: " + error.ToString());
+                Console.WriteLine("An exception occurred while loading Credentials.json: " + error.ToString());
                 return;
             }
 

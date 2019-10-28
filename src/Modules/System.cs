@@ -42,7 +42,7 @@ namespace NukoBot.Modules
         [Command("commands")]
         [Alias("modules", "module", "command")]
         [Summary("View all modules or all commands in a specific module.")]
-        public async Task Commands([Summary("A specific command or module you wish to learn about.")][Remainder] string commandOrModule = null)
+        public async Task Commands([Summary("A specific command or module you wish to learn about.")] [Remainder] string commandOrModule = null)
         {
             var userDm = await Context.User.GetOrCreateDMChannelAsync();
 
@@ -70,7 +70,6 @@ namespace NukoBot.Modules
                 await _text.ReplyAsync(Context.User, userDm, message, "Command information");
 
                 if (Context.Channel != userDm) await _text.ReplyAsync(Context.User, Context.Channel, "please check your DMs.");
-
                 return;
             }
 
@@ -81,23 +80,23 @@ namespace NukoBot.Modules
                 modules += $"__{module.Name}__: *{module.Summary}*\n";
             }
 
-            await _text.SendAsync(userDm, $"**Modules**:\n{modules.Remove(modules.Length - 2)}\n\nTo view the commands in any given module, please say `{Configuration.Prefix}module <moduleName>`.", "Module information");
+            await _text.SendAsync(userDm, $"**Modules**:\n{modules.Remove(modules.Length - 1)}\n\nTo view the commands in any given module, please say `{Configuration.Prefix}module <moduleName>`.", "Module information");
 
             if (Context.Channel != userDm) await _text.ReplyAsync(Context.User, Context.Channel, "please check your DMs.");
         }
 
         [Command("support")]
         [Summary("Displays the invitation link to the support server.")]
-        public Task Support()
+        public async Task Support()
         {
-            return _text.ReplyAsync(Context.User, Context.Channel, "for bot support, selfhosting support or feature requests, join the support server [here](" + Configuration.SupportServerLink + ").");
+            await _text.ReplyAsync(Context.User, Context.Channel, "for bot support, selfhosting support or feature requests, join the support server [here](" + Configuration.SupportServerLink + ").");
         }
 
         [Command("echo")]
         [Alias("say", "embed")]
-        public Task Echo([Summary("The text you want the bot to embed.")][Remainder] string message)
+        public async Task Echo([Summary("The text you want the bot to embed.")] [Remainder] string message)
         {
-            return _text.SendAsync(Context.Channel, message);
+            await _text.SendAsync(Context.Channel, message);
         }
     }
 }

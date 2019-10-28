@@ -27,7 +27,7 @@ namespace NukoBot.Modules
         [Command("leaveguild")]
         [Alias("leaveserver")]
         [Summary("Leaves any guild with a supplied ID.")]
-        public async Task LeaveGuild(ulong guildId)
+        public async Task LeaveGuild([Summary("The ID of the guild you want the bot to leave")] ulong guildId)
         {
             var guild = await (Context.Client as IDiscordClient).GetGuildAsync(guildId);
 
@@ -45,7 +45,7 @@ namespace NukoBot.Modules
         [Command("setgame")]
         [Alias("setstatus")]
         [Summary("Sets the current playing status for the bot")]
-        public async Task SetGame([Remainder] string game = null)
+        public async Task SetGame([Summary("The status you want to set.")] [Remainder] string game = null)
         {
             if (game == null)
             {
