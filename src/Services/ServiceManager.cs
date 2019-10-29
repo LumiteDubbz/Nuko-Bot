@@ -4,7 +4,6 @@ using NukoBot.Common;
 using NukoBot.Events;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using System;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
@@ -28,24 +27,29 @@ namespace NukoBot.Services
             var database = ConfigureDatabase();
 
             var services = new ServiceCollection()
+                // Parameters
                 .AddSingleton(_client)
                 .AddSingleton(_commandService)
                 .AddSingleton(_credentials)
+                // DB Models
                 .AddSingleton(database.GetCollection<Guild>("guilds"))
                 .AddSingleton(database.GetCollection<Mute>("mutes"))
-                .AddSingleton(database.GetCollection<User>("users"))
                 .AddSingleton(database.GetCollection<Poll>("polls"))
                 .AddSingleton(database.GetCollection<Run>("runs"))
-                .AddSingleton<Text>()
+                .AddSingleton(database.GetCollection<User>("users"))
+                // DB Repositories
+                .AddSingleton<GuildRepository>()
+                .AddSingleton<MuteRepository>()
+                .AddSingleton<PollRepository>()
+                .AddSingleton<RunRepository>()
+                .AddSingleton<UserRepository>()
+                // Events
                 .AddSingleton<MessageReceived>()
                 .AddSingleton<Ready>()
                 .AddSingleton<UserJoined>()
-                .AddSingleton<GuildRepository>()
-                .AddSingleton<MuteRepository>()
-                .AddSingleton<UserRepository>()
-                .AddSingleton<PollRepository>()
-                .AddSingleton<RunRepository>()
-                .AddSingleton<ModerationService>();
+                // Services
+                .AddSingleton<ModerationService>()
+                .AddSingleton<Text>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

@@ -45,19 +45,18 @@ namespace NukoBot
             });
 
             var serviceManager = new ServiceManager(client, commandService, credentials);
-
             var serviceProvider = serviceManager.ServiceProvider;
 
             serviceProvider.GetRequiredService<MessageReceived>();
             serviceProvider.GetRequiredService<Ready>();
             serviceProvider.GetRequiredService<UserJoined>();
 
-            var runRepository = serviceProvider.GetRequiredService<RunRepository>();
-
             await commandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
 
             await client.LoginAsync(TokenType.Bot, credentials.Token);
             await client.StartAsync();
+
+            var runRepository = serviceProvider.GetRequiredService<RunRepository>();
 
             await runRepository.AddRunAsync(DateTime.Now);
 
