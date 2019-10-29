@@ -10,6 +10,7 @@ using NukoBot.Events;
 using NukoBot.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using NukoBot.Database.Repositories;
 
 namespace NukoBot
 {
@@ -51,10 +52,14 @@ namespace NukoBot
             serviceProvider.GetRequiredService<Ready>();
             serviceProvider.GetRequiredService<UserJoined>();
 
+            var runRepository = serviceProvider.GetRequiredService<RunRepository>();
+
             await commandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
 
             await client.LoginAsync(TokenType.Bot, credentials.Token);
             await client.StartAsync();
+
+            await runRepository.AddRunAsync(DateTime.Now);
 
             await Task.Delay(-1);
         }

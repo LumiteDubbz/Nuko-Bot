@@ -26,26 +26,6 @@ namespace NukoBot.Services
             _credentials = credentials;
 
             var database = ConfigureDatabase();
-            var runCounterCollection = database.GetCollection<Run>("runCount");
-            var runCounter = runCounterCollection.AsQueryable();
-            var isEmpty = !runCounter.Any();
-
-            int runNumber = 1;
-
-            if (!isEmpty)
-            {
-                var query = runCounter.OrderByDescending(x => x.RunNumber).Take(1);
-
-                runNumber = query.First().RunNumber + 1;
-            }
-
-            var count = new Run()
-            {
-                TimeCommenced = DateTime.Now,
-                RunNumber = runNumber
-            };
-
-            runCounterCollection.InsertOne(count);
 
             var services = new ServiceCollection()
                 .AddSingleton(_client)
@@ -55,6 +35,7 @@ namespace NukoBot.Services
                 .AddSingleton(database.GetCollection<Mute>("mutes"))
                 .AddSingleton(database.GetCollection<User>("users"))
                 .AddSingleton(database.GetCollection<Poll>("polls"))
+                .AddSingleton(database.GetCollection<Run>("runs"))
                 .AddSingleton<Text>()
                 .AddSingleton<MessageReceived>()
                 .AddSingleton<Ready>()
@@ -63,6 +44,7 @@ namespace NukoBot.Services
                 .AddSingleton<MuteRepository>()
                 .AddSingleton<UserRepository>()
                 .AddSingleton<PollRepository>()
+                .AddSingleton<RunRepository>()
                 .AddSingleton<ModerationService>();
 
             ServiceProvider = services.BuildServiceProvider();
