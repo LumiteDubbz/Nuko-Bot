@@ -35,7 +35,7 @@ namespace NukoBot.Modules
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
         }
 
-        [Command("submit")]
+        [Command("Submit")]
         [Alias("submit-screenshot")]
         [Summary("Submit a screenshot of your game to the staff for points.")]
         [RequireAttachedImage]
@@ -44,7 +44,7 @@ namespace NukoBot.Modules
             await _text.SendScreenshotAsync(_client.GetChannel(Context.DbGuild.ScreenshotChannelId) as IMessageChannel, $"**{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}** has submitted this screenshot.", Context.Message.Attachments.ElementAt(0));
         }
 
-        [Command("points")]
+        [Command("Points")]
         [Alias("pointcount")]
         [Summary("View the amount of points you or a mentioned user has.")]
         public async Task Points([Summary("The user you want to look at the results of.")] [Remainder] IUser user = null)
@@ -60,7 +60,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have **{Context.DbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.");
         }
 
-        [Command("vote")]
+        [Command("Vote")]
         [Alias("votepoll")]
         [Summary("Vote on any active poll")]
         public async Task Vote([Summary("The number corresponding to the poll you want to delete.")] int pollIndex, [Summary("The number corresponding to you choice you want to vote for.")] int choiceIndex)
@@ -95,7 +95,7 @@ namespace NukoBot.Modules
             await _text.ReplyErrorAsync(Context.User, Context.Channel, "no poll with that index (ID) was found.");
         }
 
-        [Command("leaderboard")]
+        [Command("Leaderboard")]
         [Alias("top3", "lb")]
         [Summary("View 3 users with the most points in the server.")]
         public async Task Leaderboard()

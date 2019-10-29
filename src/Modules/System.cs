@@ -1,7 +1,6 @@
 ﻿using Discord.Commands;
 using NukoBot.Common;
 using NukoBot.Services;
-using NukoBot.Extensions;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
@@ -24,7 +23,7 @@ namespace NukoBot.Modules
             _text = _serviceProvider.GetRequiredService<Text>();
         }
 
-        [Command("help")]
+        [Command("Help")]
         [Alias("info")]
         [Summary("View the basic info regarding this bot.")]
         public async Task Help()
@@ -39,7 +38,7 @@ namespace NukoBot.Modules
             }
         }
 
-        [Command("commands")]
+        [Command("Commands")]
         [Alias("modules", "module", "command")]
         [Summary("View all modules or all commands in a specific module.")]
         public async Task Commands([Summary("A specific command or module you wish to learn about.")] [Remainder] string commandOrModule = null)
@@ -59,13 +58,27 @@ namespace NukoBot.Modules
                 {
                     foreach (var command in foundModule.Commands)
                     {
-                        commands += $"{StringExtension.FirstCharToUpper(command.Name)}: *{command.Summary}*\n";
+                        string parameters = string.Empty;
+
+                        foreach (var parameter in command.Parameters)
+                        {
+                            if (parameter.IsOptional)
+                            {
+                                parameters += $"[{parameter.Name}] ";
+                            }
+                            else
+                            {
+                                parameters += $"<{parameter.Name}> ";
+                            }
+                        }
+
+                        commands += $"`{Configuration.Prefix}{command.Name} {parameters.Remove(parameters.Length - 1)}`: {command.Summary}\n\n";
                     }
 
-                    message += $"**Commands in the {foundModule.Name} module**:\n{commands}\n";
+                    message += $"__Commands in the {foundModule.Name} module__:\nParameters in [square brackets] are optional, those in <angle brackets> are required.\n\n{commands}\n\n";
                 }
 
-                message += foundCommand != null ? $"\n\n**Miscellaneous commands:**\n{StringExtension.FirstCharToUpper(foundCommand.Name)}: *{foundCommand.Summary}*" : null;
+                message += foundCommand != null ? $"\n\n**Miscellaneous commands:**\n{foundCommand.Name}: *{foundCommand.Summary}*" : null;
 
                 await _text.ReplyAsync(Context.User, userDm, message, "Command information");
 
@@ -85,14 +98,14 @@ namespace NukoBot.Modules
             if (Context.Channel != userDm) await _text.ReplyAsync(Context.User, Context.Channel, "please check your DMs.");
         }
 
-        [Command("support")]
+        [Command("Support")]
         [Summary("Displays the invitation link to the support server.")]
         public async Task Support()
         {
             await _text.ReplyAsync(Context.User, Context.Channel, "for bot support, selfhosting support or feature requests, join the support server [here](" + Configuration.SupportServerLink + ").");
         }
 
-        [Command("echo")]
+        [Command("Echo")]
         [Alias("say", "embed")]
         public async Task Echo([Summary("The text you want the bot to embed.")] [Remainder] string message)
         {

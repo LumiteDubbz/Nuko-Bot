@@ -31,7 +31,7 @@ namespace NukoBot.Modules
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
         }
 
-        [Command("createpoll")]
+        [Command("CreatePoll")]
         [Alias("makepoll", "addpoll")]
         [Summary("Create a poll for people to vote on.")]
         public async Task CreatePoll([Summary("The question of the poll.")] string name, [Summary("The chocies people can vote for, separated by `~`s")] string choices, [Summary("The number of hours the poll should last.")] [Remainder] double hoursToLast = 1)
@@ -61,7 +61,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, $"{message.Remove(message.Length - 2)}.");
         }
 
-        [Command("deletepoll")]
+        [Command("DeletePoll")]
         [Alias("removepoll", "destroypoll")]
         [Summary("Delete a poll.")]
         public async Task DeletePoll([Summary("The number corresponding to the poll you want to delete.")] int index)
@@ -101,7 +101,7 @@ namespace NukoBot.Modules
             await _text.ReplyErrorAsync(Context.User, Context.Channel, "no poll with that index (ID) was found.");
         }
 
-        [Command("mute")]
+        [Command("Mute")]
         [Alias("silence")]
         [Summary("Mute a user until they are manually unmuted.")]
         public async Task Mute([Summary("The user you want to mute")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
@@ -170,7 +170,7 @@ namespace NukoBot.Modules
         //    // log it to modlog
         //}
 
-        [Command("kick")]
+        [Command("Kick")]
         [Alias("boot")]
         [Summary("Kick any player from the server.")]
         public async Task Kick([Summary("The user you wish to kick.")] IGuildUser userToKick, [Summary("The reason for kicking the user.")] [Remainder] string reason = null)

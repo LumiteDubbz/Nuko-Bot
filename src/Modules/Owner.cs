@@ -28,7 +28,7 @@ namespace NukoBot.Modules
             _guildRepo = _serviceProvider.GetRequiredService<GuildRepository>();
         }
 
-        [Command("addmodrole")]
+        [Command("AddModRole")]
         [Alias("addmoderatorrole", "modifymodrole", "modifymoderatorrole")]
         [Summary("Add a role to the list of moderators.")]
         public async Task AddModRole([Summary("The role you wish to assign a permission level.")] IRole modRole, [Summary("The permission level you want to give the role.")] int permissionLevel = 1)
@@ -56,7 +56,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.Message.Author, Context.Channel, $"you have successfully added {modRole.Mention} as a mod role with the permission level of {permissionLevel}.");
         }
 
-        [Command("removemodrole")]
+        [Command("RemoveModRole")]
         [Alias("removemoderatorrole")]
         [Summary("Remove a role from the list of moderators.")]
         public async Task RemoveModRole([Summary("The role you want to remove from the list of mod roles")] [Remainder] IRole modRole)

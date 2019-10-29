@@ -30,7 +30,7 @@ namespace NukoBot.Modules
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
         }
 
-        [Command("setscreenshotchannel")]
+        [Command("SetScreenshotChannel")]
         [Alias("removescreenshotchannel")]
         [Summary("Set the channel for screenshots to be submitted to.")]
         public async Task SetScreenshotChannel([Summary("The channel you want to set as the screenshot submitting channel.")] [Remainder] ITextChannel screenshotChannel = null)
@@ -46,7 +46,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the screenshot channel.");
         }
 
-        [Command("setmutedrole")]
+        [Command("SetMutedRole")]
         [Alias("setmuterole", "removemutedrole", "removemuterole")]
         [Summary("Set the role to be given to those who are muted.")]
         public async Task SetMutedRole([Summary("The role you want to set as the muted role.")] [Remainder] IRole mutedRole = null)
@@ -61,8 +61,8 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the muted role.");
         }
 
-        [Command("setmodlogchannel")]
-        [Alias("setlogchannel", "removemodlogchannel", "removelogchannel")]
+        [Command("SetModLogChannel")]
+        [Alias("setlogchannel", "setmodlog", "removemodlogchannel", "removelogchannel")]
         [Summary("Set the channel for all moderator actions to be logged to.")]
         public async Task SetModLogChannel([Summary("The channel you wish to set as the mod log channel.")] [Remainder] ITextChannel modLogChannel = null)
         {
@@ -77,7 +77,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the mod log channel.");
         }
 
-        [Command("setwelcomemessage")]
+        [Command("SetWelcomeMessage")]
         [Alias("setwelcomemsg", "deletewelcomemessage", "deletewelcomemsg", "removewelcomemessage", "removewelcomemsg")]
         [Summary("Set the message to sent when a user joins this server.")]
         public async Task SetWelcomeChannel([Summary("The welcome message to be DMed to new users.")] [Remainder] string welcomeMessage = null)
@@ -93,7 +93,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the welcome message.");
         }
 
-        [Command("setnewuserrole")]
+        [Command("SetNewUserRole")]
         [Alias("setdefaultrole")]
         [Summary("Set the role to be given to all new users in the server.")]
         public async Task SetNewUserRole([Summary("The role to be given to new users.")] [Remainder] IRole newUserRole = null)
@@ -109,7 +109,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the new user role.");
         }
 
-        [Command("award")]
+        [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
         public async Task Award([Summary("The amount of points to be given.")] int amountOfPoints, [Summary("The user you wish to give the points to.")] [Remainder] IGuildUser user)
@@ -129,7 +129,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{amountOfPoints}** to {user.Mention}.");
         }
 
-        [Command("deduct")]
+        [Command("Deduct")]
         [Alias("deductpoints", "removepoints")]
         [Summary("Remove points from a user which will also decrease the global point counter.")]
         public async Task Deduct([Summary("The amount of points to be taken away.")] int amountOfPoints, [Summary("The user you want to take ponts away from.")] [Remainder] IGuildUser user = null)
@@ -179,7 +179,7 @@ namespace NukoBot.Modules
             }
         }
 
-        [Command("ban")]
+        [Command("Ban")]
         [Alias("banish")]
         [Summary("Ban any user from being in the server.")]
         public async Task Ban([Summary("The user to ban.")] IGuildUser userToBan, [Summary("The reason for banning the user.")] [Remainder] string reason = null)

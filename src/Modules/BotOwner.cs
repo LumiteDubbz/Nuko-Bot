@@ -24,7 +24,7 @@ namespace NukoBot.Modules
             _text = _serviceProvider.GetRequiredService<Text>();
         }
 
-        [Command("leaveguild")]
+        [Command("LeaveGuild")]
         [Alias("leaveserver")]
         [Summary("Leaves any guild with a supplied ID.")]
         public async Task LeaveGuild([Summary("The ID of the guild you want the bot to leave")] ulong guildId)
@@ -42,7 +42,7 @@ namespace NukoBot.Modules
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed this bot from the server **{guild.Name}**");
         }
 
-        [Command("setgame")]
+        [Command("SetGame")]
         [Alias("setstatus")]
         [Summary("Sets the current playing status for the bot")]
         public async Task SetGame([Summary("The status you want to set.")] [Remainder] string game = null)
