@@ -32,6 +32,7 @@ namespace NukoBot.Events
         private async Task HandleMessageAsync(SocketMessage socketMessage)
         {
             if (!(socketMessage is SocketUserMessage message)) return;
+
             if (message.Source != MessageSource.User) return;
 
             var argPos = 0;
@@ -40,7 +41,10 @@ namespace NukoBot.Events
 
             var context = new Context(message, _serviceProvider, _client);
 
-            await context.InitializeAsync();
+            if (!(message.Channel is IDMChannel))
+            {
+                await context.InitializeAsync();
+            }
 
             var result = await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
 
