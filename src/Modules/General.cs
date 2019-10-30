@@ -43,7 +43,13 @@ namespace NukoBot.Modules
         {
             await _text.SendScreenshotAsync(_client.GetChannel(Context.DbGuild.ScreenshotChannelId) as IMessageChannel, $"**{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}** has submitted this screenshot.", Context.Message.Attachments.ElementAt(0));
 
-            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully submitted your screenshot for review.");
+            var message = await ReplyAsync($"You have successfully submitted your screenshot for review.");
+
+            await Task.Delay(2000);
+
+            await Context.Message.DeleteAsync();
+
+            await message.DeleteAsync();
         }
 
         [Command("Points")]
