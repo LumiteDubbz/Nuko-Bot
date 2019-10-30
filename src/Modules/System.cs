@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using Discord;
 
 namespace NukoBot.Modules
 {
@@ -99,17 +101,34 @@ namespace NukoBot.Modules
         }
 
         [Command("Support")]
+        [Alias("report-bug", "reportbug")]
         [Summary("Displays the invitation link to the support server.")]
         public async Task Support()
         {
             await _text.ReplyAsync(Context.User, Context.Channel, "for bot support, selfhosting support or feature requests, join the support server [here](" + Configuration.SupportServerLink + ").");
         }
 
-        [Command("Echo")]
-        [Alias("say", "embed")]
-        public async Task Echo([Summary("The text you want the bot to embed.")] [Remainder] string message)
+        [Command("Credits")]
+        [Alias("creds")]
+        [Summary("View the owners of this bot.")]
+        public async Task Credits()
         {
-            await _text.SendAsync(Context.Channel, message);
+            List<string> authors = new List<string>();
+
+            foreach (var author in Configuration.Authors)
+            {
+                authors.Add(author);
+            }
+
+            string message = "A huge and special thanks to the people who helped make this bot:\n";
+            string separator = ", ";
+
+            foreach (var author in authors)
+            {
+                message += $"**{author}**" + separator;
+            }
+
+            await _text.SendAsync(Context.Channel, message.Remove(message.Length - separator.Length) + ".");
         }
     }
 }
