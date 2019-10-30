@@ -147,26 +147,14 @@ namespace NukoBot.Modules
 
             await _userRepository.ModifyAsync(dbUser, x => x.Points += points);
 
+            var userDm = await user.GetOrCreateDMChannelAsync();
+
+            await _text.SendAsync(userDm, $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.");
+
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** to {user.Mention}.");
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** points to {user.Mention}.");
         }
-
-        // This command will not work as Generic Methods will not be implemented until Discord.Net v3.0.
-        //[Command("Award")]
-        //[Alias("awardpoints", "givepoints")]
-        //[Summary("Add points to any user which will also increase the global point counter.")]
-        //public async Task Award<T>([Summary("The round number the user got to.")] int round, [Summary("The difficulty of the map the user played on.")] T difficulty, [Summary("The user you wish to give points to")] [Remainder] IGuildUser user)
-        //{
-        //    int newDifficulty = 0;
-
-        //    if (typeof(T) == typeof(int))
-        //    {
-        //        newDifficulty += int.Parse(difficulty.ToString());
-        //    }
-
-        //    await _text.ReplyAsync(Context.User, Context.Channel, $"{newDifficulty}");
-        //}
 
         [Command("Deduct")]
         [Alias("deductpoints", "removepoints")]
