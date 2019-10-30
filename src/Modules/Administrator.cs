@@ -112,8 +112,14 @@ namespace NukoBot.Modules
         [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
-        public async Task Award([Summary("The amount of points to be given.")] int amountOfPoints, [Summary("The user you wish to give the points to.")] [Remainder] IGuildUser user)
+        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] [Remainder] IGuildUser user)
         {
+            if (difficulty < 1 || difficulty > 3)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"The difficulty **{difficulty}** was not found. Please use either 1, 2 or 3 corresponding to easy, normal or hard.");
+                return;
+            }
+
             var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
 
             if (dbUser == null)
@@ -122,12 +128,45 @@ namespace NukoBot.Modules
                 return;
             }
 
-            await _userRepository.ModifyAsync(dbUser, x => x.Points += amountOfPoints);
+            double multiplier = 1;
+            
+            switch (difficulty)
+            {
+                case 1:
+                    multiplier = 0.75;
+                    break;
+                case 2:
+                    multiplier = 1.0;
+                    break;
+                case 3:
+                    multiplier = 1.25;
+                    break;
+            }
 
-            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += amountOfPoints);
+            int points = (int)Math.Ceiling(round * multiplier);
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{amountOfPoints}** to {user.Mention}.");
+            await _userRepository.ModifyAsync(dbUser, x => x.Points += points);
+
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** to {user.Mention}.");
         }
+
+        // This command will not work as Generic Methods will not be implemented until Discord.Net v3.0.
+        //[Command("Award")]
+        //[Alias("awardpoints", "givepoints")]
+        //[Summary("Add points to any user which will also increase the global point counter.")]
+        //public async Task Award<T>([Summary("The round number the user got to.")] int round, [Summary("The difficulty of the map the user played on.")] T difficulty, [Summary("The user you wish to give points to")] [Remainder] IGuildUser user)
+        //{
+        //    int newDifficulty = 0;
+
+        //    if (typeof(T) == typeof(int))
+        //    {
+        //        newDifficulty += int.Parse(difficulty.ToString());
+        //    }
+
+        //    await _text.ReplyAsync(Context.User, Context.Channel, $"{newDifficulty}");
+        //}
 
         [Command("Deduct")]
         [Alias("deductpoints", "removepoints")]
