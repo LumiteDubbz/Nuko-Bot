@@ -24,6 +24,8 @@ namespace NukoBot.Common
 
         public static readonly Color MuteColor = new Color(255, 140, 25);
 
+        public static readonly Color ClearColor = new Color(85, 255, 0);
+
         public static readonly Color ErrorColor = new Color(255, 0, 0);
 
         private static readonly Color[] Colors =
