@@ -5,7 +5,7 @@ namespace NukoBot.Common
 {
     public sealed class Configuration
     {
-        public static readonly string Prefix = ">>";
+        public static readonly string Prefix = ">";
 
         public static readonly string Game = Prefix + "help";
 
