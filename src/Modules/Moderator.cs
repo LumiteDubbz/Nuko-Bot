@@ -104,7 +104,7 @@ namespace NukoBot.Modules
         [Command("Mute")]
         [Alias("silence")]
         [Summary("Mute a user until they are manually unmuted.")]
-        public async Task Mute([Summary("The user you want to mute")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
+        public async Task Mute([Summary("The user you want to mute.")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
         {
             var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
 
@@ -135,6 +135,34 @@ namespace NukoBot.Modules
             await _moderationService.InformUserAsync(userToMute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
+        }
+
+        [Command("Unmute")]
+        [Alias("unsilence")]
+        [Summary("Unmute a muted user.")]
+        public async Task Unmute([Summary("The user you want to unmute.")] IGuildUser userToUnmute, [Remainder] string reason = null)
+        {
+            if (!(await _muteRepository.AnyAsync(x => x.UserId == userToUnmute.Id && x.GuildId == Context.Guild.Id)))
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "that user is not muted and thus cannot be unmuted.");
+                return;
+            }
+
+            await _muteRepository.DeleteAsync(x => x.UserId == userToUnmute.Id && x.GuildId == Context.Guild.Id);
+            
+            await userToUnmute.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.MutedRoleId));
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully unmuted **{userToUnmute.Mention}**.");
+
+            string message = $"**{Context.User.Mention}** has unmuted you in **{Context.Guild.Name}**";
+
+            if (reason.Length > 0)
+            {
+                message += $" for **{reason}**";
+            }
+            await _moderationService.InformUserAsync(userToUnmute, message + ".");
+
+            await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Unmute", Configuration.UnmuteColor, reason, Context.User as IGuildUser, userToUnmute);
         }
 
         //[Command("custommute")]
