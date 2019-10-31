@@ -112,7 +112,7 @@ namespace NukoBot.Modules
         [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
-        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] IGuildUser user, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther)
+        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] IGuildUser user, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther = false)
         {
             if (difficulty < 1 || difficulty > 3)
             {
