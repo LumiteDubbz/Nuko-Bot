@@ -112,7 +112,7 @@ namespace NukoBot.Modules
         [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
-        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] [Remainder] IGuildUser user)
+        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] IGuildUser user, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther)
         {
             if (difficulty < 1 || difficulty > 3)
             {
@@ -143,15 +143,20 @@ namespace NukoBot.Modules
                     break;
             }
 
-            int points = (int)Math.Ceiling(round * multiplier);
+            double points = (double)Math.Ceiling(round * multiplier);
+            
+            if (playedWithOther == true)
+            {
+                points = Math.Ceiling(points + (points * 10 / 100));
+            }
 
-            await _userRepository.ModifyAsync(dbUser, x => x.Points += points);
+            await _userRepository.ModifyAsync(dbUser, x => x.Points += (int)points);
 
             var userDm = await user.GetOrCreateDMChannelAsync();
 
             await _text.SendAsync(userDm, $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.");
 
-            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += (int)points);
 
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** points to {user.Mention}.");
         }
