@@ -235,5 +235,21 @@ namespace NukoBot.Modules
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Ban", Configuration.KickColor, reason, Context.User as IGuildUser, userToBan);
         }
+
+        [Command("SetTop3Role")]
+        [Alias("settoprole", "setlbrole", "setleaderboardrole", "settop3")]
+        [Summary("Set the role to be given to the 3 users with the most points.")]
+        public async Task SetTopThreeRole([Summary("The role to be given.")] [Remainder] IRole topThreeRole)
+        {
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.TopThreeRole = topThreeRole.Id);
+
+            if (topThreeRole != null)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the top 3 role to {topThreeRole.Mention}.");
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the top 3 role.");
+        }
     }
 }

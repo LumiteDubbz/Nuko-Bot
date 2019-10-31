@@ -21,6 +21,8 @@ namespace NukoBot.Database.Models
 
         public ulong NewUserRole { get; set; }
 
+        public ulong TopThreeRole { get; set; }
+
         public string WelcomeMessage { get; set; } = string.Empty;
 
         public int CaseNumber { get; set; } = 1;
