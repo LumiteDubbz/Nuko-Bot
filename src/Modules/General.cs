@@ -19,20 +19,16 @@ namespace NukoBot.Modules
     public sealed class General : ModuleBase<Context>
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly DiscordSocketClient _client;
         private readonly Text _text;
         private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
-        private readonly GuildRepository _guildRepository;
 
         public General(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
             _text = _serviceProvider.GetRequiredService<Text>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
-            _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
         }
 
         [Command("Submit")]
@@ -41,7 +37,13 @@ namespace NukoBot.Modules
         [RequireAttachedImage]
         public async Task Submit()
         {
-            await _text.SendScreenshotAsync(_client.GetChannel(Context.DbGuild.ScreenshotChannelId) as IMessageChannel, $"**{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}** has submitted this screenshot.", Context.Message.Attachments.ElementAt(0));
+            if (Context.Message.Attachments.ElementAt(0) == null)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "an unknown error occurred while submitting that image.");
+                return;
+            }
+
+            await _text.SendScreenshotAsync(Context.Client.GetChannel(Context.DbGuild.ScreenshotChannelId) as IMessageChannel, $"**{Context.Message.Author.Username}#{Context.Message.Author.Discriminator}** has submitted this screenshot.", Context.Message.Attachments.ElementAt(0));
 
             var message = await ReplyAsync($"You have successfully submitted your screenshot for review.");
 

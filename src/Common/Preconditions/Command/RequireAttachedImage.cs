@@ -12,7 +12,7 @@ namespace NukoBot.Common.Preconditions.Command
         {
             var attachment = context.Message.Attachments.FirstOrDefault();
 
-            if (attachment == default(Attachment)) return Task.FromResult(PreconditionResult.FromError("You must attach an image."));
+            if (attachment == null) return Task.FromResult(PreconditionResult.FromError("You must attach an image."));
 
             return Task.FromResult(PreconditionResult.FromSuccess());
         }
