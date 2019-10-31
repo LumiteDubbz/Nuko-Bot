@@ -16,7 +16,7 @@ namespace NukoBot.Events
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
-        private readonly GuildRepository _guildRepo;
+        private readonly AutomaticHelpService _automaticHelpService;
 
         public MessageReceived(DiscordSocketClient client, CommandService commandService, IServiceProvider serviceProvider)
         {
@@ -24,7 +24,7 @@ namespace NukoBot.Events
             _commandService = commandService;
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();
-            _guildRepo = _serviceProvider.GetRequiredService<GuildRepository>();
+            _automaticHelpService = _serviceProvider.GetRequiredService<AutomaticHelpService>();
 
             _client.MessageReceived += HandleMessageAsync;
         }
@@ -37,7 +37,18 @@ namespace NukoBot.Events
 
             var argPos = 0;
 
-            if (!message.HasStringPrefix(Configuration.Prefix, ref argPos)) return;
+            if (!message.HasStringPrefix(Configuration.Prefix, ref argPos))
+            {
+                var checkForTriggerWord = _automaticHelpService.HasTriggerWord(message);
+
+                if (checkForTriggerWord != null)
+                {
+                    await _automaticHelpService.HandleHelpRequestAsync(new Context(message, _serviceProvider, _client), checkForTriggerWord);
+                    return;
+                }
+
+                return;
+            }
 
             var context = new Context(message, _serviceProvider, _client);
 
