@@ -7,6 +7,7 @@ using NukoBot.Common.Preconditions.Command;
 using NukoBot.Services;
 using System;
 using System.Threading.Tasks;
+using Discord.WebSocket;
 
 namespace NukoBot.Modules
 {
@@ -207,6 +208,10 @@ namespace NukoBot.Modules
                     await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
                 }
 
+                var userDm = await user.GetOrCreateDMChannelAsync();
+
+                await _text.SendAsync(userDm, $"**{Context.User.Mention}** has deducted **{amountOfPoints}** points from you in **{Context.Guild.Name}**.");
+
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
             }
         }
@@ -229,7 +234,7 @@ namespace NukoBot.Modules
                 message += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync(userToBan, message + ".");
+            await _moderationService.InformUserAsync((SocketUser) userToBan, message + ".");
 
             await userToBan.BanAsync(0, reason);
 

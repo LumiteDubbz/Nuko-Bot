@@ -38,6 +38,7 @@ namespace NukoBot.Services
 
         public async Task HandleHelpRequestAsync(Context context, HelpResponse helpResponse)
         {
+            await _text.SendAsync(context.Channel, "Not implemented yet.");
             //await _text.SendAsync(context.Channel, helpResponse.Response);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
@@ -47,7 +48,7 @@ namespace NukoBot.Services
             return user.GuildPermissions.Administrator && permLevel < 2 ? 2 : permLevel;
         }
 
-        public async Task InformUserAsync(IGuildUser user, string message)
+        public async Task InformUserAsync(SocketUser user, string message)
         {
             var userDm = await user.GetOrCreateDMChannelAsync();
 

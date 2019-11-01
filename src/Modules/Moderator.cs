@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
@@ -51,7 +52,11 @@ namespace NukoBot.Modules
                 await _text.ReplyErrorAsync(Context.User, Context.Channel, "a poll with that name already exists.");
             }
 
-            string message = $"you have made a poll with the following fields:\n\nName:{poll.Name},\nLength: {poll.Length}h,\nChoices: ";
+            var polls = await _pollRepository.AllAsync(x => x.GuildId == Context.Guild.Id);
+
+            var pollCount = polls.OrderBy(x => x.CreatedAt).ToList().Count();
+
+            string message = $"you have made a poll with the following fields:\n\nName:{poll.Name},\nLength: {poll.Length}h,\nIndex (ID): {pollCount},\nChoices: ";
 
             foreach (var choice in choicesArray)
             {
@@ -92,9 +97,9 @@ namespace NukoBot.Modules
 
                 var user = Context.Client.GetUser(poll.CreatorId);
 
-                await _moderationService.InformUserAsync(user as IGuildUser, $"These are the results from your poll **{poll.Name}**\n{message}");
-
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully deleted the poll **{poll.Name}** and the results have been sent to the poll creator in their DMs.");
+
+                await _moderationService.InformUserAsync(user, $"These are the results from your poll **{poll.Name}**\n{message}");
                 return;
             }
 
@@ -132,7 +137,7 @@ namespace NukoBot.Modules
                 message += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync(userToMute, message + ".");
+            await _moderationService.InformUserAsync((SocketUser) userToMute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
         }
@@ -160,7 +165,7 @@ namespace NukoBot.Modules
             {
                 message += $" for **{reason}**";
             }
-            await _moderationService.InformUserAsync(userToUnmute, message + ".");
+            await _moderationService.InformUserAsync((SocketUser) userToUnmute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Unmute", Configuration.UnmuteColor, reason, Context.User as IGuildUser, userToUnmute);
         }
@@ -216,7 +221,7 @@ namespace NukoBot.Modules
                 message += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync(userToKick, message + ".");
+            await _moderationService.InformUserAsync((SocketUser) userToKick, message + ".");
 
             await userToKick.KickAsync(reason);
 
