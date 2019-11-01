@@ -22,15 +22,15 @@ namespace NukoBot.Services
         {
             foreach (var helpResponse in Configuration.AutomaticHelpResponses)
             {
-                //foreach (var triggerWord in helpResponse.TriggerWords)
-                //{
-                //    var similarity = StringExtension.CalculateStringSimilarity(message.Content.ToLower(), triggerWord);
+                foreach (var triggerWord in helpResponse.TriggerWords)
+                {
+                    var similarity = StringExtension.CalculateStringSimilarity(message.Content.ToLower(), triggerWord.ToLower());
 
-                //    if (similarity >= 0.7)
-                //    {
-                //        return helpResponse;
-                //    }
-                //}
+                    if (similarity >= 0.7)
+                    {
+                        return helpResponse;
+                    }
+                }
             }
 
             return null;
@@ -38,8 +38,7 @@ namespace NukoBot.Services
 
         public async Task HandleHelpRequestAsync(Context context, HelpResponse helpResponse)
         {
-            await _text.SendAsync(context.Channel, "Not implemented yet.");
-            //await _text.SendAsync(context.Channel, helpResponse.Response);
+            await _text.SendAsync(context.Channel, helpResponse.Response);
         }
     }
 }

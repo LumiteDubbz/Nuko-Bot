@@ -4,8 +4,10 @@ namespace NukoBot.Common
 {
     public partial class HelpResponse
     {
-        //public List<string> TriggerWords { get; set; }
+        private List<string> triggerWords = new List<string>();
 
-        //public string Response { get; set; }
+        public List<string> TriggerWords { get { return triggerWords; } set { triggerWords = value; } }
+
+        public string Response { get; set; }
     }
 }
