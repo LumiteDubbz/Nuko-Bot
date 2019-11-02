@@ -43,47 +43,81 @@ namespace NukoBot.Modules
         [Command("Commands")]
         [Alias("modules", "module", "command")]
         [Summary("View all modules or all commands in a specific module.")]
-        public async Task Commands([Summary("A specific command or module you wish to learn about.")] [Remainder] string commandOrModule = null)
+        public async Task Commands(string commandOrModule = null)
         {
             var userDm = await Context.User.GetOrCreateDMChannelAsync();
-
+            
             if (commandOrModule != null)
             {
                 commandOrModule = commandOrModule.ToLower();
 
                 var foundCommand = _commandService.Commands.SingleOrDefault(x => x.Name.ToLower() == commandOrModule);
                 var foundModule = _commandService.Modules.SingleOrDefault(x => x.Name.ToLower() == commandOrModule);
-                var commands = string.Empty;
+                var commandsInModule = string.Empty;
+                var commandParameters = string.Empty;
                 var message = $"`{commandOrModule}` could refer to:\n\n";
+
+                if (foundCommand != null)
+                {
+                    if (foundCommand.Parameters.Any())
+                    {
+                        foreach (var parameter in foundCommand.Parameters)
+                        {
+                            if (parameter.IsOptional)
+                            {
+                                commandParameters += $"[{parameter.Name}] ";
+                            }
+                            else
+                            {
+                                commandParameters += $"<{parameter.Name}> ";
+                            }
+                        }
+                    }
+
+                    message += $"`{Configuration.Prefix}{foundCommand.Name}";
+
+                    if (commandParameters.Any())
+                    {
+                        message += $" {commandParameters.Remove(commandParameters.Length - 1)}";
+                    }
+
+                    message += $"`: {foundCommand.Summary}";
+                }
 
                 if (foundModule != null)
                 {
                     foreach (var command in foundModule.Commands)
                     {
-                        string parameters = string.Empty;
-
-                        foreach (var parameter in command.Parameters)
+                        if (command.Parameters.Any())
                         {
-                            if (parameter.IsOptional)
+                            foreach (var parameter in command.Parameters)
                             {
-                                parameters += $"[{parameter.Name}] ";
-                            }
-                            else
-                            {
-                                parameters += $"<{parameter.Name}> ";
+                                if (parameter.IsOptional)
+                                {
+                                    commandParameters += $"[{parameter.Name}] ";
+                                }
+                                else
+                                {
+                                    commandParameters += $"<{parameter.Name}> ";
+                                }
                             }
                         }
 
-                        commands += $"`{Configuration.Prefix}{command.Name} {parameters.Remove(parameters.Length - 1)}`: {command.Summary}\n\n";
+                        commandsInModule += $"`{Configuration.Prefix}{command.Name}";
+
+                        if (commandParameters.Any())
+                        {
+                            commandsInModule += $" {commandParameters.Remove(commandParameters.Length - 1)}";
+                        }
+
+                        commandsInModule += $"`: {command.Summary}\n\n";
                     }
 
-                    message += $"__Commands in the {foundModule.Name} module__:\nParameters in [square brackets] are optional, those in <angle brackets> are required.\n\n{commands}\n\n";
+                    message += $"__Commands in the {foundModule.Name} module__:\nParameters in [square brackets] are optional, those in <angle brackets> are required.\n\n{commandsInModule}\n\n";
                 }
 
-                message += foundCommand != null ? $"\n\n**Miscellaneous commands:**\n{foundCommand.Name}: *{foundCommand.Summary}*" : null;
-
-                await _text.ReplyAsync(Context.User, userDm, message, "Command information");
-
+                await _text.SendAsync(userDm, message, "Command information");
+                
                 if (Context.Channel != userDm) await _text.ReplyAsync(Context.User, Context.Channel, "please check your DMs.");
                 return;
             }
@@ -92,10 +126,10 @@ namespace NukoBot.Modules
 
             foreach (var module in _commandService.Modules)
             {
-                modules += $"__{module.Name}__: *{module.Summary}*\n";
+                modules += $"**{module.Name}**: {module.Summary}\n\n";
             }
 
-            await _text.SendAsync(userDm, $"**Modules**:\n{modules.Remove(modules.Length - 1)}\n\nTo view the commands in any given module, please say `{Configuration.Prefix}module <moduleName>`.", "Module information");
+            await _text.SendAsync(userDm, $"{modules.Remove(modules.Length - 2)}\n\nTo view the commands in any given module, please use the `{Configuration.Prefix}module [moduleName]`.", "Module information");
 
             if (Context.Channel != userDm) await _text.ReplyAsync(Context.User, Context.Channel, "please check your DMs.");
         }
