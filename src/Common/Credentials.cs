@@ -9,5 +9,7 @@
         public string DatabaseName { get; set; }
 
         public ulong[] OwnerIds { get; set; }
+
+        public string Version { get; set; }
     }
 }
