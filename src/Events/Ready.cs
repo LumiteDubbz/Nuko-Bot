@@ -8,21 +8,19 @@ namespace NukoBot.Events
     public sealed class Ready
     {
         private readonly DiscordSocketClient _client;
-        private readonly Credentials _credentials;
 
-        public Ready(DiscordSocketClient client, Credentials credentials)
+        public Ready(DiscordSocketClient client)
         {
             _client = client;
-            _credentials = credentials;
 
             _client.Ready += HandleReadyAsync;
         }
 
         private async Task HandleReadyAsync()
         {
-            await _client.SetGameAsync(Configuration.Game + $" | v{_credentials.Version}");
+            await _client.SetGameAsync(Configuration.Game + $" | v{Configuration.Version}");
 
-            Console.WriteLine($"{_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator} ({_client.CurrentUser.Id}) has connected to Discord.");
+            Console.WriteLine($"{_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator} ({_client.CurrentUser.Id}) v{Configuration.Version} has connected to Discord.");
         }
     }
 }

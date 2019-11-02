@@ -8,6 +8,7 @@ using NukoBot.Services;
 using System;
 using System.Threading.Tasks;
 using Discord.WebSocket;
+using System.Linq;
 
 namespace NukoBot.Modules
 {
@@ -160,12 +161,29 @@ namespace NukoBot.Modules
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += (int)points);
 
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** points to {user.Mention}.");
+
+            var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
+
+            if (thirdPlaceDbUser == null)
+            {
+                await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+                return;
+            }
+
+            if (dbUser.Points > thirdPlaceDbUser.Points)
+            {
+                var thirdPlaceGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
+
+                await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+
+                await thirdPlaceGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+            }
         }
 
         [Command("Deduct")]
         [Alias("deductpoints", "removepoints")]
         [Summary("Remove points from a user which will also decrease the global point counter.")]
-        public async Task Deduct([Summary("The amount of points to be taken away.")] int amountOfPoints, [Summary("The user you want to take ponts away from.")] [Remainder] IGuildUser user = null)
+        public async Task Deduct([Summary("The amount of points to be taken away.")] int amountOfPoints, [Summary("The user you want to take ponts away from.")] IGuildUser user = null, [Remainder] string reason = null)
         {
             if (user == null)
             {
@@ -209,8 +227,11 @@ namespace NukoBot.Modules
                 }
 
                 var userDm = await user.GetOrCreateDMChannelAsync();
+                var message = $"**{Context.User.Mention}** has deducted **{amountOfPoints}** points from you in **{Context.Guild.Name}**";
 
-                await _text.SendAsync(userDm, $"**{Context.User.Mention}** has deducted **{amountOfPoints}** points from you in **{Context.Guild.Name}**.");
+                message += reason != null ? $" for **{reason}**." : ".";
+
+                await _text.SendAsync(userDm, message);
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
             }

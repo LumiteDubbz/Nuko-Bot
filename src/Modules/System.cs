@@ -26,7 +26,7 @@ namespace NukoBot.Modules
 
         [Command("Help")]
         [Alias("info")]
-        [Summary("View the basic info regarding this bot.")]
+        [Summary("View the basic information regarding this bot.")]
         public async Task Help()
         {
             var userDm = await Context.User.GetOrCreateDMChannelAsync();
