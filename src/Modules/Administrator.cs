@@ -114,8 +114,15 @@ namespace NukoBot.Modules
         [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
-        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] IGuildUser user, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther = false)
+        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] IGuildUser user = null, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther = false)
         {
+            if (user == null)
+            {
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += round);
+
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{round}** points to this server's total.");
+            }
+
             if (difficulty < 1 || difficulty > 3)
             {
                 await _text.ReplyErrorAsync(Context.User, Context.Channel, $"The difficulty **{difficulty}** was not found. Please use either 1, 2 or 3 corresponding to easy, normal or hard.");
