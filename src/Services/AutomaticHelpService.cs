@@ -26,7 +26,7 @@ namespace NukoBot.Services
                 {
                     var similarity = StringExtension.CalculateStringSimilarity(message.Content.ToLower(), triggerWord.ToLower());
 
-                    if (similarity >= 0.7)
+                    if (similarity >= 0.8)
                     {
                         return helpResponse;
                     }

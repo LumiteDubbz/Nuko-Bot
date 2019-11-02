@@ -8,7 +8,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.1.5";
+        public static readonly string Version = "1.1.6";
 
         public static readonly string Game = Prefix + "help";
 
@@ -20,7 +20,7 @@ namespace NukoBot.Common
         {
             new HelpResponse()
             {
-                TriggerWords = { "How do I install the mod", "How do I install mods", "How to install mods", "How do I get the mod", "How to get the mod", "Where do I get the mod" },
+                TriggerWords = { "How do I install the mod", "How do I install mods", "How to install mods", "How do I get the mod", "How to get the mod", "Where do I get the mod", "Where do I download the mod" },
                 Response = "**You might want to use another Steam account to prevent your main from being banned!**\n\nTo download the mod: Download the latest ZIP file from `#download`.\n\nTo install the mod:\n1) Extract the ZIP file.\n2) Open a new file explorer window.\n3)Go to `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bloons TD Battles`\n4) Copy the `Assets` and `ExtraAssets` folders from the mod folder and paste it into the BTD Battles folder.\n5) Overwrite any files it asks you to."
             },
 
