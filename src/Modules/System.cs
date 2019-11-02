@@ -6,7 +6,6 @@ using System.Linq;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
-using Discord;
 
 namespace NukoBot.Modules
 {
@@ -88,6 +87,8 @@ namespace NukoBot.Modules
                 {
                     foreach (var command in foundModule.Commands)
                     {
+                        commandParameters = string.Empty;
+
                         if (command.Parameters.Any())
                         {
                             foreach (var parameter in command.Parameters)
