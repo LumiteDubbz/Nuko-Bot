@@ -8,7 +8,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.1.7";
+        public static readonly string Version = "1.1.8";
 
         public static readonly string Game = Prefix + "help";
 
@@ -26,7 +26,7 @@ namespace NukoBot.Common
 
             new HelpResponse()
             {
-                TriggerWords = { "How do points work", "How do I get points", "How do I submit screenshots", "Where do I get points", "Where do I submit screenshots", "What are points" },
+                TriggerWords = { "How do points work", "How do I get points", "How do I submit screenshots", "Where do I get points", "Where do I submit screenshots", "What are points", "How exactly does the point system award points " },
                 Response = "You may submit screenshots in #submit-screenshots using the command `>submit` with your screenshot attached.\n\nThe administrators will look at your screenshot and award you points based on 3 factors:\nThe round you died on,\nThe difficulty of the map you played on and\nIf you played with someone else in the server.\n\nIf you played on the easy map, you get 75% of the round you got in points. On the normal map you get 100% of the round you got in points. On the hard map, you get 125% of the round you got in points.\n\nIf you played with someone else in the server and they also submit a screenshot, you both get 10% bonus points."
             },
 
@@ -40,6 +40,18 @@ namespace NukoBot.Common
             {
                 TriggerWords = { "What towers are there", "What enemies are there" },
                 Response = "You can view the towers and enemies in these documents:\n\nTowers: https://docs.google.com/document/d/1b5doat4o_88qCAkb-wXcW1VWqMzjXodTMT1PI9E6NKY/edit\nEnemies:https://docs.google.com/document/d/1ZeV_ZCo-cLXE0zp1zkyI1epP4aciqKADz9T57bXwOwE/edit"
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords = { "What does no data found mean ", "What is the hacker pool", "Why am I in the hacker pool", "How do I get out of the hacker pool", "Am I in the hacker pool" },
+                Response = "\"No data found\" means you're in the hacker pool.\n\nThe hacker pool is a queue for hackers/modders only, meaning you can't play against normal players.\n\nIf you want to get out of the hacker pool, you must go to Ninja Kiwi's support page, but there is a chance they won't get you out.\n\nTo avoid being put in the hacker pool, use a second Steam account to use mods."
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords = { "I have missing textures", "I have a bunch of missing textures", "I have a bunch of purple textures", "I have loads of purple icons", "My icons are broken", "My textures are broken" },
+                Response = "If you have missing textures, use Steam to verify your game files (resetting them to default) and then reinstall the mod. You can say \"How do I install the mod?\" to get the instructions for installing the mod.\n\nTo verify game files:\n1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\""
             }
         };
 
