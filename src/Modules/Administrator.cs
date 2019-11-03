@@ -171,19 +171,20 @@ namespace NukoBot.Modules
 
             var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
 
-            if (thirdPlaceDbUser == null)
+            if (thirdPlaceDbUser == default)
             {
                 await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
                 return;
             }
 
-            if (dbUser.Points > thirdPlaceDbUser.Points)
+            if (dbUser.Points >= thirdPlaceDbUser.Points)
             {
-                var thirdPlaceGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
+                var thirdPlaceSocketGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
+                var thirdPlaceIGuildUser = (IGuildUser)thirdPlaceSocketGuildUser;
+
+                await thirdPlaceIGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
 
                 await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-
-                await thirdPlaceGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
             }
         }
 
