@@ -51,7 +51,13 @@ namespace NukoBot.Common
             new HelpResponse()
             {
                 TriggerWords = { "I have missing textures", "I have a bunch of missing textures", "I have a bunch of purple textures", "I have loads of purple icons", "My icons are broken", "My textures are broken" },
-                Response = "If you have missing textures, use Steam to verify your game files (resetting them to default) and then reinstall the mod. You can say \"How do I install the mod?\" to get the instructions for installing the mod.\n\nTo verify game files:\n1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\""
+                Response = "If you have missing textures, use Steam to verify your game files (resetting them to default) and then reinstall the mod. You can say \"How do I install the mod?\" to get the instructions for installing the mod.\n\nTo verify game files:\n1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\"."
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords = { "What will the next update have", "When is the next update", "When will the next update come out", "What features will the next update have", "What will the next update feature" },
+                Response = "The next update will come out when the server gets enough points for an upgrade and after the community votes on what upgrade for the points to be spent on.\n\nAfter the vote, the upgrade (and other features like new maps, towers, enemies, balancing, etc.) will be developed and then released."
             }
         };
 
