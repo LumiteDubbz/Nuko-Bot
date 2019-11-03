@@ -8,7 +8,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.1.10";
+        public static readonly string Version = "1.1.11";
 
         public static readonly string Game = Prefix + "help";
 
@@ -57,7 +57,7 @@ namespace NukoBot.Common
             new HelpResponse()
             {
                 TriggerWords = { "What will the next update have", "When is the next update", "When will the next update come out", "What features will the next update have", "What will the next update feature" },
-                Response = "The next update will come out when the server gets enough points for an upgrade and after the community votes on what upgrade for the points to be spent on.\n\nAfter the vote, the upgrade (and other features like new maps, towers, enemies, balancing, etc.) will be developed and then released."
+                Response = "The next update will come out when the server gets enough points for an upgrade and after the community votes on what upgrade for the points to be spent on.\n\nAfter the vote, the upgrade (and other features like new maps, towers, enemies, balancing, etc.) will be developed and then released.\n\nTo learn more about points and submitting screenshots, just ask \"what are points\".\n\nTo learn more about the upgrades, just ask \"what upgrades are there\"."
             }
         };
 
