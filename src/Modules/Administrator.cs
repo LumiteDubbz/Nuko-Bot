@@ -143,6 +143,9 @@ namespace NukoBot.Modules
                 case "normal01":
                     map = Maps.Normal01Map;
                     break;
+                case "normal02":
+                    map = Maps.Normal02Map;
+                    break;
                 case "hard01":
                     map = Maps.Hard01Map;
                     break;

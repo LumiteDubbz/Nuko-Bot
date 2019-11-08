@@ -12,6 +12,14 @@ namespace NukoBot.Common
             Milestones = Milestones.Easy
         };
 
+        public static Map Easy02Map = new Map()
+        {
+            Name = "Easy 02",
+            Difficulty = 1,
+            Multiplier = 1,
+            Milestones = Milestones.Easy
+        };
+
         public static Map Normal01Map = new Map()
         {
             Name = "Normal 01",
