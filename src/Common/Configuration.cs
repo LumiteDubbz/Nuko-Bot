@@ -1,4 +1,5 @@
 ﻿using Discord;
+using NukoBot.Common.Structures;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.1.12";
+        public static readonly string Version = "1.2.0";
 
         public static readonly string Game = Prefix + "help";
 

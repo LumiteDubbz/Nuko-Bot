@@ -9,6 +9,8 @@ using System;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using System.Linq;
+using NukoBot.Common.Structures;
+using System.Collections.Generic;
 
 namespace NukoBot.Modules
 {
@@ -114,19 +116,13 @@ namespace NukoBot.Modules
         [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
-        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty of the map the user played on.")] int difficulty, [Summary("The user you wish to give the points to.")] IGuildUser user = null, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther = false)
+        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty map the user played on.")] string mapName = null, [Summary("The user you wish to give the points to.")] IGuildUser user = null, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther = false)
         {
-            if (user == null)
+            if (user == null && mapName == null)
             {
                 await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += round);
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{round}** points to this server's total.");
-            }
-
-            if (difficulty < 1 || difficulty > 3)
-            {
-                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"The difficulty **{difficulty}** was not found. Please use either 1, 2 or 3 corresponding to easy, normal or hard.");
-                return;
             }
 
             var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
@@ -137,37 +133,71 @@ namespace NukoBot.Modules
                 return;
             }
 
-            double multiplier = 1;
-            
-            switch (difficulty)
+            Map map;
+
+            switch (mapName.ToLower())
             {
-                case 1:
-                    multiplier = 0.75;
+                case "easy01":
+                    map = Maps.Easy01Map;
                     break;
-                case 2:
-                    multiplier = 1.0;
+                case "normal01":
+                    map = Maps.Normal01Map;
                     break;
-                case 3:
-                    multiplier = 1.25;
+                case "hard01":
+                    map = Maps.Hard01Map;
                     break;
+                default:
+                    await _text.ReplyErrorAsync(Context.User, Context.Channel, "no map with that name was found.");
+                    return;
             }
 
-            double points = (double)Math.Ceiling(round * multiplier);
-            
+            double points = Math.Ceiling(round * map.Multiplier);
+
             if (playedWithOther == true)
             {
                 points = Math.Ceiling(points + (points * 10 / 100));
             }
 
             await _userRepository.ModifyAsync(dbUser, x => x.Points += (int)points);
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += (int)points);
+
+            var dmMessage = $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.";
+            var adminResponse = $"you have successfully added **{points}** points to {user.Mention}.";
+
+            //var passedMilestones = new List<Milestone>();
+
+            //foreach (var milestone in map.Milestones.OrderByDescending(x => x.Round))
+            //{
+            //    if (round >= milestone.Round)
+            //    {
+            //        if (dbUser.Milestones.Any(x => x.Round == milestone.Round)) return;
+
+            //        passedMilestones.Add(milestone);
+            //    }
+            //}
+
+            //if (passedMilestones.Any())
+            //{
+            //    var passedMilestonesOrdered = passedMilestones.OrderByDescending(x => x.Round);
+
+            //    var bonusPoints = 0;
+
+            //    bonusPoints += passedMilestonesOrdered.First().PointBonus;
+
+            //    await _userRepository.ModifyAsync(dbUser, x => x.Points += bonusPoints);
+
+            //    await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += bonusPoints);
+
+            //    dmMessage += $"\n\nYou were also awarded **{bonusPoints}** bonus points for the round you got up to. Remember that these are one-time only, but if you get higher, you can get more!";
+            //    adminResponse += $"\n\nThe user was also awarded **{bonusPoints}** bonus points for the round milestone they achieved.";
+
+            //    await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Add(passedMilestonesOrdered.First()));
+            //}
 
             var userDm = await user.GetOrCreateDMChannelAsync();
 
-            await _text.SendAsync(userDm, $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.");
-
-            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += (int)points);
-
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** points to {user.Mention}.");
+            await _text.SendAsync(userDm, dmMessage);
+            await _text.ReplyAsync(Context.User, Context.Channel, adminResponse);
 
             var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
 
@@ -182,9 +212,9 @@ namespace NukoBot.Modules
                 var thirdPlaceSocketGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
                 var thirdPlaceIGuildUser = (IGuildUser)thirdPlaceSocketGuildUser;
 
-                await thirdPlaceIGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-
                 await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+
+                await thirdPlaceIGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
             }
         }
 

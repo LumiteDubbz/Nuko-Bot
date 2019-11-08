@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Extensions;
+using NukoBot.Common.Structures;
 using System;
 using System.Threading.Tasks;
 

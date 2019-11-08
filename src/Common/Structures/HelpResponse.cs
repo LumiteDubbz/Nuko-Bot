@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace NukoBot.Common
+namespace NukoBot.Common.Structures
 {
-    public partial class HelpResponse
+    public sealed class HelpResponse
     {
         private List<string> triggerWords = new List<string>();
 

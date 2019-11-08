@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
@@ -55,19 +54,51 @@ namespace NukoBot.Modules
         }
 
         [Command("Points")]
-        [Alias("pointcount")]
+        [Alias("pointcount", "me")]
         [Summary("View the amount of points you or a mentioned user has.")]
         public async Task Points([Summary("The user you want to look at the results of.")] [Remainder] IUser user = null)
-        {
+        {   
+            //var milestones = "";
+
             if (user != null)
             {
                 var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
 
-                await _text.ReplyAsync(Context.User, Context.Channel, $"{user.Mention} has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.");
+                var dmMessage = $"{user.Mention} has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
+
+                //if (dbUser.Milestones.Any())
+                //{
+                //    foreach (var milestone in dbUser.Milestones)
+                //    {
+                //        milestones += $"{milestone.MapName}: **{milestone.Round}**\n";
+                //    }
+                //}
+
+                //if (milestones != "")
+                //{
+                //    dmMessage += $"\n\n{milestones.Remove(milestones.Length - 1)}";
+                //}
+
+                await _text.ReplyAsync(Context.User, Context.Channel, dmMessage);
                 return;
             }
 
-            await _text.ReplyAsync(Context.User, Context.Channel, $"you have **{Context.DbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.");
+            var message = $"you have **{Context.DbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
+
+            //if (Context.DbUser.Milestones.Any())
+            //{
+            //    foreach (var milestone in Context.DbUser.Milestones)
+            //    {
+            //        milestones += $"{milestone.MapName}: **{milestone.Round}**\n";
+            //    }
+            //}
+
+            //if (milestones != "")
+            //{
+            //    message += $"\n\n{milestones.Remove(milestones.Length - 1)}";
+            //}
+
+            await _text.ReplyAsync(Context.User, Context.Channel, message);
         }
 
         [Command("Vote")]
