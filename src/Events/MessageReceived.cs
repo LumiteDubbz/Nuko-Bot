@@ -6,7 +6,6 @@ using Discord;
 using Discord.Commands;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using NukoBot.Database.Repositories;
 
 namespace NukoBot.Events
 {
