@@ -59,6 +59,12 @@ namespace NukoBot.Common
             {
                 TriggerWords = { "What will the next update have", "When is the next update", "When will the next update come out", "What features will the next update have", "What will the next update feature" },
                 Response = "The next update will come out when the server gets enough points for an upgrade and after the community votes on what upgrade for the points to be spent on.\n\nAfter the vote, the upgrade (and other features like new maps, towers, enemies, balancing, etc.) will be developed and then released.\n\nTo learn more about points and submitting screenshots, just ask \"what are points\".\n\nTo learn more about the upgrades, just ask \"what upgrades are there\"."
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords = { "What are milestones", "What do milestones do", "How do I get milestones", "How do I see the milestones", "What are bonus points" },
+                Response = "Milestones are bonus points awarded one-time only for getting a certain round on any map. If you get round 10 on easy 01, you'll get some bonus points. The next time you get round 10 on that map you will not. The closest next milestones are 20, then 26, then 30 and onwards. They are every 10 rounds and every round after a boss wave. Milestones are unique to each map."
             }
         };
 
