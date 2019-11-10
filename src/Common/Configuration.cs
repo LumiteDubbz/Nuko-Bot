@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.1";
+        public static readonly string Version = "1.3.2";
 
         public static readonly string Game = Prefix + "help";
 
@@ -63,7 +63,7 @@ namespace NukoBot.Common
 
             new HelpResponse()
             {
-                TriggerWords = { "What are milestones", "What do milestones do", "How do I get milestones", "How do I see the milestones", "What are bonus points" },
+                TriggerWords = { "What are milestones", "What do milestones do", "How do I get milestones", "How do I see the milestones", "What are bonus points", "What milestones are there" },
                 Response = "Milestones are bonus points awarded one-time only for getting a certain round on any map. If you get round 10 on easy 01, you'll get some bonus points. The next time you get round 10 on that map you will not. The closest next milestones are 20, then 26, then 30 and onwards. They are every 10 rounds and every round after a boss wave. Milestones are unique to each map."
             }
         };

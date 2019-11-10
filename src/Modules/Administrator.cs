@@ -131,7 +131,7 @@ namespace NukoBot.Modules
 
             if (dbUser == null)
             {
-                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"that user was found.");
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"that user was not found.");
                 return;
             }
 
@@ -142,9 +142,6 @@ namespace NukoBot.Modules
                 case "easy01":
                     map = Maps.Easy01Map;
                     break;
-                case "easy02":
-                    map = Maps.Easy02Map;
-                    break;
                 case "normal01":
                     map = Maps.Normal01Map;
                     break;
@@ -153,6 +150,9 @@ namespace NukoBot.Modules
                     break;
                 case "hard01":
                     map = Maps.Hard01Map;
+                    break;
+                case "hard02":
+                    map = Maps.Hard02Map;
                     break;
                 default:
                     await _text.ReplyErrorAsync(Context.User, Context.Channel, "no map with that name was found.");

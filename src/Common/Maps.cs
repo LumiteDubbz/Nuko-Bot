@@ -112,113 +112,6 @@ namespace NukoBot.Common
             }
         };
 
-        public static Map Easy02Map = new Map()
-        {
-            Name = "Easy 02",
-            Difficulty = 1,
-            Multiplier = 1,
-            Milestones = new List<Milestone>()
-            {
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 10,
-                    PointBonus = 10
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 20,
-                    PointBonus = 30
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 26,
-                    PointBonus = 106
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 30,
-                    PointBonus = 136
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 40,
-                    PointBonus = 176
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 50,
-                    PointBonus = 226
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 51,
-                    PointBonus = 327
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 60,
-                    PointBonus = 387
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 70,
-                    PointBonus = 457
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 76,
-                    PointBonus = 657
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 80,
-                    PointBonus = 737
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 90,
-                    PointBonus = 827
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 100,
-                    PointBonus = 927
-                },
-
-                new Milestone()
-                {
-                    MapName = "Easy 02",
-                    Round = 101,
-                    PointBonus = 1427
-                }
-            }
-        };
-
         public static Map Normal01Map = new Map()
         {
             Name = "Normal 01",
@@ -536,6 +429,113 @@ namespace NukoBot.Common
                     MapName = "Hard 01",
                     Round = 101,
                     PointBonus = 2800
+                }
+            }
+        };
+
+        public static Map Hard02Map = new Map()
+        {
+            Name = "Hard 02",
+            Difficulty = 1,
+            Multiplier = 1,
+            Milestones = new List<Milestone>()
+            {
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 10,
+                    PointBonus = 10
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 20,
+                    PointBonus = 30
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 26,
+                    PointBonus = 106
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 30,
+                    PointBonus = 136
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 40,
+                    PointBonus = 176
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 50,
+                    PointBonus = 226
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 51,
+                    PointBonus = 327
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 60,
+                    PointBonus = 387
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 70,
+                    PointBonus = 457
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 76,
+                    PointBonus = 657
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 80,
+                    PointBonus = 737
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 90,
+                    PointBonus = 827
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 100,
+                    PointBonus = 927
+                },
+
+                new Milestone()
+                {
+                    MapName = "Hard 02",
+                    Round = 101,
+                    PointBonus = 1427
                 }
             }
         };
