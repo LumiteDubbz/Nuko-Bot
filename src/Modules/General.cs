@@ -9,6 +9,8 @@ using NukoBot.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using NukoBot.Common.Structures;
 
 namespace NukoBot.Modules
 {
@@ -57,46 +59,62 @@ namespace NukoBot.Modules
         [Alias("pointcount", "me")]
         [Summary("View the amount of points you or a mentioned user has.")]
         public async Task Points([Summary("The user you want to look at the results of.")] [Remainder] IUser user = null)
-        {   
-            //var milestones = "";
+        {
+            var allMilestones = new List<Milestone>();
 
             if (user != null)
             {
                 var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
 
-                var dmMessage = $"{user.Mention} has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
+                var otherUserMessage = $"{user.Mention} has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
 
-                //if (dbUser.Milestones.Any())
-                //{
-                //    foreach (var milestone in dbUser.Milestones)
-                //    {
-                //        milestones += $"{milestone.MapName}: **{milestone.Round}**\n";
-                //    }
-                //}
+                if (dbUser.Milestones.Any())
+                {
+                    foreach (var milestone in dbUser.Milestones)
+                    {
+                        allMilestones.Add(milestone);
+                    }
+                }
 
-                //if (milestones != "")
-                //{
-                //    dmMessage += $"\n\n{milestones.Remove(milestones.Length - 1)}";
-                //}
+                var groupedMilestones = allMilestones.GroupBy(x => x.MapName).Select(g => new { MapName = g.Key, HighestRound = g.Max(x => x.Round) }).ToList();
+                var otherUserMilestones = "Their highest rounds on each map are:\n";
 
-                await _text.ReplyAsync(Context.User, Context.Channel, dmMessage);
+                foreach (var milestone in groupedMilestones)
+                {
+                    otherUserMilestones += $"{milestone.MapName}: **{milestone.HighestRound}**\n";
+                }
+
+                if (otherUserMilestones != "Their highest rounds on each map are:\n")
+                {
+                    otherUserMessage += $"\n\n{otherUserMilestones.Remove(otherUserMilestones.Length - 1)}";
+                }
+
+                await _text.ReplyAsync(Context.User, Context.Channel, otherUserMessage);
                 return;
             }
 
             var message = $"you have **{Context.DbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
 
-            //if (Context.DbUser.Milestones.Any())
-            //{
-            //    foreach (var milestone in Context.DbUser.Milestones)
-            //    {
-            //        milestones += $"{milestone.MapName}: **{milestone.Round}**\n";
-            //    }
-            //}
+            if (Context.DbUser.Milestones.Any())
+            {
+                foreach (var milestone in Context.DbUser.Milestones)
+                {
+                    allMilestones.Add(milestone);
+                }
+            }
 
-            //if (milestones != "")
-            //{
-            //    message += $"\n\n{milestones.Remove(milestones.Length - 1)}";
-            //}
+            var groupedMilestonesUser = allMilestones.GroupBy(x => x.MapName).Select(g => new { MapName = g.Key, HighestRound = g.Max(x => x.Round) }).ToList();
+            var milestones = "Your highest rounds on each map are:\n";
+
+            foreach (var milestone in groupedMilestonesUser)
+            {
+                milestones += $"{milestone.MapName}: **{milestone.HighestRound}**\n";
+            }
+
+            if (milestones != "Your highest rounds on each map are:\n")
+            {
+                message += $"\n\n{milestones.Remove(milestones.Length - 1)}";
+            }
 
             await _text.ReplyAsync(Context.User, Context.Channel, message);
         }

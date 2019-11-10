@@ -178,8 +178,6 @@ namespace NukoBot.Modules
             {
                 if (round < milestone.Round) continue;
 
-                Console.WriteLine($"Round {milestone.Round} on {milestone.MapName} awards {milestone.PointBonus}.");
-
                 passedMilestones.Add(milestone);
             }
 
@@ -190,18 +188,11 @@ namespace NukoBot.Modules
                 var passedMilestonesOrdered = passedMilestones.OrderByDescending(x => x.Round);
                 var firstMilestone = passedMilestonesOrdered.First();
 
-                Console.WriteLine($"passedMilestoneOrdered.First(): Round {firstMilestone.Round} on {firstMilestone.MapName} awarding {firstMilestone.PointBonus}");
-
-                foreach (var milestone in dbUser.Milestones)
-                {
-                    Console.WriteLine($"Round {milestone.Round} on {firstMilestone.MapName} awarding {firstMilestone.PointBonus}.");
-                }
-
-                var existingMilestoneOnMap = dbUser.Milestones.SingleOrDefault(x => x.MapName.ToLower() == mapName);
+                var existingMilestoneOnMap = dbUser.Milestones.Where(x => x.MapName == map.Name);
 
                 if (existingMilestoneOnMap != null)
                 {
-                    if (existingMilestoneOnMap.Round >= round)
+                    if (existingMilestoneOnMap.Any(x => x.Round >= round))
                     {
                         bonusPoints = 0;
                     }
@@ -209,7 +200,6 @@ namespace NukoBot.Modules
                     {
                         bonusPoints = firstMilestone.PointBonus;
 
-                        await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Remove(existingMilestoneOnMap));
                         await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Add(firstMilestone));
                     }
                 }
@@ -221,8 +211,13 @@ namespace NukoBot.Modules
                 await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Add(firstMilestone));
             }
 
+            Console.WriteLine($"bonusPoints: {bonusPoints}");
+
             if (bonusPoints > 0)
             {
+                await _userRepository.ModifyAsync(dbUser, x => x.Points += bonusPoints);
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += bonusPoints);
+
                 dmMessage += $"\n\nYou were also awarded **{bonusPoints}** bonus points for the round you got up to. Remember that these are one-time only, but if you get higher, you can get more!";
                 adminResponse += $"\n\nThe user was also awarded **{bonusPoints}** bonus points for the round milestone they achieved.";
             }
