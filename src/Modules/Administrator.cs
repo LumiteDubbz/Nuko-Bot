@@ -227,23 +227,49 @@ namespace NukoBot.Modules
             await _text.SendAsync(userDm, dmMessage);
             await _text.ReplyAsync(Context.User, Context.Channel, adminResponse);
 
-            var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
-
-            if (thirdPlaceDbUser == default)
+            if (Context.DbGuild.TopThreeRole != 0)
             {
-                await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-                return;
+                var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
+                var fourthPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(3);
+
+                if (thirdPlaceDbUser == default)
+                {
+                    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+                    return;
+                }
+
+                if (dbUser.Points >= thirdPlaceDbUser.Points)
+                {
+                    
+
+                    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+
+                    if (fourthPlaceDbUser == default || thirdPlaceDbUser.Points < fourthPlaceDbUser.Points)
+                    {
+                        var thirdPlaceGuildUser = (IGuildUser)Context.Guild.GetUser(thirdPlaceDbUser.UserId);
+
+                        //thirdPlaceGuildUser.AddRoleAsync
+                    }
+                }
             }
 
-            if (dbUser.Points >= thirdPlaceDbUser.Points)
-            {
-                var thirdPlaceSocketGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
-                var thirdPlaceIGuildUser = (IGuildUser)thirdPlaceSocketGuildUser;
+            //var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
 
-                await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+            //if (thirdPlaceDbUser == default)
+            //{
+            //    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+            //    return;
+            //}
 
-                await thirdPlaceIGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-            }
+            //if (dbUser.Points >= thirdPlaceDbUser.Points)
+            //{
+            //    var thirdPlaceSocketGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
+            //    var thirdPlaceIGuildUser = (IGuildUser)thirdPlaceSocketGuildUser;
+
+            //    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+
+            //    await thirdPlaceIGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+            //}
         }
 
         [Command("Deduct")]

@@ -155,13 +155,13 @@ namespace NukoBot.Modules
         }
 
         [Command("Leaderboard")]
-        [Alias("top3", "lb")]
+        [Alias("top", "topusers", "lb")]
         [Summary("View 3 users with the most points in the server.")]
         public async Task Leaderboard()
         {
             var users = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points);
 
-            string message = string.Empty;
+            var message = string.Empty;
 
             int position = 1;
 
@@ -184,7 +184,7 @@ namespace NukoBot.Modules
 
                 message += $"**{position}**. {user.Mention}: {dbUser.Points} points\n";
 
-                if (position >= 3)
+                if (position >= Configuration.MaximumLeaderboardPosition)
                 {
                     break;
                 }

@@ -17,6 +17,8 @@ namespace NukoBot.Common
 
         public static readonly string[] Authors = { "Lumite_#0187", "Maycrom#7729" };
 
+        public static readonly int MaximumLeaderboardPosition = 3;
+
         public static List<HelpResponse> AutomaticHelpResponses = new List<HelpResponse>
         {
             new HelpResponse()
