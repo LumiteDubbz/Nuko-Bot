@@ -211,8 +211,6 @@ namespace NukoBot.Modules
                 await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Add(firstMilestone));
             }
 
-            Console.WriteLine($"bonusPoints: {bonusPoints}");
-
             if (bonusPoints > 0)
             {
                 await _userRepository.ModifyAsync(dbUser, x => x.Points += bonusPoints);
@@ -240,36 +238,16 @@ namespace NukoBot.Modules
 
                 if (dbUser.Points >= thirdPlaceDbUser.Points)
                 {
-                    
-
                     await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
 
-                    if (fourthPlaceDbUser == default || thirdPlaceDbUser.Points < fourthPlaceDbUser.Points)
+                    if (fourthPlaceDbUser == default || thirdPlaceDbUser.Points <= fourthPlaceDbUser.Points)
                     {
                         var thirdPlaceGuildUser = (IGuildUser)Context.Guild.GetUser(thirdPlaceDbUser.UserId);
 
-                        //thirdPlaceGuildUser.AddRoleAsync
+                        await thirdPlaceGuildUser.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
                     }
                 }
             }
-
-            //var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
-
-            //if (thirdPlaceDbUser == default)
-            //{
-            //    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-            //    return;
-            //}
-
-            //if (dbUser.Points >= thirdPlaceDbUser.Points)
-            //{
-            //    var thirdPlaceSocketGuildUser = Context.Guild.GetUser(thirdPlaceDbUser.UserId);
-            //    var thirdPlaceIGuildUser = (IGuildUser)thirdPlaceSocketGuildUser;
-
-            //    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-
-            //    await thirdPlaceIGuildUser.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
-            //}
         }
 
         [Command("Deduct")]

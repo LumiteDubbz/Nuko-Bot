@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.2";
+        public static readonly string Version = "1.3.3";
 
         public static readonly string Game = Prefix + "help";
 
