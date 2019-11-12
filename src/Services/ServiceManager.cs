@@ -16,7 +16,10 @@ namespace NukoBot.Services
         private readonly CommandService _commandService;
         private readonly Credentials _credentials;
 
-        public IServiceProvider ServiceProvider { get; }
+        public IServiceProvider ServiceProvider
+        {
+            get;
+        }
 
         public ServiceManager(DiscordSocketClient client, CommandService commandService, Credentials credentials)
         {
@@ -27,30 +30,30 @@ namespace NukoBot.Services
             var database = ConfigureDatabase();
 
             var services = new ServiceCollection()
-                // Parameters
-                .AddSingleton(_client)
-                .AddSingleton(_commandService)
-                .AddSingleton(_credentials)
-                // DB Models
-                .AddSingleton(database.GetCollection<Guild>("guilds"))
-                .AddSingleton(database.GetCollection<Mute>("mutes"))
-                .AddSingleton(database.GetCollection<Poll>("polls"))
-                .AddSingleton(database.GetCollection<Run>("runs"))
-                .AddSingleton(database.GetCollection<User>("users"))
-                // DB Repositories
-                .AddSingleton<GuildRepository>()
-                .AddSingleton<MuteRepository>()
-                .AddSingleton<PollRepository>()
-                .AddSingleton<RunRepository>()
-                .AddSingleton<UserRepository>()
-                // Events
-                .AddSingleton<MessageReceived>()
-                .AddSingleton<Ready>()
-                .AddSingleton<UserJoined>()
-                // Services
-                .AddSingleton<AutomaticHelpService>()
-                .AddSingleton<ModerationService>()
-                .AddSingleton<Text>();
+             // Parameters
+             .AddSingleton(_client)
+             .AddSingleton(_commandService)
+             .AddSingleton(_credentials)
+             // DB Models
+             .AddSingleton(database.GetCollection<Guild>("guilds"))
+             .AddSingleton(database.GetCollection<Mute>("mutes"))
+             .AddSingleton(database.GetCollection<Poll>("polls"))
+             .AddSingleton(database.GetCollection<Run>("runs"))
+             .AddSingleton(database.GetCollection<User>("users"))
+             // DB Repositories
+             .AddSingleton<GuildRepository>()
+             .AddSingleton<MuteRepository>()
+             .AddSingleton<PollRepository>()
+             .AddSingleton<RunRepository>()
+             .AddSingleton<UserRepository>()
+             // Events
+             .AddSingleton<MessageReceived>()
+             .AddSingleton<Ready>()
+             .AddSingleton<UserJoined>()
+             // Services
+             .AddSingleton<AutomaticHelpService>()
+             .AddSingleton<ModerationService>()
+             .AddSingleton<Text>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

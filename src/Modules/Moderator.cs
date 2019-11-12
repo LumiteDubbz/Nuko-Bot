@@ -35,7 +35,7 @@ namespace NukoBot.Modules
         [Command("CreatePoll")]
         [Alias("makepoll", "addpoll")]
         [Summary("Create a poll for people to vote on.")]
-        public async Task CreatePoll([Summary("The question of the poll.")] string name, [Summary("The chocies people can vote for, separated by `~`s")] string choices, [Summary("The number of hours the poll should last.")] [Remainder] double hoursToLast = 1)
+        public async Task CreatePoll([Summary("The question of the poll.")] string name, [Summary("The chocies people can vote for, separated by `~`s")] string choices, [Summary("The number of hours the poll should last.")][Remainder] double hoursToLast = 1)
         {
             var choicesArray = choices.Split('~');
 
@@ -109,7 +109,7 @@ namespace NukoBot.Modules
         [Command("Mute")]
         [Alias("silence")]
         [Summary("Mute a user until they are manually unmuted.")]
-        public async Task Mute([Summary("The user you want to mute.")] IGuildUser userToMute, [Summary("The reason for muting the user.")] [Remainder] string reason = null)
+        public async Task Mute([Summary("The user you want to mute.")] IGuildUser userToMute, [Summary("The reason for muting the user.")][Remainder] string reason = null)
         {
             var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
 
@@ -137,7 +137,7 @@ namespace NukoBot.Modules
                 message += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync((SocketUser) userToMute, message + ".");
+            await _moderationService.InformUserAsync((SocketUser)userToMute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
         }
@@ -154,7 +154,7 @@ namespace NukoBot.Modules
             }
 
             await _muteRepository.DeleteAsync(x => x.UserId == userToUnmute.Id && x.GuildId == Context.Guild.Id);
-            
+
             await userToUnmute.RemoveRoleAsync(Context.Guild.GetRole(Context.DbGuild.MutedRoleId));
 
             await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully unmuted **{userToUnmute.Mention}**.");
@@ -165,7 +165,7 @@ namespace NukoBot.Modules
             {
                 message += $" for **{reason}**";
             }
-            await _moderationService.InformUserAsync((SocketUser) userToUnmute, message + ".");
+            await _moderationService.InformUserAsync((SocketUser)userToUnmute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Unmute", Configuration.UnmuteColor, reason, Context.User as IGuildUser, userToUnmute);
         }
@@ -206,7 +206,7 @@ namespace NukoBot.Modules
         [Command("Kick")]
         [Alias("boot")]
         [Summary("Kick any player from the server.")]
-        public async Task Kick([Summary("The user you wish to kick.")] IGuildUser userToKick, [Summary("The reason for kicking the user.")] [Remainder] string reason = null)
+        public async Task Kick([Summary("The user you wish to kick.")] IGuildUser userToKick, [Summary("The reason for kicking the user.")][Remainder] string reason = null)
         {
             if (_moderationService.GetPermissionLevel(Context.DbGuild, userToKick) > 0)
             {
@@ -221,7 +221,7 @@ namespace NukoBot.Modules
                 message += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync((SocketUser) userToKick, message + ".");
+            await _moderationService.InformUserAsync((SocketUser)userToKick, message + ".");
 
             await userToKick.KickAsync(reason);
 
@@ -231,7 +231,7 @@ namespace NukoBot.Modules
         [Command("Clear")]
         [Alias("clearchat", "purge", "purgechat")]
         [Summary("Clear any amount of messages from the channel this command is ran in.")]
-        public async Task Clear([Summary("The amount of messages to clear.")] int amountOfMessages = 50, [Summary("The reason for clearing the chat.")] [Remainder] string reason = null)
+        public async Task Clear([Summary("The amount of messages to clear.")] int amountOfMessages = 50, [Summary("The reason for clearing the chat.")][Remainder] string reason = null)
         {
             if (amountOfMessages < 1 || amountOfMessages > 150)
             {
@@ -241,7 +241,7 @@ namespace NukoBot.Modules
 
             var channel = Context.Channel as ITextChannel;
             var messages = await channel.GetMessagesAsync(amountOfMessages + 1).Flatten().ToArray();
-            
+
             await channel.DeleteMessagesAsync(messages);
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Clear", Configuration.ClearColor, reason, Context.User as IGuildUser, null);

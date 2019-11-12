@@ -11,12 +11,28 @@ namespace NukoBot.Database.Models
             MuteLength = muteLength;
         }
 
-        public ulong UserId { get; set; }
+        public ulong UserId
+        {
+            get;
+            set;
+        }
 
-        public ulong GuildId { get; set; }
+        public ulong GuildId
+        {
+            get;
+            set;
+        }
 
-        public double MuteLength { get; set; }
+        public double MuteLength
+        {
+            get;
+            set;
+        }
 
-        public DateTime MutedAt { get; set; } = DateTime.Now;
+        public DateTime MutedAt
+        {
+            get;
+            set;
+        } = DateTime.Now;
     }
 }

@@ -11,14 +11,36 @@ namespace NukoBot.Database.Models
             GuildId = guildId;
         }
 
-        public ulong UserId { get; set; }
+        public ulong UserId
+        {
+            get;
+            set;
+        }
 
-        public ulong GuildId { get; set; }
+        public ulong GuildId
+        {
+            get;
+            set;
+        }
 
-        public int Points { get; set; }
+        public int Points
+        {
+            get;
+            set;
+        }
 
         private List<Milestone> milestones = new List<Milestone>();
 
-        public List<Milestone> Milestones { get { return milestones; } set { milestones = value; } }
+        public List<Milestone> Milestones
+        {
+            get
+            {
+                return milestones;
+            }
+            set
+            {
+                milestones = value;
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace NukoBot.Events
 
         private async Task HandleReadyAsync()
         {
-            await _client.SetGameAsync(Configuration.Game + $" | v{Configuration.Version}");
+            await _client.SetGameAsync(Configuration.Game);
 
             Console.WriteLine($"{_client.CurrentUser.Username}#{_client.CurrentUser.Discriminator} ({_client.CurrentUser.Id}) v{Configuration.Version} has connected to Discord.");
         }

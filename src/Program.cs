@@ -16,8 +16,7 @@ namespace NukoBot
 {
     public class Program
     {
-        static void Main(string[] args)
-            => new Program().StartAsync().GetAwaiter().GetResult();
+        static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
 
         private async Task StartAsync()
         {
@@ -27,7 +26,7 @@ namespace NukoBot
             {
                 credentials = JsonConvert.DeserializeObject<Credentials>(File.ReadAllText(AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("src")) + "src/Credentials.json"));
             }
-            catch(IOException error)
+            catch (IOException error)
             {
                 Console.WriteLine("An exception occurred while loading Credentials.json: " + error.ToString());
                 return;

@@ -45,7 +45,7 @@ namespace NukoBot.Modules
         public async Task Commands(string commandOrModule = null)
         {
             var userDm = await Context.User.GetOrCreateDMChannelAsync();
-            
+
             if (commandOrModule != null)
             {
                 commandOrModule = commandOrModule.ToLower();
@@ -118,7 +118,7 @@ namespace NukoBot.Modules
                 }
 
                 await _text.SendAsync(userDm, message, "Command information");
-                
+
                 if (Context.Channel != userDm) await _text.ReplyAsync(Context.User, Context.Channel, "please check your DMs.");
                 return;
             }

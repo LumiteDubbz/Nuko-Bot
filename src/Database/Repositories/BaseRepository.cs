@@ -19,7 +19,8 @@ namespace NukoBot.Database.Repositories
 
         public Task InsertAsync(T entity)
         {
-            return _collection.InsertOneAsync(entity, null, default(CancellationToken));
+            return _collection.InsertOneAsync(entity, null,
+             default(CancellationToken));
         }
 
         public Task<T> GetAsync(Expression<Func<T, bool>> filter)
@@ -64,6 +65,7 @@ namespace NukoBot.Database.Repositories
         public async Task ModifyAsync(Expression<Func<T, bool>> filter, Action<T> function)
         {
             var entity = await GetAsync(filter);
+
             function(entity);
             await UpdateAsync(entity);
         }

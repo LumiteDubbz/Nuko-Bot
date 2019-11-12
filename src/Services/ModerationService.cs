@@ -62,17 +62,15 @@ namespace NukoBot.Services
             if (logChannel == null) return;
 
             var builder = new EmbedBuilder()
-                .WithColor(color)
-                .WithFooter(x =>
-                {
-                    x.Text = $"Case #{dbGuild.CaseNumber}";
-                })
-                .WithCurrentTimestamp();
+             .WithColor(color)
+             .WithFooter(x => {
+                 x.Text = $"Case #{dbGuild.CaseNumber}";
+             })
+             .WithCurrentTimestamp();
 
             if (moderator != null)
             {
-                builder.WithAuthor(x =>
-                {
+                builder.WithAuthor(x => {
                     x.Name = $"{moderator}";
                 });
             }

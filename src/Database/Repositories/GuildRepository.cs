@@ -12,7 +12,8 @@ namespace NukoBot.Database.Repositories
         {
             var dbGuild = await GetAsync(x => x.GuildId == guildId);
 
-            if (dbGuild == default)
+            if (dbGuild ==
+             default)
             {
                 var createdGuild = new Guild(guildId);
 

@@ -9,24 +9,64 @@ namespace NukoBot.Database.Models
             GuildId = guildId;
         }
 
-        public ulong GuildId { get; set; }
+        public ulong GuildId
+        {
+            get;
+            set;
+        }
 
-        public BsonDocument ModRoles { get; set; } = new BsonDocument();
+        public BsonDocument ModRoles
+        {
+            get;
+            set;
+        } = new BsonDocument();
 
-        public ulong MutedRoleId { get; set; }
+        public ulong MutedRoleId
+        {
+            get;
+            set;
+        }
 
-        public ulong ModLogChannelId { get; set; }
+        public ulong ModLogChannelId
+        {
+            get;
+            set;
+        }
 
-        public ulong ScreenshotChannelId { get; set; }
+        public ulong ScreenshotChannelId
+        {
+            get;
+            set;
+        }
 
-        public ulong NewUserRole { get; set; }
+        public ulong NewUserRole
+        {
+            get;
+            set;
+        }
 
-        public ulong TopThreeRole { get; set; }
+        public ulong TopThreeRole
+        {
+            get;
+            set;
+        }
 
-        public string WelcomeMessage { get; set; } = string.Empty;
+        public string WelcomeMessage
+        {
+            get;
+            set;
+        } = string.Empty;
 
-        public int CaseNumber { get; set; } = 1;
+        public int CaseNumber
+        {
+            get;
+            set;
+        } = 1;
 
-        public int Points { get; set; } = 0;
+        public int Points
+        {
+            get;
+            set;
+        } = 0;
     }
 }

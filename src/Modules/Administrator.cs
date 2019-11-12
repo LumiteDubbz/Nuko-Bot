@@ -37,7 +37,7 @@ namespace NukoBot.Modules
         [Command("SetScreenshotChannel")]
         [Alias("removescreenshotchannel")]
         [Summary("Set the channel for screenshots to be submitted to.")]
-        public async Task SetScreenshotChannel([Summary("The channel you want to set as the screenshot submitting channel.")] [Remainder] ITextChannel screenshotChannel = null)
+        public async Task SetScreenshotChannel([Summary("The channel you want to set as the screenshot submitting channel.")][Remainder] ITextChannel screenshotChannel = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ScreenshotChannelId = screenshotChannel.Id);
 
@@ -53,7 +53,7 @@ namespace NukoBot.Modules
         [Command("SetMutedRole")]
         [Alias("setmuterole", "removemutedrole", "removemuterole")]
         [Summary("Set the role to be given to those who are muted.")]
-        public async Task SetMutedRole([Summary("The role you want to set as the muted role.")] [Remainder] IRole mutedRole = null)
+        public async Task SetMutedRole([Summary("The role you want to set as the muted role.")][Remainder] IRole mutedRole = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.MutedRoleId = mutedRole.Id);
 
@@ -68,7 +68,7 @@ namespace NukoBot.Modules
         [Command("SetModLogChannel")]
         [Alias("setlogchannel", "setmodlog", "removemodlogchannel", "removelogchannel")]
         [Summary("Set the channel for all moderator actions to be logged to.")]
-        public async Task SetModLogChannel([Summary("The channel you wish to set as the mod log channel.")] [Remainder] ITextChannel modLogChannel = null)
+        public async Task SetModLogChannel([Summary("The channel you wish to set as the mod log channel.")][Remainder] ITextChannel modLogChannel = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ModLogChannelId = modLogChannel.Id);
 
@@ -84,7 +84,7 @@ namespace NukoBot.Modules
         [Command("SetWelcomeMessage")]
         [Alias("setwelcomemsg", "deletewelcomemessage", "deletewelcomemsg", "removewelcomemessage", "removewelcomemsg")]
         [Summary("Set the message to sent when a user joins this server.")]
-        public async Task SetWelcomeChannel([Summary("The welcome message to be DMed to new users.")] [Remainder] string welcomeMessage = null)
+        public async Task SetWelcomeChannel([Summary("The welcome message to be DMed to new users.")][Remainder] string welcomeMessage = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.WelcomeMessage = welcomeMessage);
 
@@ -100,7 +100,7 @@ namespace NukoBot.Modules
         [Command("SetNewUserRole")]
         [Alias("setdefaultrole")]
         [Summary("Set the role to be given to all new users in the server.")]
-        public async Task SetNewUserRole([Summary("The role to be given to new users.")] [Remainder] IRole newUserRole = null)
+        public async Task SetNewUserRole([Summary("The role to be given to new users.")][Remainder] IRole newUserRole = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.NewUserRole = newUserRole.Id);
 
@@ -116,7 +116,7 @@ namespace NukoBot.Modules
         [Command("Award")]
         [Alias("awardpoints", "givepoints")]
         [Summary("Add points to a user which will also increase the glboal point counter.")]
-        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty map the user played on.")] string mapName = null, [Summary("The user you wish to give the points to.")] IGuildUser user = null, [Summary("Whether or not the game was played with a friend in the server.")] [Remainder] bool playedWithOther = false)
+        public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty map the user played on.")] string mapName = null, [Summary("The user you wish to give the points to.")] IGuildUser user = null, [Summary("Whether or not the game was played with a friend in the server.")][Remainder] bool playedWithOther = false)
         {
             if (user == null && mapName == null)
             {
@@ -230,7 +230,8 @@ namespace NukoBot.Modules
                 var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
                 var fourthPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(3);
 
-                if (thirdPlaceDbUser == default)
+                if (thirdPlaceDbUser ==
+                 default)
                 {
                     await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
                     return;
@@ -240,7 +241,8 @@ namespace NukoBot.Modules
                 {
                     await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
 
-                    if (fourthPlaceDbUser == default || thirdPlaceDbUser.Points <= fourthPlaceDbUser.Points)
+                    if (fourthPlaceDbUser ==
+                     default || thirdPlaceDbUser.Points <= fourthPlaceDbUser.Points)
                     {
                         var thirdPlaceGuildUser = (IGuildUser)Context.Guild.GetUser(thirdPlaceDbUser.UserId);
 
@@ -310,7 +312,7 @@ namespace NukoBot.Modules
         [Command("Ban")]
         [Alias("banish")]
         [Summary("Ban any user from being in the server.")]
-        public async Task Ban([Summary("The user to ban.")] IGuildUser userToBan, [Summary("The reason for banning the user.")] [Remainder] string reason = null)
+        public async Task Ban([Summary("The user to ban.")] IGuildUser userToBan, [Summary("The reason for banning the user.")][Remainder] string reason = null)
         {
             if (_moderationService.GetPermissionLevel(Context.DbGuild, userToBan) > 0)
             {
@@ -335,7 +337,7 @@ namespace NukoBot.Modules
         [Command("SetTop3Role")]
         [Alias("settoprole", "setlbrole", "setleaderboardrole", "settop3")]
         [Summary("Set the role to be given to the 3 users with the most points.")]
-        public async Task SetTopThreeRole([Summary("The role to be given.")] [Remainder] IRole topThreeRole)
+        public async Task SetTopThreeRole([Summary("The role to be given.")][Remainder] IRole topThreeRole)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.TopThreeRole = topThreeRole.Id);
 

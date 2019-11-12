@@ -58,7 +58,7 @@ namespace NukoBot.Modules
         [Command("Points")]
         [Alias("pointcount", "me")]
         [Summary("View the amount of points you or a mentioned user has.")]
-        public async Task Points([Summary("The user you want to look at the results of.")] [Remainder] IUser user = null)
+        public async Task Points([Summary("The user you want to look at the results of.")][Remainder] IUser user = null)
         {
             var allMilestones = new List<Milestone>();
 
@@ -76,7 +76,10 @@ namespace NukoBot.Modules
                     }
                 }
 
-                var groupedMilestones = allMilestones.GroupBy(x => x.MapName).Select(g => new { MapName = g.Key, HighestRound = g.Max(x => x.Round) }).ToList();
+                var groupedMilestones = allMilestones.GroupBy(x => x.MapName).Select(g => new {
+                    MapName = g.Key,
+                    HighestRound = g.Max(x => x.Round)
+                }).ToList();
                 var otherUserMilestones = "Their highest rounds on each map are:\n";
 
                 foreach (var milestone in groupedMilestones)
@@ -103,7 +106,10 @@ namespace NukoBot.Modules
                 }
             }
 
-            var groupedMilestonesUser = allMilestones.GroupBy(x => x.MapName).Select(g => new { MapName = g.Key, HighestRound = g.Max(x => x.Round) }).ToList();
+            var groupedMilestonesUser = allMilestones.GroupBy(x => x.MapName).Select(g => new {
+                MapName = g.Key,
+                HighestRound = g.Max(x => x.Round)
+            }).ToList();
             var milestones = "Your highest rounds on each map are:\n";
 
             foreach (var milestone in groupedMilestonesUser)
@@ -198,7 +204,7 @@ namespace NukoBot.Modules
         [Command("Echo")]
         [Alias("say", "embed")]
         [Summary("Repeat the provided text in an embedded message.")]
-        public async Task Echo([Summary("The text you want the bot to embed.")] [Remainder] string message)
+        public async Task Echo([Summary("The text you want the bot to embed.")][Remainder] string message)
         {
             await _text.SendAsync(Context.Channel, message);
         }

@@ -49,7 +49,7 @@ namespace NukoBot.Database.Repositories
         public async Task RemovePollAsync(int index, ulong guildId)
         {
             var polls = (await AllAsync(x => x.GuildId == guildId)).OrderBy(x => x.CreatedAt).ToList();
-            
+
             var poll = polls[index - 1];
 
             await DeleteAsync(x => x.Id == poll.Id);
