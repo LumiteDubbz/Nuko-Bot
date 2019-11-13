@@ -235,8 +235,7 @@ namespace NukoBot.Modules
                 var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
                 var fourthPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(3);
 
-                if (thirdPlaceDbUser ==
-                 default)
+                if (thirdPlaceDbUser == default)
                 {
                     await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
                     return;
@@ -246,8 +245,7 @@ namespace NukoBot.Modules
                 {
                     await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
 
-                    if (fourthPlaceDbUser ==
-                     default || thirdPlaceDbUser.Points <= fourthPlaceDbUser.Points)
+                    if (fourthPlaceDbUser == default || thirdPlaceDbUser.Points <= fourthPlaceDbUser.Points)
                     {
                         var thirdPlaceGuildUser = (IGuildUser)Context.Guild.GetUser(thirdPlaceDbUser.UserId);
 
@@ -388,6 +386,42 @@ namespace NukoBot.Modules
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** points to this server's total.");
                 return;
+            }
+
+            var dbUser = await _userRepository.GetUserAsync(user.Id, user.GuildId);
+
+            await _userRepository.ModifyAsync(dbUser, x => x.Points += points);
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);
+
+            var dmMessage = $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.";
+            var adminResponse = $"you have successfully added **{points}** points to {user.Mention}.";
+            var userDm = await user.GetOrCreateDMChannelAsync();
+
+            await _text.SendAsync(userDm, dmMessage);
+            await _text.ReplyAsync(Context.User, Context.Channel, adminResponse);
+
+            if (Context.DbGuild.TopThreeRole != 0)
+            {
+                var thirdPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(2);
+                var fourthPlaceDbUser = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points).ElementAtOrDefault(3);
+
+                if (thirdPlaceDbUser == default)
+                {
+                    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+                    return;
+                }
+
+                if (dbUser.Points >= thirdPlaceDbUser.Points)
+                {
+                    await user.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+
+                    if (fourthPlaceDbUser == default || thirdPlaceDbUser.Points <= fourthPlaceDbUser.Points)
+                    {
+                        var thirdPlaceGuildUser = (IGuildUser)Context.Guild.GetUser(thirdPlaceDbUser.UserId);
+
+                        await thirdPlaceGuildUser.AddRoleAsync(Context.Guild.GetRole(Context.DbGuild.TopThreeRole));
+                    }
+                }
             }
         }
     }
