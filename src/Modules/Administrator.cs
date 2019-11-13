@@ -166,6 +166,11 @@ namespace NukoBot.Modules
                 points = Math.Ceiling(points + (points * 10 / 100));
             }
 
+            if (Context.DbGuild.PointMultiplier > 1)
+            {
+                points = Math.Ceiling(points * Context.DbGuild.PointMultiplier);
+            }
+
             await _userRepository.ModifyAsync(dbUser, x => x.Points += (int)points);
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += (int)points);
 
@@ -348,6 +353,28 @@ namespace NukoBot.Modules
             }
 
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the top 3 role.");
+        }
+
+        [Command("SetPointMultiplier")]
+        [Alias("setmultiplier", "setguildmultiplier", "setguildpointmultiplier", "setservermultiplier", "setserverpointmultiplier", "removemultiplier", "removepointmultiplier")]
+        [Summary("Set the multiplier that all awarded points will be multiplied by until set to default")]
+        public async Task SetPointMultiplier([Summary("The point multiplier.")][Remainder] double multiplier = 1)
+        {
+            if (multiplier > Configuration.MaximumMultiplier || multiplier < Configuration.MinimumMultiplier)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"you must set a multiplier between {Configuration.MinimumMultiplier}x and {Configuration.MaximumMultiplier}x.");
+                return;
+            }
+
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.PointMultiplier = multiplier);
+
+            if (multiplier > 1)
+            {
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set this server's point multiplier to {multiplier}x.");
+                return;
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully set the point multiplier to default.");
         }
     }
 }

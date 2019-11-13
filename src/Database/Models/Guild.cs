@@ -68,5 +68,11 @@ namespace NukoBot.Database.Models
             get;
             set;
         } = 0;
+
+        public double PointMultiplier
+        {
+            get;
+            set;
+        } = 1;
     }
 }
