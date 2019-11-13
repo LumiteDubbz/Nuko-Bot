@@ -376,5 +376,19 @@ namespace NukoBot.Modules
 
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully set the point multiplier to default.");
         }
+
+        [Command("CustomAward")]
+        [Alias("customawardpoints", "customgive")]
+        [Summary("Give any points to any user, irrespective of milestones or map difficulty multipliers.")]
+        public async Task CustomAward([Summary("The amount of points to be awarded.")] int points, [Summary("The user to award points to")][Remainder] IGuildUser user = null)
+        {
+            if (user == null)
+            {
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);
+
+                await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{points}** points to this server's total.");
+                return;
+            }
+        }
     }
 }
