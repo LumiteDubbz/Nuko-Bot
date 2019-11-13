@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.5";
+        public static readonly string Version = "1.3.6";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -116,6 +116,16 @@ namespace NukoBot.Common
                     "What milestones are there"
                 },
                 Response = "Milestones are bonus points awarded one-time only for getting a certain round on any map. If you get round 10 on easy 01, you'll get some bonus points. The next time you get round 10 on that map you will not. The closest next milestones are 20, then 26, then 30 and onwards. They are every 10 rounds and every round after a boss wave. Milestones are unique to each map."
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords =
+                {
+                    "How do I reinstall the game",
+                    "How do I reinstall Battles"
+                },
+                Response = "1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\"."
             }
         };
 
