@@ -114,7 +114,7 @@ namespace NukoBot.Modules
                         commandsInModule += $"`: {command.Summary}\n\n";
                     }
 
-                    message += $"__Commands in the {foundModule.Name} module__:\nParameters in [square brackets] are optional, those in <angle brackets> are required.\n\n{commandsInModule}\n\n";
+                    message += $"__Commands in the {foundModule.Name} module__:\nParameters in [square brackets] are optional, those in <angle brackets> are required.\n\nIf optional parameters are left blank, they will refer to their default values. This usually just resets to `null` or nothing.\n\n{commandsInModule}\n\n";
                 }
 
                 await _text.SendAsync(userDm, message, "Command information");
