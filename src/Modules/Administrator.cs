@@ -192,6 +192,12 @@ namespace NukoBot.Modules
             {
                 var passedMilestonesOrdered = passedMilestones.OrderByDescending(x => x.Round);
                 var firstMilestone = passedMilestonesOrdered.First();
+                var newMilstone = new Milestone()
+                {
+                    MapName = firstMilestone.MapName,
+                    PointBonus = firstMilestone.PointBonus,
+                    Round = round
+                };
 
                 var existingMilestoneOnMap = dbUser.Milestones.OrderByDescending(x => x.Round).Where(x => x.MapName == map.Name).FirstOrDefault();
 
@@ -205,7 +211,7 @@ namespace NukoBot.Modules
                     {
                         bonusPoints = firstMilestone.PointBonus;
 
-                        await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Add(firstMilestone));
+                        await _userRepository.ModifyAsync(dbUser, x => x.Milestones.Add(newMilstone));
                     }
                 }
                 else
