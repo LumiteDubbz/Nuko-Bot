@@ -193,11 +193,11 @@ namespace NukoBot.Modules
                 var passedMilestonesOrdered = passedMilestones.OrderByDescending(x => x.Round);
                 var firstMilestone = passedMilestonesOrdered.First();
 
-                var existingMilestoneOnMap = dbUser.Milestones.Where(x => x.MapName == map.Name);
+                var existingMilestoneOnMap = dbUser.Milestones.OrderByDescending(x => x.Round).Where(x => x.MapName == map.Name).FirstOrDefault();
 
                 if (existingMilestoneOnMap != null)
                 {
-                    if (existingMilestoneOnMap.Any(x => x.Round >= round))
+                    if (existingMilestoneOnMap.Round >= round)
                     {
                         bonusPoints = 0;
                     }
