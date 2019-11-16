@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.10";
+        public static readonly string Version = "1.3.11";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -31,13 +31,15 @@ namespace NukoBot.Common
                 TriggerWords = {
                     "How do I install the mod",
                     "How do I install mods",
+                    "How do I install",
                     "How to install mods",
                     "How do I get the mod",
                     "How to get the mod",
                     "Where do I get the mod",
-                    "Where do I download the mod"
+                    "Where do I download the mod",
+                    "How do you download the mod"
                 },
-                Response = "**You might want to use another Steam account to prevent your main from being banned!**\n\nTo download the mod: Download the latest ZIP file from `#download`.\n\nTo install the mod:\n1) Extract the ZIP file.\n2) Open a new file explorer window.\n3)Go to `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bloons TD Battles`\n4) Copy the `Assets` and `ExtraAssets` folders from the mod folder and paste it into the BTD Battles folder.\n5) Overwrite any files it asks you to."
+                Response = "**You might want to use another Steam account to prevent your main from being banned!**\n\nPlease note that the mod is onnly currently available for Windodws Steam.\n\nTo download the mod: Download the latest ZIP file from `#download`.\n\nTo install the mod:\n1) Extract the ZIP file.\n2) Open a new file explorer window.\n3)Go to `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bloons TD Battles`\n4) Copy the `Assets` and `ExtraAssets` folders from the mod folder and paste it into the BTD Battles folder.\n5) Overwrite any files it asks you to."
             },
             
             new HelpResponse() {
@@ -130,6 +132,18 @@ namespace NukoBot.Common
                     "How do I reinstall Battles"
                 },
                 Response = "1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\"."
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords =
+                {
+                    "Is this mod for android",
+                    "Is there an adroid version",
+                    "Can I get this mod on android",
+                    "How do I install on android"
+                },
+                Response = "There is currently no version of this mod for android, nor is an official one planned."
             }
         };
 
