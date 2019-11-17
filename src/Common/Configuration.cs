@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.12";
+        public static readonly string Version = "1.3.13";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -39,7 +39,7 @@ namespace NukoBot.Common
                     "Where do I download the mod",
                     "How do you download the mod"
                 },
-                Response = "**You might want to use another Steam account to prevent your main from being banned!**\n\nPlease note that the mod is onnly currently available for Windodws Steam.\n\nTo download the mod: Download the latest ZIP file from `#download`.\n\nTo install the mod:\n1) Extract the ZIP file.\n2) Open a new file explorer window.\n3)Go to `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bloons TD Battles`\n4) Copy the `Assets` and `ExtraAssets` folders from the mod folder and paste it into the BTD Battles folder.\n5) Overwrite any files it asks you to."
+                Response = "**You might want to use another Steam account to prevent your main from being banned!**\n\nPlease note that the mod is only currently available for Windodws Steam.\n\nTo download the mod: Download the latest ZIP file from `#download`.\n\nTo install the mod:\n1) Extract the ZIP file.\n2) Open a new file explorer window.\n3)Go to `C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bloons TD Battles`\n4) Copy the `Assets` and `ExtraAssets` folders from the mod folder and paste it into the BTD Battles folder.\n5) Overwrite any files it asks you to."
             },
             
             new HelpResponse() {
@@ -96,7 +96,9 @@ namespace NukoBot.Common
                     "I have a bunch of purple textures",
                     "I have loads of purple icons",
                     "My icons are broken",
-                    "My textures are broken"
+                    "My textures are broken",
+                    "How do I reset my game files",
+                    "How to reset game files"
                 },
                 Response = "If you have missing textures, use Steam to verify your game files (resetting them to default) and then reinstall the mod. You can say \"How do I install the mod?\" to get the instructions for installing the mod.\n\nTo verify game files:\n1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\"."
             },
@@ -129,7 +131,9 @@ namespace NukoBot.Common
                 TriggerWords =
                 {
                     "How do I reinstall the game",
-                    "How do I reinstall Battles"
+                    "How do I reinstall Battles",
+                    "How do I reset my game",
+                    "How do I reset my game files"
                 },
                 Response = "1) Open Steam.\n2) Right click on Bloons TD Battles.\n3) Click \"Properties...\"\n4) Click the \"local files\" tab in the top of the properties movie.\n5) Click \"Verify integrity of game files\"."
             },
@@ -148,6 +152,19 @@ namespace NukoBot.Common
                     "How do I install on MacOS"
                 },
                 Response = "There is currently no version of this mod for android, nor is an official one planned.\n\nThere are ideas for a MacOS port in the works."
+            },
+
+            new HelpResponse()
+            {
+                TriggerWords =
+                {
+                    "My game crashes on startup",
+                    "My game crashes",
+                    "My game is crashing",
+                    "Why does my game crash",
+                    "Why does my game crash on startup"
+                },
+                Response = "**If you experience crashes after installing:**\n\nYou need to be on Windows Steam.\n\nYou need to reset your game files to default before installing this mod.\n\nYou need to install the mod following the instructions carefully.\n\nTo reset your game files, ask \"How do I reset my game files\". To learn how to install the mod, ask \"How do I install the mod.\""
             }
         };
 
