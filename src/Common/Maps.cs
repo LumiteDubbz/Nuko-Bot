@@ -30,84 +30,84 @@ namespace NukoBot.Common
                 {
                     MapName = "Easy 01",
                     Round = 26,
-                    PointBonus = 106
+                    PointBonus = 80
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 30,
-                    PointBonus = 136
+                    PointBonus = 110
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 40,
-                    PointBonus = 176
+                    PointBonus = 150
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 50,
-                    PointBonus = 226
+                    PointBonus = 200
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 51,
-                    PointBonus = 327
+                    PointBonus = 300
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 60,
-                    PointBonus = 387
+                    PointBonus = 360
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 70,
-                    PointBonus = 457
+                    PointBonus = 430
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 76,
-                    PointBonus = 657
+                    PointBonus = 630
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 80,
-                    PointBonus = 737
+                    PointBonus = 710
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 90,
-                    PointBonus = 827
+                    PointBonus = 800
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 100,
-                    PointBonus = 927
+                    PointBonus = 900
                 },
 
                 new Milestone()
                 {
                     MapName = "Easy 01",
                     Round = 101,
-                    PointBonus = 1427
+                    PointBonus = 1400
                 }
             }
         };
@@ -436,106 +436,106 @@ namespace NukoBot.Common
         public static Map Hard02Map = new Map()
         {
             Name = "Hard 02",
-            Difficulty = 1,
-            Multiplier = 1,
+            Difficulty = 3,
+            Multiplier = 1.3,
             Milestones = new List<Milestone>()
             {
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 10,
-                    PointBonus = 10
+                    PointBonus = 20
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 20,
-                    PointBonus = 30
+                    PointBonus = 60
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 26,
-                    PointBonus = 106
+                    PointBonus = 160
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 30,
-                    PointBonus = 136
+                    PointBonus = 220
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 40,
-                    PointBonus = 176
+                    PointBonus = 300
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 50,
-                    PointBonus = 226
+                    PointBonus = 400
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 51,
-                    PointBonus = 327
+                    PointBonus = 600
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 60,
-                    PointBonus = 387
+                    PointBonus = 720
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 70,
-                    PointBonus = 457
+                    PointBonus = 860
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 76,
-                    PointBonus = 657
+                    PointBonus = 1260
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 80,
-                    PointBonus = 737
+                    PointBonus = 1420
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 90,
-                    PointBonus = 827
+                    PointBonus = 1600
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 100,
-                    PointBonus = 927
+                    PointBonus = 1800
                 },
 
                 new Milestone()
                 {
                     MapName = "Hard 02",
                     Round = 101,
-                    PointBonus = 1427
+                    PointBonus = 2800
                 }
             }
         };

@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.11";
+        public static readonly string Version = "1.3.12";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -141,9 +141,13 @@ namespace NukoBot.Common
                     "Is this mod for android",
                     "Is there an adroid version",
                     "Can I get this mod on android",
-                    "How do I install on android"
+                    "How do I install on android",
+                    "Is this mod for MacOS",
+                    "Is there a MacOS version",
+                    "Can I get this mod on MacOS",
+                    "How do I install on MacOS"
                 },
-                Response = "There is currently no version of this mod for android, nor is an official one planned."
+                Response = "There is currently no version of this mod for android, nor is an official one planned.\n\nThere are ideas for a MacOS port in the works."
             }
         };
 
@@ -154,13 +158,13 @@ namespace NukoBot.Common
 
         public static readonly Random Randomizer = new Random();
 
-        public static readonly Color BanColor = ErrorColor;
+        public static readonly Color BanColor = new Color(255, 0, 0);
 
-        public static readonly Color KickColor = MuteColor;
+        public static readonly Color KickColor = new Color(255, 140, 25);
 
         public static readonly Color MuteColor = new Color(255, 140, 25);
 
-        public static readonly Color UnmuteColor = ClearColor;
+        public static readonly Color UnmuteColor = new Color(85, 255, 0);
 
         public static readonly Color ClearColor = new Color(85, 255, 0);
 
