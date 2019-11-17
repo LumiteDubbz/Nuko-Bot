@@ -159,6 +159,21 @@ namespace NukoBot.Modules
                     return;
             }
 
+            var passedMilestones = new List<Milestone>();
+            var weightedPointMultiplier = 1.0;
+
+            foreach (var milestone in map.Milestones)
+            {
+                if (round < milestone.Round) continue;
+
+                passedMilestones.Add(milestone);
+
+                if (milestone.Round % 10 == 0 && milestone.Round != 10)
+                {
+                    weightedPointMultiplier += 0.25;
+                }
+            }
+
             double points = Math.Ceiling(round * map.Multiplier);
 
             if (playedWithOther == true)
@@ -171,20 +186,13 @@ namespace NukoBot.Modules
                 points = Math.Ceiling(points * Context.DbGuild.PointMultiplier);
             }
 
+            points = Math.Ceiling(points * weightedPointMultiplier);
+
             await _userRepository.ModifyAsync(dbUser, x => x.Points += (int)points);
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += (int)points);
 
             var dmMessage = $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.";
             var adminResponse = $"you have successfully added **{points}** points to {user.Mention}.";
-
-            var passedMilestones = new List<Milestone>();
-
-            foreach (var milestone in map.Milestones)
-            {
-                if (round < milestone.Round) continue;
-
-                passedMilestones.Add(milestone);
-            }
 
             int bonusPoints = 0;
 
