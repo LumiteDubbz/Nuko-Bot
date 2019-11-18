@@ -215,10 +215,12 @@ namespace NukoBot.Modules
             }
 
             string message = $"{Context.User.Mention} has kicked you from **{Context.Guild.Name}**";
+            string reply = $"You have successfully kicked {userToKick.Mention}";
 
             if (reason.Length > 0)
             {
                 message += $" for **{reason}**";
+                reply += $" for **{reason}**";
             }
 
             await _moderationService.InformUserAsync((SocketUser)userToKick, message + ".");
@@ -226,6 +228,8 @@ namespace NukoBot.Modules
             await userToKick.KickAsync(reason);
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Kick", Configuration.KickColor, reason, Context.User as IGuildUser, userToKick);
+
+            await _text.ReplyAsync(Context.User, Context.Channel, reply + ".");
         }
 
         [Command("Clear")]

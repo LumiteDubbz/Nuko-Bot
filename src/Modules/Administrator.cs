@@ -342,10 +342,12 @@ namespace NukoBot.Modules
             }
 
             string message = $"{Context.User.Mention} has banned you from **{Context.Guild.Name}**";
+            string reply = $"You have successfully banned {userToBan.Mention}";
 
             if (reason.Length > 0)
             {
                 message += $" for **{reason}**";
+                reply += $" for **{reason}**";
             }
 
             await _moderationService.InformUserAsync((SocketUser)userToBan, message + ".");
@@ -353,6 +355,8 @@ namespace NukoBot.Modules
             await userToBan.BanAsync(0, reason);
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Ban", Configuration.KickColor, reason, Context.User as IGuildUser, userToBan);
+
+            await _text.ReplyAsync(Context.User, Context.Channel, reply + ".");
         }
 
         [Command("SetTop3Role")]

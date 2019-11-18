@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.15";
+        public static readonly string Version = "1.3.16";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -162,7 +162,9 @@ namespace NukoBot.Common
                     "My game crashes",
                     "My game is crashing",
                     "Why does my game crash",
-                    "Why does my game crash on startup"
+                    "Why does my game crash on startup",
+                    "It keeps on crashing",
+                    "When I click on a menu it crashes"
                 },
                 Response = "**If you experience crashes after installing:**\n\nYou need to be on Windows Steam.\n\nYou need to reset your game files to default before installing this mod.\n\nYou need to install the mod following the instructions carefully.\n\nTo reset your game files, ask \"How do I reset my game files\". To learn how to install the mod, ask \"How do I install the mod.\""
             }
