@@ -60,6 +60,7 @@ namespace NukoBot.Modules
             if (mutedRole != null)
             {
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully set the muted role to {mutedRole.Mention}.");
+                return;
             }
 
             await _text.ReplyAsync(Context.User, Context.Channel, "you have successfully removed the muted role.");
@@ -350,7 +351,7 @@ namespace NukoBot.Modules
                 reply += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync((SocketUser)userToBan, message + ".");
+            await _moderationService.InformUserAsync(userToBan, message + ".");
 
             await userToBan.BanAsync(0, reason);
 

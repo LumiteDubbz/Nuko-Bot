@@ -40,7 +40,7 @@ namespace NukoBot.Modules
         }
 
         [Command("Commands")]
-        [Alias("modules", "module", "command")]
+        [Alias("modules", "module", "command", "manual")]
         [Summary("View all modules or all commands in a specific module.")]
         public async Task Commands(string commandOrModule = null)
         {

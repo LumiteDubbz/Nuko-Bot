@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using NukoBot.Common.Structures;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace NukoBot.Modules
 {
@@ -208,5 +210,15 @@ namespace NukoBot.Modules
         {
             await _text.SendAsync(Context.Channel, message);
         }
+
+        //[Command("Define")]
+        //[Alias("dictionary")]
+        //[Summary("Search for the definition of a word.")]
+        //public async Task Define([Summary("The word/s you want to search for.")][Remainder] string word)
+        //{
+        //    var webClient = new WebClient();
+        //    var url = $"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key=aaaa";
+        //    var file = webClient.DownloadString(url);
+        //}
     }
 }

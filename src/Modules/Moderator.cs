@@ -99,7 +99,7 @@ namespace NukoBot.Modules
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully deleted the poll **{poll.Name}** and the results have been sent to the poll creator in their DMs.");
 
-                await _moderationService.InformUserAsync(user, $"These are the results from your poll **{poll.Name}**\n{message}");
+                await _moderationService.InformUserAsync((IGuildUser)user, $"These are the results from your poll **{poll.Name}**\n{message}");
                 return;
             }
 
@@ -137,7 +137,7 @@ namespace NukoBot.Modules
                 message += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync((SocketUser)userToMute, message + ".");
+            await _moderationService.InformUserAsync(userToMute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
         }
@@ -165,43 +165,52 @@ namespace NukoBot.Modules
             {
                 message += $" for **{reason}**";
             }
-            await _moderationService.InformUserAsync((SocketUser)userToUnmute, message + ".");
+
+            await _moderationService.InformUserAsync(userToUnmute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Unmute", Configuration.UnmuteColor, reason, Context.User as IGuildUser, userToUnmute);
         }
 
-        //[Command("custommute")]
-        //[Alias("customsilence")]
-        //[Summary("Mute a user for a set amount of time.")]
-        //public async Task CustomMuteAsync(double hours, IGuildUser userToMute, [Remainder] string reason = null)
-        //{
-        //    if (hours < 1)
-        //    {
-        //        await _text.ReplyErrorAsync(Context.User, Context.Channel, "you cannot mute anyone for less than 1 hour.");
+        [Command("custommute")]
+        [Alias("customsilence")]
+        [Summary("Mute a user for a set amount of time.")]
+        public async Task CustomMuteAsync(double hours, IGuildUser userToMute, [Remainder] string reason = null)
+        {
+            //if (hours < 1)
+            //{
+            //    await _text.ReplyErrorAsync(Context.User, Context.Channel, "you cannot mute anyone for less than 1 hour.");
 
-        //        return;
-        //    }
+            //    return;
+            //}
 
-        //    var time = hours == 1 ? "hour" : "hours";
+            var time = hours == 1 ? "hour" : "hours";
 
-        //    var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
+            var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);
 
-        //    if (mutedRole == null)
-        //    {
-        //        await _text.ReplyErrorAsync(Context.User, Context.Channel, "there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
+            if (mutedRole == null)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
 
-        //        return;
-        //    }
+                return;
+            }
 
-        //    await userToMute.AddRoleAsync(mutedRole);
+            await userToMute.AddRoleAsync(mutedRole);
 
-        //    await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromHours(hours));
+            await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromHours(hours));
 
-        //    await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully muted {userToMute.Mention} for {hours} {time}.");
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully muted {userToMute.Mention} for {hours} {time}.");
 
-        //    // use moderation service to try and DM the usertoMute
-        //    // log it to modlog
-        //}
+            string message = $"**{Context.User.Mention}** has muted you in **{Context.Guild.Name}** for **{hours}** {time}";
+
+            if (reason.Length > 0)
+            {
+                message += $" for **{reason}**";
+            }
+
+            await _moderationService.InformUserAsync(userToMute, message + ".");
+
+            await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
+        }
 
         [Command("Kick")]
         [Alias("boot")]
@@ -223,7 +232,7 @@ namespace NukoBot.Modules
                 reply += $" for **{reason}**";
             }
 
-            await _moderationService.InformUserAsync((SocketUser)userToKick, message + ".");
+            await _moderationService.InformUserAsync(userToKick, message + ".");
 
             await userToKick.KickAsync(reason);
 

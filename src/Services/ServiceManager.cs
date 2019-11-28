@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using System;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
+using NukoBot.Services.Timers;
 
 namespace NukoBot.Services
 {
@@ -63,6 +64,14 @@ namespace NukoBot.Services
             var mongoClient = new MongoClient(_credentials.DatabaseConnectionString);
 
             return mongoClient.GetDatabase(_credentials.DatabaseName);
+        }
+
+        public void InitialiseTimersAndEvents()
+        {
+            new AutoUnmute(ServiceProvider);
+            new MessageReceived(_client, _commandService, ServiceProvider);
+            new Ready(_client);
+            new UserJoined(_client, ServiceProvider);
         }
     }
 }

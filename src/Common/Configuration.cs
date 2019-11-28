@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.3.16";
+        public static readonly string Version = "1.3.17";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -25,6 +25,8 @@ namespace NukoBot.Common
         public static readonly double MaximumMultiplier = 10;
 
         public static readonly double MinimumMultiplier = 0.1;
+
+        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1);
 
         public static List<HelpResponse> AutomaticHelpResponses = new List<HelpResponse> {
             new HelpResponse() {

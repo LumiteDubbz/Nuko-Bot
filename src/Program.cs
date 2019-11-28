@@ -6,7 +6,6 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using NukoBot.Common;
-using NukoBot.Events;
 using NukoBot.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -46,9 +45,7 @@ namespace NukoBot
             var serviceManager = new ServiceManager(client, commandService, credentials);
             var serviceProvider = serviceManager.ServiceProvider;
 
-            serviceProvider.GetRequiredService<MessageReceived>();
-            serviceProvider.GetRequiredService<Ready>();
-            serviceProvider.GetRequiredService<UserJoined>();
+            serviceManager.InitialiseTimersAndEvents();
 
             await commandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
 
