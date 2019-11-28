@@ -59,33 +59,19 @@ namespace NukoBot.Services.Timers
                         return;
                     }
 
-                    Console.WriteLine($"Mute on {mute.UserId} for {mute.MuteLength} hour/s is up.");
-
                     try
                     {
                         var guild = await (_client as IDiscordClient).GetGuildAsync(mute.GuildId);
 
-                        Console.WriteLine($"Guild: {guild.Name}");
-
                         var user = await guild.GetUserAsync(mute.UserId);
-
-                        Console.WriteLine($"User: {user.Username}");
 
                         var dbGuild = await _guildRepository.GetGuildAsync(guild.Id);
 
-                        Console.WriteLine("Found guild database.");
-
                         var mutedRole = guild.GetRole(dbGuild.MutedRoleId);
-
-                        Console.WriteLine($"Muted role: {mutedRole.Name}.");
 
                         await user.RemoveRoleAsync(mutedRole);
 
-                        Console.WriteLine("Removed muted role.");
-
                         await _moderationService.ModLogAsync(dbGuild, guild, "Auto unmute", Configuration.UnmuteColor, string.Empty, null, user);
-
-                        Console.WriteLine("Logged to modlog.");
 
                         await Task.Delay(500);
                     }
@@ -96,8 +82,6 @@ namespace NukoBot.Services.Timers
                     finally
                     {
                         await _muteRepository.DeleteAsync(mute);
-
-                        Console.WriteLine("Mute deleted.");
                     }
                 }
             });

@@ -68,6 +68,7 @@ namespace NukoBot.Services
 
         public void InitialiseTimersAndEvents()
         {
+            new AutoDeltePolls(ServiceProvider);
             new AutoUnmute(ServiceProvider);
             new MessageReceived(_client, _commandService, ServiceProvider);
             new Ready(_client);

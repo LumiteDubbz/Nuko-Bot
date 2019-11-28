@@ -96,10 +96,11 @@ namespace NukoBot.Modules
                 }
 
                 var user = Context.Client.GetUser(poll.CreatorId);
+                var userDm = await user.GetOrCreateDMChannelAsync();
+
+                await _text.SendAsync(userDm, $"These are the results from your poll **{poll.Name}**\n{message}");
 
                 await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully deleted the poll **{poll.Name}** and the results have been sent to the poll creator in their DMs.");
-
-                await _moderationService.InformUserAsync((IGuildUser)user, $"These are the results from your poll **{poll.Name}**\n{message}");
                 return;
             }
 
