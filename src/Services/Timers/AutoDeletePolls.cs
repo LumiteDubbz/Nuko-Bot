@@ -13,7 +13,6 @@ namespace NukoBot.Services.Timers
         private readonly IServiceProvider _serviceProvider;
         private readonly DiscordSocketClient _client;
         private readonly PollRepository _pollRepository;
-        private readonly ModerationService _moderationService;
         private readonly Text _text;
         private readonly Timer _timer;
 
@@ -22,7 +21,6 @@ namespace NukoBot.Services.Timers
             _serviceProvider = serviceProvider;
             _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
-            _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
             _text = _serviceProvider.GetRequiredService<Text>();
 
             ObjectState StateObj = new ObjectState();

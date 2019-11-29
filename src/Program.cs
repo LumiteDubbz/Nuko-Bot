@@ -31,15 +31,11 @@ namespace NukoBot
                 return;
             }
 
-            var client = new DiscordSocketClient(new DiscordSocketConfig
-            {
-                LogLevel = LogSeverity.Info
-            });
+            var client = new DiscordSocketClient();
 
             var commandService = new CommandService(new CommandServiceConfig
             {
-                DefaultRunMode = RunMode.Async,
-                LogLevel = LogSeverity.Info
+                DefaultRunMode = RunMode.Async
             });
 
             var serviceManager = new ServiceManager(client, commandService, credentials);

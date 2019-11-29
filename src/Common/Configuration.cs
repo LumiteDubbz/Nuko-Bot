@@ -9,7 +9,7 @@ namespace NukoBot.Common
     {
         public static readonly string Prefix = ">";
 
-        public static readonly string Version = "1.4.0";
+        public static readonly string Version = "1.4.1";
 
         public static readonly string Game = Prefix + "help" + $" | v{Version}";
 
@@ -22,13 +22,9 @@ namespace NukoBot.Common
 
         public static readonly int MaximumLeaderboardPosition = 3;
 
-        public static readonly double MaximumMultiplier = 10;
+        public static readonly double MaximumMultiplier = 10, MinimumMultiplier = 0.1;
 
-        public static readonly double MinimumMultiplier = 0.1;
-
-        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1);
-
-        public static readonly TimeSpan AutoDeletePollsCooldown = TimeSpan.FromMinutes(1);
+        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1), AutoDeletePolls = TimeSpan.FromMinutes(1);
 
         public static List<HelpResponse> AutomaticHelpResponses = new List<HelpResponse> {
             new HelpResponse() {
@@ -181,17 +177,7 @@ namespace NukoBot.Common
 
         public static readonly Random Randomizer = new Random();
 
-        public static readonly Color BanColor = new Color(255, 0, 0);
-
-        public static readonly Color KickColor = new Color(255, 140, 25);
-
-        public static readonly Color MuteColor = new Color(255, 140, 25);
-
-        public static readonly Color UnmuteColor = new Color(85, 255, 0);
-
-        public static readonly Color ClearColor = new Color(85, 255, 0);
-
-        public static readonly Color ErrorColor = new Color(255, 0, 0);
+        public static readonly Color BanColor = new Color(255, 0, 0), KickColor = new Color(255, 140, 25), MuteColor = new Color(255, 140, 25), UnmuteColor = new Color(85, 255, 0), ClearColor = new Color(85, 255, 0), ErrorColor = new Color(255, 0, 0);
 
         private static readonly Color[] Colors = {
             new Color(255, 38, 154),
