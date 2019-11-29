@@ -3,7 +3,6 @@ using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
-using NukoBot.Database.Repositories;
 using NukoBot.Services;
 using System;
 using System.Threading.Tasks;
@@ -13,12 +12,12 @@ namespace NukoBot.Modules
     [Name("BotOwner")]
     [Summary("Commands only allowed to be used by the owners of this bot.")]
     [RequireBotOwner]
-    public sealed class BotOwner : ModuleBase<Context>
+    public sealed class BotOwnerModule : ModuleBase<Context>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
 
-        public BotOwner(IServiceProvider serviceProvider)
+        public BotOwnerModule(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();

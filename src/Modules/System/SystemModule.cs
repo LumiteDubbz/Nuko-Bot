@@ -11,13 +11,13 @@ namespace NukoBot.Modules
 {
     [Name("System")]
     [Summary("Commands relating to the core functions of the bot.")]
-    public sealed class System : ModuleBase
+    public sealed class SystemModule : ModuleBase
     {
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
 
-        public System(CommandService commandService, IServiceProvider serviceProvider)
+        public SystemModule(CommandService commandService, IServiceProvider serviceProvider)
         {
             _commandService = commandService;
             _serviceProvider = serviceProvider;

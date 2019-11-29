@@ -15,13 +15,13 @@ namespace NukoBot.Modules
     [Summary("These commands can only be used by the owner of the server they are ran in.")]
     [RequireContext(ContextType.Guild)]
     [RequireGuildOwner]
-    public sealed class Owner : ModuleBase<Context>
+    public sealed class OwnerModule : ModuleBase<Context>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
         private readonly GuildRepository _guildRepo;
 
-        public Owner(IServiceProvider serviceProvider)
+        public OwnerModule(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();

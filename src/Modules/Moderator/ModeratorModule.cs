@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
@@ -15,7 +14,7 @@ namespace NukoBot.Modules
     [Name("Moderator")]
     [Summary("Commands only allowed to be used by users with a role with a permission level of at least 1.")]
     [RequireModerator]
-    public sealed class Moderator : ModuleBase<Context>
+    public sealed class ModeratorModule : ModuleBase<Context>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
@@ -23,7 +22,7 @@ namespace NukoBot.Modules
         private readonly MuteRepository _muteRepository;
         private readonly ModerationService _moderationService;
 
-        public Moderator(IServiceProvider serviceProvider)
+        public ModeratorModule(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();

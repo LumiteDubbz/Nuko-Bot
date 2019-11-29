@@ -14,19 +14,19 @@ using NukoBot.Common.Structures;
 using System.Net;
 using Newtonsoft.Json;
 
-namespace NukoBot.Modules
+namespace NukoBot.Modules.General
 {
     [Name("General")]
     [Summary("General commands not directly related to the core functionality of the bot.")]
     [RequireContext(ContextType.Guild)]
-    public sealed class General : ModuleBase<Context>
+    public sealed class GeneralModule : ModuleBase<Context>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
         private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
 
-        public General(IServiceProvider serviceProvider)
+        public GeneralModule(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();
