@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
@@ -12,12 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NukoBot.Modules
+namespace NukoBot.Modules.Administrator
 {
     [Name("Administrator")]
     [Summary("Commands only allowed to be used by users with a role with a permission level of at least 2.")]
     [RequireAdministrator]
-    public sealed class Administrator : ModuleBase<Context>
+    public sealed class AdministratorModule : ModuleBase<Context>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly Text _text;
@@ -25,7 +24,7 @@ namespace NukoBot.Modules
         private readonly UserRepository _userRepository;
         private readonly ModerationService _moderationService;
 
-        public Administrator(IServiceProvider serviceProvider)
+        public AdministratorModule(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _text = _serviceProvider.GetRequiredService<Text>();

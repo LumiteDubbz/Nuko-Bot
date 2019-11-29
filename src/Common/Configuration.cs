@@ -24,7 +24,7 @@ namespace NukoBot.Common
 
         public static readonly double MaximumMultiplier = 10, MinimumMultiplier = 0.1;
 
-        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1), AutoDeletePolls = TimeSpan.FromMinutes(1);
+        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1), AutoDeletePollsCooldown = TimeSpan.FromMinutes(1);
 
         public static List<HelpResponse> AutomaticHelpResponses = new List<HelpResponse> {
             new HelpResponse() {
