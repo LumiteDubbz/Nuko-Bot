@@ -23,6 +23,7 @@ namespace NukoBot.Modules.Administrator
         private readonly GuildRepository _guildRepository;
         private readonly UserRepository _userRepository;
         private readonly ModerationService _moderationService;
+        private readonly PointService _pointService;
 
         public AdministratorModule(IServiceProvider serviceProvider)
         {
@@ -31,6 +32,7 @@ namespace NukoBot.Modules.Administrator
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
+            _pointService = _serviceProvider.GetRequiredService<PointService>();
         }
 
         [Command("SetScreenshotChannel")]
@@ -319,6 +321,8 @@ namespace NukoBot.Modules.Administrator
                     await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points -= amountOfPoints);
                 }
 
+                await _pointService.HandleRanksAsync(user, Context.DbGuild, dbUser);
+
                 var userDm = await user.GetOrCreateDMChannelAsync();
                 var message = $"**{Context.User.Mention}** has deducted **{amountOfPoints}** points from you in **{Context.Guild.Name}**";
 
@@ -414,6 +418,7 @@ namespace NukoBot.Modules.Administrator
 
             await _userRepository.ModifyAsync(dbUser, x => x.Points += points);
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);
+            await _pointService.HandleRanksAsync(user, Context.DbGuild, dbUser);
 
             var dmMessage = $"**{Context.User.Mention}** has awarded you **{points}** points in **{Context.Guild.Name}**.";
             var adminResponse = $"you have successfully added **{points}** points to {user.Mention}.";
@@ -445,6 +450,85 @@ namespace NukoBot.Modules.Administrator
                     }
                 }
             }
+        }
+
+        [Command("AddRank")]
+        [Alias("createrank", "addrankrole")]
+        [Summary("Add a rank role that users are awarded upon receiving the neccesary amount of points.")]
+        public async Task AddRank(IRole role, double pointsRequired)
+        {
+            if (role.Position > Context.Guild.CurrentUser.Roles.OrderByDescending(x => x.Position).First().Position)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"My role must be higher in the role order than **{role.Mention}**.");
+                return;
+            }
+
+            if (Context.DbGuild.RankRoles == null || Context.DbGuild.RankRoles.ElementCount == 0)
+            {
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.RankRoles.Add(role.Id.ToString(), pointsRequired));
+            }
+            else
+            {
+                if (Context.DbGuild.RankRoles.Any(x => x.Name == role.Id.ToString()))
+                {
+                    await _text.ReplyErrorAsync(Context.User, Context.Channel, $"**{role.Mention}** is already a rank role.");
+                    return;
+                }
+
+                if (Context.DbGuild.RankRoles.Any(x => (int)x.Value.AsDouble == (int)pointsRequired))
+                {
+                    await _text.ReplyErrorAsync(Context.User, Context.Channel, "a rank with that point requirement already exists.");
+                    return;
+                }
+
+                await _guildRepository.ModifyAsync(Context.DbGuild, x => x.RankRoles.Add(role.Id.ToString(), pointsRequired));
+            }
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully added **{role.Mention}** as a rank role with a point requirement of **{pointsRequired}**.");
+        }
+
+        [Command("RemoveRank")]
+        [Alias("deleterank", "deleterankrole")]
+        [Summary("Remove a rank role.")]
+        public async Task RemoveRank(IRole role)
+        {
+            if (Context.DbGuild.RankRoles.ElementCount == 0)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "this server has no rank roles.");
+                return;
+            }
+
+            if (!Context.DbGuild.RankRoles.Any(x => x.Name == role.Id.ToString()))
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"**{role.Mention}** is not a rank role.");
+                return;
+            }
+
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.RankRoles.Remove(role.Id.ToString()));
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully removed **{role.Mention}** from this server's rank roles.");
+        }
+
+        [Command("ModifyRank")]
+        [Alias("editrank", "editrankrole", "modifyrankrole")]
+        [Summary("Modify the point requirement for any rank role.")]
+        public async Task ModifyRank(IRole role, double pointsRequired)
+        {
+            if (Context.DbGuild.RankRoles.ElementCount == 0)
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, "this server has no rank roles.");
+                return;
+            }
+            
+            if (!Context.DbGuild.RankRoles.Any(x => x.Name == role.Id.ToString()))
+            {
+                await _text.ReplyErrorAsync(Context.User, Context.Channel, $"**{role.Mention}** is not a rank role.");
+                return;
+            }
+
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.RankRoles[role.Id.ToString()] = pointsRequired);
+
+            await _text.ReplyAsync(Context.User, Context.Channel, $"you have successfully updated the **{role.Mention}** rank to have a point requirement of **{pointsRequired}**.");
         }
     }
 }

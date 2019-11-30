@@ -1,4 +1,6 @@
 ﻿using MongoDB.Bson;
+using NukoBot.Common.Structures;
+using System.Collections.Generic;
 
 namespace NukoBot.Database.Models
 {
@@ -16,6 +18,12 @@ namespace NukoBot.Database.Models
         }
 
         public BsonDocument ModRoles
+        {
+            get;
+            set;
+        } = new BsonDocument();
+
+        public BsonDocument RankRoles
         {
             get;
             set;

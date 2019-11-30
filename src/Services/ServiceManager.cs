@@ -54,6 +54,7 @@ namespace NukoBot.Services
              // Services
              .AddSingleton<AutomaticHelpService>()
              .AddSingleton<ModerationService>()
+             .AddSingleton<PointService>()
              .AddSingleton<Text>();
 
             ServiceProvider = services.BuildServiceProvider();

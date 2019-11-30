@@ -11,8 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using NukoBot.Common.Structures;
-using System.Net;
-using Newtonsoft.Json;
+//using System.Net;
+//using Newtonsoft.Json;
 
 namespace NukoBot.Modules.General
 {
@@ -25,6 +25,7 @@ namespace NukoBot.Modules.General
         private readonly Text _text;
         private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
+        private readonly PointService _pointService;
 
         public GeneralModule(IServiceProvider serviceProvider)
         {
@@ -32,6 +33,7 @@ namespace NukoBot.Modules.General
             _text = _serviceProvider.GetRequiredService<Text>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
+            _pointService = _serviceProvider.GetRequiredService<PointService>();
         }
 
         [Command("Submit")]
@@ -58,7 +60,7 @@ namespace NukoBot.Modules.General
         }
 
         [Command("Points")]
-        [Alias("pointcount", "me")]
+        [Alias("pointcount", "me", "self")]
         [Summary("View the amount of points you or a mentioned user has.")]
         public async Task Points([Summary("The user you want to look at the results of.")][Remainder] IUser user = null)
         {
@@ -67,8 +69,13 @@ namespace NukoBot.Modules.General
             if (user != null)
             {
                 var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
-
                 var otherUserMessage = $"{user.Mention} has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
+                var userRank = await _pointService.GetRankAsync(Context, dbUser);
+
+                if (userRank != null)
+                {
+                    otherUserMessage += $"\n\nTheir rank is **{userRank.Mention}**.";
+                }
 
                 if (dbUser.Milestones.Any())
                 {
@@ -82,6 +89,7 @@ namespace NukoBot.Modules.General
                     MapName = g.Key,
                     HighestRound = g.Max(x => x.Round)
                 }).ToList();
+
                 var otherUserMilestones = "Their highest rounds on each map are:\n";
 
                 foreach (var milestone in groupedMilestones)
@@ -99,6 +107,12 @@ namespace NukoBot.Modules.General
             }
 
             var message = $"you have **{Context.DbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
+            var selfRank = await _pointService.GetRankAsync(Context, Context.DbUser);
+
+            if (selfRank != null)
+            {
+                message += $"\n\nYour rank is **{selfRank.Mention}**.";
+            }
 
             if (Context.DbUser.Milestones.Any())
             {
@@ -112,6 +126,7 @@ namespace NukoBot.Modules.General
                 MapName = g.Key,
                 HighestRound = g.Max(x => x.Round)
             }).ToList();
+
             var milestones = "Your highest rounds on each map are:\n";
 
             foreach (var milestone in groupedMilestonesUser)
@@ -168,7 +183,6 @@ namespace NukoBot.Modules.General
         public async Task Leaderboard()
         {
             var users = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points);
-
             var message = string.Empty;
 
             int position = 1;
