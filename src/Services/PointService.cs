@@ -3,6 +3,7 @@ using Discord.WebSocket;
 using NukoBot.Common;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -72,6 +73,18 @@ namespace NukoBot.Services
             }
 
             return Task.FromResult(role);
+        }
+
+        public Task<int> GetPointAmountAsync(int round, double weightedPointMultiplier, double mapMultiplier, double guildMultiplier, bool twoPlayerBonus)
+        {
+            double total = round;
+
+            total *= weightedPointMultiplier;
+            total *= mapMultiplier;
+            total *= guildMultiplier;
+            total = twoPlayerBonus ? total + (total / 10) : total;
+
+            return Task.FromResult((int) Math.Ceiling(total));
         }
     }
 }

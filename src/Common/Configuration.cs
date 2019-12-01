@@ -7,13 +7,7 @@ namespace NukoBot.Common
 {
     public sealed class Configuration
     {
-        public static readonly string Prefix = ">";
-
-        public static readonly string Version = "1.5.0";
-
-        public static readonly string Game = Prefix + "help" + $" | v{Version}";
-
-        public static readonly string SupportServerLink = "https://discord.gg/MU9jaut", BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8", HelpMessage = "Hey, I'm Nuko, a Discord bot for community management in Mayrom's new mod server.\n\nTo view all command modules, say `>modules`.\n\nTo view all commands in any given module, say `>module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `>support` command and join the server.**";
+        public static readonly string Prefix = ">", Version = "1.6.0", Game = Prefix + "help" + $" | v{Version}", SupportServerLink = "https://discord.gg/MU9jaut", BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8", HelpMessage = "Hey, I'm Nuko, a Discord bot for community management in Mayrom's new mod server.\n\nTo view all command modules, say `>modules`.\n\nTo view all commands in any given module, say `>module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `>support` command and join the server.**";
 
         public static readonly string[] Authors = {
             "Lumite_#0187",
