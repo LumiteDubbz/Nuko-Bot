@@ -52,7 +52,6 @@ namespace NukoBot.Services
              .AddSingleton<Ready>()
              .AddSingleton<UserJoined>()
              // Services
-             .AddSingleton<AutomaticHelpService>()
              .AddSingleton<ModerationService>()
              .AddSingleton<PointService>()
              .AddSingleton<Text>();
