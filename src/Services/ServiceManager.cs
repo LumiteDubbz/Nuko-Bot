@@ -8,6 +8,7 @@ using System;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
 using NukoBot.Services.Timers;
+using NukoBot.Services.Handlers;
 
 namespace NukoBot.Services
 {
@@ -51,6 +52,8 @@ namespace NukoBot.Services
              .AddSingleton<MessageReceived>()
              .AddSingleton<Ready>()
              .AddSingleton<UserJoined>()
+             // Handlers
+             .AddSingleton<ErrorHandler>()
              // Services
              .AddSingleton<ModerationService>()
              .AddSingleton<PointService>()

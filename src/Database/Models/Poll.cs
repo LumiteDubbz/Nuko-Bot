@@ -14,52 +14,23 @@ namespace NukoBot.Database.Models
             Choices = choices;
         }
 
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        public ulong CreatorId
-        {
-            get;
-            set;
-        }
+        public ulong CreatorId { get; set; }
 
-        public ulong GuildId
-        {
-            get;
-            set;
-        }
+        public ulong GuildId { get; set; }
 
-        public string[] Choices
-        {
-            get;
-            set;
-        } = new string[] { };
+        public string[] Choices { get; set; } = new string[] { };
 
-        public BsonDocument VotesDocument
-        {
-            get;
-            set;
-        } = new BsonDocument();
+        public BsonDocument VotesDocument { get; set; } = new BsonDocument();
 
-        public DateTime CreatedAt
-        {
-            get;
-            set;
-        }
+        public DateTime CreatedAt { get; set; }
 
-        public double Length
-        {
-            get;
-            set;
-        } = 1;
+        public double Length { get; set; } = 1;
 
         public IReadOnlyDictionary<string, int> Votes()
         {
-            var votesDictionary = new Dictionary<string,
-             int>();
+            var votesDictionary = new Dictionary<string, int>();
 
             for (int i = 0; i < Choices.Length; i++)
             {

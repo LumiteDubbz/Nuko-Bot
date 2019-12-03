@@ -1,86 +1,43 @@
 ﻿using MongoDB.Bson;
-using NukoBot.Common.Structures;
-using System.Collections.Generic;
 
 namespace NukoBot.Database.Models
 {
     public partial class Guild : Model
     {
-        public Guild(ulong guildId)
-        {
+        public Guild(ulong guildId) {
             GuildId = guildId;
         }
 
-        public ulong GuildId
-        {
-            get;
-            set;
-        }
+        public ulong GuildId { get; set; }
 
-        public BsonDocument ModRoles
-        {
-            get;
-            set;
-        } = new BsonDocument();
+        // Roles
 
-        public BsonDocument RankRoles
-        {
-            get;
-            set;
-        } = new BsonDocument();
+        public BsonDocument ModRoles { get; set; } = new BsonDocument();
 
-        public ulong MutedRoleId
-        {
-            get;
-            set;
-        }
+        public BsonDocument RankRoles { get; set; } = new BsonDocument();
 
-        public ulong ModLogChannelId
-        {
-            get;
-            set;
-        }
+        public ulong NewUserRole { get; set; }
 
-        public ulong ScreenshotChannelId
-        {
-            get;
-            set;
-        }
+        public ulong TopThreeRole { get; set; }
 
-        public ulong NewUserRole
-        {
-            get;
-            set;
-        }
+        public ulong MutedRoleId { get; set; }
 
-        public ulong TopThreeRole
-        {
-            get;
-            set;
-        }
+        // Channels
 
-        public string WelcomeMessage
-        {
-            get;
-            set;
-        } = string.Empty;
+        public ulong ModLogChannelId { get; set; }
 
-        public int CaseNumber
-        {
-            get;
-            set;
-        } = 1;
+        public ulong ScreenshotChannelId { get; set; }
 
-        public int Points
-        {
-            get;
-            set;
-        } = 0;
+        // Messages
 
-        public double PointMultiplier
-        {
-            get;
-            set;
-        } = 1;
+        public string WelcomeMessage { get; set; } = string.Empty;
+
+        // Numbers
+
+        public int CaseNumber { get; set; } = 1;
+
+        public int Points { get; set; } = 0;
+
+        public double PointMultiplier { get; set; } = 1;
     }
 }

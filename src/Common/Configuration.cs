@@ -5,7 +5,13 @@ namespace NukoBot.Common
 {
     public sealed class Configuration
     {
-        public static readonly string Prefix = ">", Version = "1.6.0", Game = Prefix + "help" + $" | v{Version}", SupportServerLink = "https://discord.gg/MU9jaut", BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8", HelpMessage = "Hey, I'm Nuko, a Discord bot for community management in Mayrom's new mod server.\n\nTo view all command modules, say `>modules`.\n\nTo view all commands in any given module, say `>module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `>support` command and join the server.**";
+        public static readonly string Prefix = ">",
+            Version = "1.7.0",
+            Game = $"{Prefix}help | v{Version}",
+            SupportServerLink = "https://discord.gg/MU9jaut",
+            GitRepository = "https://github.com/LumiteDubbz/NukoBot",
+            BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8",
+            HelpMessage = $"Hey, I'm Nuko, a Discord bot for community management in Mayrom's new mod server.\n\nTo view all command modules, say `{Prefix}modules`.\n\nTo view all commands in any given module, say `{Prefix}module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `{Prefix}support` command and join the server.**";
 
         public static readonly string[] Authors = {
             "Lumite_#0187",
@@ -14,9 +20,11 @@ namespace NukoBot.Common
 
         public static readonly int MaximumLeaderboardPosition = 3;
 
-        public static readonly double MaximumMultiplier = 10, MinimumMultiplier = 0.1;
+        public static readonly double MaximumMultiplier = 10,
+            MinimumMultiplier = 0.1;
 
-        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1), AutoDeletePollsCooldown = TimeSpan.FromMinutes(1);
+        public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1),
+            AutoDeletePollsCooldown = TimeSpan.FromMinutes(1);
 
         public static Color Color()
         {
@@ -25,7 +33,12 @@ namespace NukoBot.Common
 
         public static readonly Random Randomizer = new Random();
 
-        public static readonly Color BanColor = new Color(255, 0, 0), KickColor = new Color(255, 140, 25), MuteColor = new Color(255, 140, 25), UnmuteColor = new Color(85, 255, 0), ClearColor = new Color(85, 255, 0), ErrorColor = new Color(255, 0, 0);
+        public static readonly Color BanColor = new Color(255, 0, 0),
+            KickColor = new Color(255, 140, 25),
+            MuteColor = new Color(255, 140, 25),
+            UnmuteColor = new Color(85, 255, 0),
+            ClearColor = new Color(85, 255, 0),
+            ErrorColor = new Color(255, 0, 0);
 
         private static readonly Color[] Colors = {
             new Color(255, 38, 154),

@@ -6,6 +6,7 @@ using Discord;
 using Discord.Commands;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using NukoBot.Services.Handlers;
 
 namespace NukoBot.Events
 {
@@ -14,6 +15,7 @@ namespace NukoBot.Events
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ErrorHandler _errorHandler;
         private readonly Text _text;
 
         public MessageReceived(DiscordSocketClient client, CommandService commandService, IServiceProvider serviceProvider)
@@ -21,6 +23,7 @@ namespace NukoBot.Events
             _client = client;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
+            _errorHandler = _serviceProvider.GetRequiredService<ErrorHandler>();
             _text = _serviceProvider.GetRequiredService<Text>();
 
             _client.MessageReceived += HandleMessageAsync;
@@ -51,8 +54,11 @@ namespace NukoBot.Events
                 {
                     return;
                 }
+                
+                var commandUsed = message.Content.Remove(0, 1).Split(" ")[0];
+                var response = await _errorHandler.HandleCommandErrorAsync(result, commandUsed);
 
-                await _text.ReplyErrorAsync(message.Author, context.Channel, $"I'm sorry but an error occurred whilst executing that command:\n\n```{result.ErrorReason}```");
+                await _text.ReplyErrorAsync(context.User, context.Channel, response ?? "an unknown error occurred.");
             }
         }
     }

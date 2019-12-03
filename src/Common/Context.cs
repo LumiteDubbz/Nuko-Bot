@@ -11,20 +11,9 @@ namespace NukoBot.Common
 {
     public class Context : SocketCommandContext
     {
-        public User DbUser
-        {
-            get;
-            private set;
-        }
-        public Guild DbGuild
-        {
-            get;
-            private set;
-        }
-        public IGuildUser GuildUser
-        {
-            get;
-        }
+        public User DbUser { get; private set; }
+        public Guild DbGuild { get; private set; }
+        public IGuildUser GuildUser { get; }
 
         private readonly IServiceProvider _serviceProvider;
         private readonly UserRepository _userRepo;

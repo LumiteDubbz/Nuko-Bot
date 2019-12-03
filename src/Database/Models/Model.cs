@@ -6,10 +6,6 @@ namespace NukoBot.Database.Models
     public abstract partial class Model
     {
         [BsonId]
-        public ObjectId Id
-        {
-            get;
-            set;
-        }
+        public ObjectId Id { get; set; }
     }
 }

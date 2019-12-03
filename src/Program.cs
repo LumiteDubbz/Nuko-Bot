@@ -13,9 +13,9 @@ using NukoBot.Database.Repositories;
 
 namespace NukoBot
 {
-    public class Program
+    internal class Program
     {
-        static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
+        static void Main() => new Program().StartAsync().GetAwaiter().GetResult();
 
         private async Task StartAsync()
         {
@@ -27,23 +27,36 @@ namespace NukoBot
             }
             catch (IOException error)
             {
-                Console.WriteLine("An exception occurred while loading Credentials.json: " + error.ToString());
+                Console.WriteLine("An exception occurred while loading Credentials.json: The src/Credentials.json file was not found or was not properly formatted.\n\n" + error.ToString());
                 return;
             }
 
+            Console.WriteLine("Credentials initialised.");
+
             var client = new DiscordSocketClient();
+
+            Console.WriteLine("Client initialised.");
 
             var commandService = new CommandService(new CommandServiceConfig
             {
                 DefaultRunMode = RunMode.Async
             });
 
+            Console.WriteLine("CommandService initialised.");
+
             var serviceManager = new ServiceManager(client, commandService, credentials);
+
+            Console.WriteLine("ServiceManager initialised.");
+
             var serviceProvider = serviceManager.ServiceProvider;
 
             serviceManager.InitialiseTimersAndEvents();
 
+            Console.WriteLine("Timers and events initialised.");
+
             await commandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
+
+            Console.WriteLine("Commands initialised.");
 
             await client.LoginAsync(TokenType.Bot, credentials.Token);
             await client.StartAsync();
