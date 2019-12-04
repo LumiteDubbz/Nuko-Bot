@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using Discord.Commands;
+using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace NukoBot.Database.Models
 {
@@ -39,5 +41,9 @@ namespace NukoBot.Database.Models
         public int Points { get; set; } = 0;
 
         public double PointMultiplier { get; set; } = 1;
+
+        // Misc.
+
+        public string[] DisabledCommands { get; set; }
     }
 }

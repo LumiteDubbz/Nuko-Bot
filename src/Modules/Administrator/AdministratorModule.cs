@@ -16,14 +16,16 @@ namespace NukoBot.Modules.Administrator
         private readonly IServiceProvider _serviceProvider;
         private readonly GuildRepository _guildRepository;
         private readonly UserRepository _userRepository;
+        private readonly CommandService _commandService;
         private readonly ModerationService _moderationService;
         private readonly PointService _pointService;
 
-        public Administrator(IServiceProvider serviceProvider) : base(serviceProvider)
+        public Administrator(IServiceProvider serviceProvider, CommandService commandService) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
             _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
+            _commandService = commandService;
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
             _pointService = _serviceProvider.GetRequiredService<PointService>();
         }
