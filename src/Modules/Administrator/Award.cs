@@ -70,7 +70,7 @@ namespace NukoBot.Modules.Administrator
 
                 if (milestone.Round % 10 == 0 && milestone.Round != 10)
                 {
-                    weightedPointMultiplier += 0.25;
+                    weightedPointMultiplier += Configuration.WeightedPointIncrement;
                 }
             }
 

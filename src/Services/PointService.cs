@@ -82,7 +82,7 @@ namespace NukoBot.Services
             total *= weightedPointMultiplier;
             total *= mapMultiplier;
             total *= guildMultiplier;
-            total = twoPlayerBonus ? total + (total / 10) : total;
+            total = twoPlayerBonus ? total + (total / Configuration.TwoPlayerBonusPointPercentage) : total;
 
             return Task.FromResult((int) Math.Ceiling(total));
         }

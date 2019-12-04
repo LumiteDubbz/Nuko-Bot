@@ -6,7 +6,7 @@ namespace NukoBot.Common
     public sealed class Configuration
     {
         public static readonly string Prefix = ">",
-            Version = "1.7.0",
+            Version = "1.8.0",
             Game = $"{Prefix}help | v{Version}",
             SupportServerLink = "https://discord.gg/MU9jaut",
             GitRepository = "https://github.com/LumiteDubbz/NukoBot",
@@ -18,10 +18,15 @@ namespace NukoBot.Common
             "Maycrom#7729"
         };
 
-        public static readonly int MaximumLeaderboardPosition = 3;
+        public static readonly int MaximumLeaderboardPosition = 3,
+            MaximumClearCount = 150,
+            MinimumClearCount = 1,
+            MinimumMuteLength = 1,
+            TwoPlayerBonusPointPercentage = 10;
 
         public static readonly double MaximumMultiplier = 10,
-            MinimumMultiplier = 0.1;
+            MinimumMultiplier = 0.1,
+            WeightedPointIncrement = 0.25;
 
         public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1),
             AutoDeletePollsCooldown = TimeSpan.FromMinutes(1);

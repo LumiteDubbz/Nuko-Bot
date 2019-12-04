@@ -18,10 +18,7 @@ namespace NukoBot.Services
         private readonly CommandService _commandService;
         private readonly Credentials _credentials;
 
-        public IServiceProvider ServiceProvider
-        {
-            get;
-        }
+        public IServiceProvider ServiceProvider { get; }
 
         public ServiceManager(DiscordSocketClient client, CommandService commandService, Credentials credentials)
         {
@@ -73,7 +70,7 @@ namespace NukoBot.Services
         {
             new AutoDeltePolls(ServiceProvider);
             new AutoUnmute(ServiceProvider);
-            new MessageReceived(_client, _commandService, ServiceProvider);
+            new MessageReceived(_commandService, ServiceProvider);
             new Ready(_client);
             new UserJoined(_client, ServiceProvider);
         }

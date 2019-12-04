@@ -35,10 +35,7 @@ namespace NukoBot.Modules.General
                     }
                 }
 
-                var groupedMilestones = allMilestones.GroupBy(x => x.MapName).Select(g => (
-                    MapName: g.Key,
-                    HighestRound: g.Max(x => x.Round)
-                )).ToList();
+                var groupedMilestones = allMilestones.GroupBy(x => x.MapName).Select(g => (MapName: g.Key, HighestRound: g.Max(x => x.Round))).ToList();
 
                 var otherUserMilestones = "Their highest rounds on each map are:\n";
 
@@ -72,10 +69,7 @@ namespace NukoBot.Modules.General
                 }
             }
 
-            var groupedMilestonesUser = allMilestones.GroupBy(x => x.MapName).Select(g => (
-                MapName: g.Key,
-                HighestRound: g.Max(x => x.Round)
-            )).ToList();
+            var groupedMilestonesUser = allMilestones.GroupBy(x => x.MapName).Select(g => (MapName: g.Key,HighestRound: g.Max(x => x.Round))).ToList();
 
             var milestones = "Your highest rounds on each map are:\n";
 

@@ -13,9 +13,11 @@ namespace NukoBot.Modules.Moderator
         [Summary("Mute a user for a set amount of time.")]
         public async Task CustomMuteAsync(double hours, IGuildUser userToMute, [Remainder] string reason = null)
         {
-            if (hours < 1)
+            if (hours < Configuration.MinimumMuteLength)
             {
-                await ReplyErrorAsync("you cannot mute anyone for less than 1 hour.");
+                var minTime = Configuration.MinimumMuteLength > 1 ? "hours" : "hour";
+
+                await ReplyErrorAsync($"you cannot mute anyone for less than {Configuration.MinimumMuteLength} {minTime}.");
 
                 return;
             }
@@ -26,7 +28,7 @@ namespace NukoBot.Modules.Moderator
 
             if (mutedRole == null)
             {
-                await ReplyErrorAsync("there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
+                await ReplyErrorAsync($"there is no muted role set for this server. Please use the `{Configuration.Prefix}SetMutedRole` command to remedy this error.");
 
                 return;
             }

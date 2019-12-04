@@ -13,9 +13,9 @@ namespace NukoBot.Modules.Moderator
         [Summary("Clear any amount of messages from the channel this command is ran in.")]
         public async Task Clear([Summary("The amount of messages to clear.")] int amountOfMessages = 50, [Summary("The reason for clearing the chat.")][Remainder] string reason = null)
         {
-            if (amountOfMessages < 1 || amountOfMessages > 150)
+            if (amountOfMessages < Configuration.MinimumClearCount || amountOfMessages > Configuration.MaximumClearCount)
             {
-                await ReplyErrorAsync("you must clear more than 1 and less than 150 messages.");
+                await ReplyErrorAsync($"you must clear more than {Configuration.MinimumClearCount} and less than {Configuration.MaximumClearCount} messages.");
                 return;
             }
 

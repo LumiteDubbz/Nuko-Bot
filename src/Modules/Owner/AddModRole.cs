@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Owner
         [Command("AddModRole")]
         [Alias("addmoderatorrole", "modifymodrole", "modifymoderatorrole")]
         [Summary("Add a role to the list of moderators.")]
+        [Remarks("@Admin 2")]
         public async Task AddModRole([Summary("The role you wish to assign a permission level.")] IRole modRole, [Summary("The permission level you want to give the role.")] int permissionLevel = 1)
         {
             if (permissionLevel < 1 || permissionLevel > 3)
