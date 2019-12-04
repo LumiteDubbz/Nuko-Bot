@@ -44,6 +44,6 @@ namespace NukoBot.Database.Models
 
         // Misc.
 
-        public string[] DisabledCommands { get; set; }
+        public string[] DisabledCommands { get; set; } = new string[] { };
     }
 }

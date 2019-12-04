@@ -7,11 +7,11 @@ namespace NukoBot.Modules.Administrator
 {
     public partial class Administrator
     {
-        [Command("DisableCommand")]
-        [Alias("bancommand", "restrictcommand", "disable")]
-        [Summary("Ban a specificed command from being ran in this server.")]
+        [Command("EnableCommand")]
+        [Alias("enable", "allow", "allowcommand")]
+        [Summary("Unban a specified command from being ran in this server.")]
         [Remarks("kick")]
-        public async Task DisableCommand(string commandOrAlias)
+        public async Task EnableCommand(string commandOrAlias)
         {
             var foundCommand = _commandService.Commands.Where(x => x.Aliases.Any(x => x.ToLower() == commandOrAlias.ToLower())).FirstOrDefault();
 
@@ -21,9 +21,9 @@ namespace NukoBot.Modules.Administrator
                 return;
             }
 
-            if (Context.DbGuild.DisabledCommands.Any(x => x.ToLower() == foundCommand.Name.ToLower()))
+            if (!(Context.DbGuild.DisabledCommands.Any(x => x.ToLower() == foundCommand.Name.ToLower())))
             {
-                await ReplyErrorAsync("that command has already been disabled.");
+                await ReplyErrorAsync("that command is not disabled.");
                 return;
             }
 
@@ -31,14 +31,14 @@ namespace NukoBot.Modules.Administrator
 
             foreach (var name in foundCommand.Aliases)
             {
-                disabledCommands.Add(name);
+                disabledCommands.Remove(name);
             }
 
             var disabledCommandsArray = disabledCommands.ToArray();
 
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.DisabledCommands = disabledCommandsArray);
 
-            await ReplyAsync($"you have have successfully disabled the `{Configuration.Prefix}{foundCommand.Name}` command.");
+            await ReplyAsync($"you have have successfully enabled the `{Configuration.Prefix}{foundCommand.Name}` command.");
         }
     }
 }
