@@ -10,6 +10,7 @@ namespace NukoBot.Modules.BotOwner
         [Command("LeaveGuild")]
         [Alias("leaveserver")]
         [Summary("Leaves any guild with a supplied ID.")]
+        [Remarks("636682997801943051")]
         public async Task LeaveGuild([Summary("The ID of the guild you want the bot to leave")] ulong guildId)
         {
             var guild = await (Context.Client as IDiscordClient).GetGuildAsync(guildId);

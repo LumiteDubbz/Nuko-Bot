@@ -10,7 +10,8 @@ namespace NukoBot.Modules.Administrator
         [Command("RemoveRank")]
         [Alias("deleterank", "deleterankrole")]
         [Summary("Remove a rank role.")]
-        public async Task RemoveRank(IRole role)
+        [Remarks("@Level 3")]
+        public async Task RemoveRank([Remainder] IRole role)
         {
             if (Context.DbGuild.RankRoles.ElementCount == 0)
             {

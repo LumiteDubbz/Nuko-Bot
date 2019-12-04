@@ -9,6 +9,7 @@ namespace NukoBot.Modules.Administrator
         [Command("SetTop3Role")]
         [Alias("settoprole", "setlbrole", "setleaderboardrole", "settop3")]
         [Summary("Set the role to be given to the 3 users with the most points.")]
+        [Remarks("@Top 3")]
         public async Task SetTopThreeRole([Summary("The role to be given.")][Remainder] IRole topThreeRole)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.TopThreeRole = topThreeRole.Id);

@@ -9,6 +9,7 @@ namespace NukoBot.Modules.Administrator
         [Command("SetPointMultiplier")]
         [Alias("setmultiplier", "setguildmultiplier", "setguildpointmultiplier", "setservermultiplier", "setserverpointmultiplier", "removemultiplier", "removepointmultiplier")]
         [Summary("Set the multiplier that all awarded points will be multiplied by until set to default")]
+        [Remarks("1.25")]
         public async Task SetPointMultiplier([Summary("The point multiplier.")][Remainder] double multiplier = 1)
         {
             if (multiplier > Configuration.MaximumMultiplier || multiplier < Configuration.MinimumMultiplier)

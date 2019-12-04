@@ -12,6 +12,7 @@ namespace NukoBot.Modules.General
         [Command("Points")]
         [Alias("pointcount", "me", "self")]
         [Summary("View the amount of points you or a mentioned user has.")]
+        [Remarks("@Cheese fries#8263")]
         public async Task Points([Summary("The user you want to look at the results of.")][Remainder] IUser user = null)
         {
             var allMilestones = new List<Milestone>();

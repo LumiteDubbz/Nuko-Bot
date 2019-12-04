@@ -10,6 +10,7 @@ namespace NukoBot.Modules.General
         [Command("Vote")]
         [Alias("votepoll")]
         [Summary("Vote on any active poll")]
+        [Remarks("1 2")]
         public async Task Vote([Summary("The number corresponding to the poll you want to delete.")] int pollIndex, [Summary("The number corresponding to you choice you want to vote for.")] int choiceIndex)
         {
             var poll = await _pollRepository.GetPollAsync(pollIndex, Context.Guild.Id);

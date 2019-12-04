@@ -8,6 +8,7 @@ namespace NukoBot.Modules.Administrator
         [Command("SetWelcomeMessage")]
         [Alias("setwelcomemsg", "deletewelcomemessage", "deletewelcomemsg", "removewelcomemessage", "removewelcomemsg")]
         [Summary("Set the message to sent when a user joins this server.")]
+        [Remarks("Welcome to the server!")]
         public async Task SetWelcomeChannel([Summary("The welcome message to be DMed to new users.")][Remainder] string welcomeMessage = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.WelcomeMessage = welcomeMessage);

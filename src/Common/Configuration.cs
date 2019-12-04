@@ -6,7 +6,7 @@ namespace NukoBot.Common
     public sealed class Configuration
     {
         public static readonly string Prefix = ">",
-            Version = "1.8.0",
+            Version = "1.8.1",
             Game = $"{Prefix}help | v{Version}",
             SupportServerLink = "https://discord.gg/MU9jaut",
             GitRepository = "https://github.com/LumiteDubbz/NukoBot",

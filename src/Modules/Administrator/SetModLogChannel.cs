@@ -9,6 +9,7 @@ namespace NukoBot.Modules.Administrator
         [Command("SetModLogChannel")]
         [Alias("setlogchannel", "setmodlog", "removemodlogchannel", "removelogchannel")]
         [Summary("Set the channel for all moderator actions to be logged to.")]
+        [Remarks("#mod-log")]
         public async Task SetModLogChannel([Summary("The channel you wish to set as the mod log channel.")][Remainder] ITextChannel modLogChannel = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ModLogChannelId = modLogChannel.Id);

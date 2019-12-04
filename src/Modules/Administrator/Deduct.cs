@@ -9,6 +9,7 @@ namespace NukoBot.Modules.Administrator
         [Command("Deduct")]
         [Alias("deductpoints", "removepoints")]
         [Summary("Remove points from a user which will also decrease the global point counter.")]
+        [Remarks("100 @Vietnam_Vet#6221 Kid spammed a bunch")]
         public async Task Deduct([Summary("The amount of points to be taken away.")] int amountOfPoints, [Summary("The user you want to take ponts away from.")] IGuildUser user = null, [Remainder] string reason = null)
         {
             if (user == null)

@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Administrator
         [Command("Ban")]
         [Alias("banish")]
         [Summary("Ban any user from being in the server.")]
+        [Remarks("\"@John Doe\" \"Sent NSFW content.\"")]
         public async Task Ban([Summary("The user to ban.")] IGuildUser userToBan, [Summary("The reason for banning the user.")][Remainder] string reason = null)
         {
             if (_moderationService.GetPermissionLevel(Context.DbGuild, userToBan) > 0)

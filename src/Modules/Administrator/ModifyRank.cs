@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Administrator
         [Command("ModifyRank")]
         [Alias("editrank", "editrankrole", "modifyrankrole")]
         [Summary("Modify the point requirement for any rank role.")]
+        [Remarks("\"@Level 1\" 200")]
         public async Task ModifyRank(IRole role, double pointsRequired)
         {
             if (Context.DbGuild.RankRoles.ElementCount == 0)

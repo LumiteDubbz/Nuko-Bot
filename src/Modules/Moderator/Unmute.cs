@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Moderator
         [Command("Unmute")]
         [Alias("unsilence")]
         [Summary("Unmute a muted user.")]
+        [Remarks("@Ass_Ass#2212 Nevermind")]
         public async Task Unmute([Summary("The user you want to unmute.")] IGuildUser userToUnmute, [Remainder] string reason = null)
         {
             if (!(await _muteRepository.AnyAsync(x => x.UserId == userToUnmute.Id && x.GuildId == Context.Guild.Id)))

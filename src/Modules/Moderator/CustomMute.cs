@@ -11,6 +11,7 @@ namespace NukoBot.Modules.Moderator
         [Command("custommute")]
         [Alias("customsilence")]
         [Summary("Mute a user for a set amount of time.")]
+        [Remarks("1 \"@Billy Hoe\" Called me an ass")]
         public async Task CustomMuteAsync(double hours, IGuildUser userToMute, [Remainder] string reason = null)
         {
             if (hours < Configuration.MinimumMuteLength)

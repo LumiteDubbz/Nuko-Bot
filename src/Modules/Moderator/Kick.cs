@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Moderator
         [Command("Kick")]
         [Alias("boot")]
         [Summary("Kick any player from the server.")]
+        [Remarks("\"@Magnesium Oxide#2416\" Submitted a faked screenshot")]
         public async Task Kick([Summary("The user you wish to kick.")] IGuildUser userToKick, [Summary("The reason for kicking the user.")][Remainder] string reason = null)
         {
             if (_moderationService.GetPermissionLevel(Context.DbGuild, userToKick) > 0)

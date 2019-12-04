@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Administrator
         [Command("AddRank")]
         [Alias("createrank", "addrankrole")]
         [Summary("Add a rank role that users are awarded upon receiving the neccesary amount of points.")]
+        [Remarks("@God#1220 5000")]
         public async Task AddRank(IRole role, double pointsRequired)
         {
             if (role.Position > Context.Guild.CurrentUser.Roles.OrderByDescending(x => x.Position).First().Position)

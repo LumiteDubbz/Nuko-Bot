@@ -9,6 +9,7 @@ namespace NukoBot.Modules.Administrator
         [Command("SetNewUserRole")]
         [Alias("setdefaultrole")]
         [Summary("Set the role to be given to all new users in the server.")]
+        [Remarks("@Member")]
         public async Task SetNewUserRole([Summary("The role to be given to new users.")][Remainder] IRole newUserRole = null)
         {
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.NewUserRole = newUserRole.Id);

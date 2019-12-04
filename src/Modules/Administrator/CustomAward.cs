@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Administrator
         [Command("CustomAward")]
         [Alias("customawardpoints", "customgive")]
         [Summary("Give any points to any user, irrespective of milestones or map difficulty multipliers.")]
+        [Remarks("30 \"@Blaze King#9142\"")]
         public async Task CustomAward([Summary("The amount of points to be awarded.")] int points, [Summary("The user to award points to")][Remainder] IGuildUser user = null)
         {
             if (user == null)

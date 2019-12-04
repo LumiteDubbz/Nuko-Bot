@@ -1,15 +1,10 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
-using NukoBot.Common.Structures;
 using NukoBot.Database.Repositories;
 using NukoBot.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NukoBot.Modules.Administrator
 {

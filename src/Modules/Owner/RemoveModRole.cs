@@ -10,6 +10,7 @@ namespace NukoBot.Modules.Owner
         [Command("RemoveModRole")]
         [Alias("removemoderatorrole")]
         [Summary("Remove a role from the list of moderators.")]
+        [Remarks("@Moderator")]
         public async Task RemoveModRole([Summary("The role you want to remove from the list of mod roles")][Remainder] IRole modRole)
         {
             if (Context.DbGuild.ModRoles.Any(x => x.Name == modRole.Id.ToString()))

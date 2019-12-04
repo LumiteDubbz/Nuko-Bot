@@ -11,6 +11,7 @@ namespace NukoBot.Modules.Moderator
         [Command("CreatePoll")]
         [Alias("makepoll", "addpoll")]
         [Summary("Create a poll for people to vote on.")]
+        [Remarks("\"Is this a poll?\" \"yes~don't know~no\" 24")]
         public async Task CreatePoll([Summary("The question of the poll.")] string name, [Summary("The chocies people can vote for, separated by `~`s")] string choices, [Summary("The number of hours the poll should last.")][Remainder] double hoursToLast = 1)
         {
             var choicesArray = choices.Split('~');

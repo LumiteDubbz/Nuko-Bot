@@ -11,6 +11,7 @@ namespace NukoBot.Modules.Moderator
         [Command("Mute")]
         [Alias("silence")]
         [Summary("Mute a user until they are manually unmuted.")]
+        [Remarks("@Ass_Ass#2212 Spammed chat")]
         public async Task Mute([Summary("The user you want to mute.")] IGuildUser userToMute, [Summary("The reason for muting the user.")][Remainder] string reason = null)
         {
             var mutedRole = Context.Guild.GetRole(Context.DbGuild.MutedRoleId);

@@ -9,6 +9,7 @@ namespace NukoBot.Modules.BotOwner
         [Command("SetGame")]
         [Alias("setstatus")]
         [Summary("Sets the current playing status for the bot")]
+        [Remarks("say >help")]
         public async Task SetGame([Summary("The status you want to set.")][Remainder] string game = null)
         {
             if (game == null)

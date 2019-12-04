@@ -10,6 +10,7 @@ namespace NukoBot.Modules.System
         [Command("Commands")]
         [Alias("modules", "module", "command", "manual")]
         [Summary("View all modules or all commands in a specific module.")]
+        [Remarks("administrator")]
         public async Task Commands(string commandOrModule = null)
         {
             var userDm = await Context.User.GetOrCreateDMChannelAsync();

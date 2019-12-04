@@ -8,6 +8,7 @@ namespace NukoBot.Modules.Moderator
         [Command("DeletePoll")]
         [Alias("removepoll", "destroypoll")]
         [Summary("Delete a poll.")]
+        [Remarks("1")]
         public async Task DeletePoll([Summary("The number corresponding to the poll you want to delete.")] int index)
         {
             var poll = await _pollRepository.GetPollAsync(index, Context.Guild.Id);
