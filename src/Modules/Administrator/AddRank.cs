@@ -13,6 +13,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("@God#1220 5000")]
         public async Task AddRank(IRole role, double pointsRequired)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (role.Position > Context.Guild.CurrentUser.Roles.OrderByDescending(x => x.Position).First().Position)
             {
                 await ReplyErrorAsync($"My role must be higher in the role order than **{role.Mention}**.");

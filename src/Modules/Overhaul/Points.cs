@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NukoBot.Modules.General
+namespace NukoBot.Modules.Overhaul
 {
-    public partial class General
+    public partial class Overhaul
     {
         [Command("Points")]
         [Alias("pointcount", "me", "self")]
@@ -15,6 +15,12 @@ namespace NukoBot.Modules.General
         [Remarks("@Cheese fries#8263")]
         public async Task Points([Summary("The user you want to look at the results of.")][Remainder] IUser user = null)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             var allMilestones = new List<Milestone>();
 
             if (user != null)

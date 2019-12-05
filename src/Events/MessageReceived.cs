@@ -43,14 +43,14 @@ namespace NukoBot.Events
             if (!(message.Channel is IDMChannel))
             {
                 await context.InitializeAsync();
-            }
 
-            var args = context.Message.Content.Split(' ');
-            var commandName = args.First().StartsWith(Configuration.Prefix) ? args.First().Remove(0, Configuration.Prefix.Length) : args[1];
+                var args = context.Message.Content.Split(' ');
+                var commandName = args.First().StartsWith(Configuration.Prefix) ? args.First().Remove(0, Configuration.Prefix.Length) : args[1];
 
-            if (context.DbGuild.DisabledCommands.Any(x => x == commandName))
-            {
-                return;
+                if (context.DbGuild.DisabledCommands.Any(x => x == commandName))
+                {
+                    return;
+                }
             }
 
             var result = await _commandService.ExecuteAsync(context, argPos, _serviceProvider);

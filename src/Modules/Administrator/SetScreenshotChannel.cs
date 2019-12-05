@@ -12,6 +12,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("#screenshots")]
         public async Task SetScreenshotChannel([Summary("The channel you want to set as the screenshot submitting channel.")][Remainder] ITextChannel screenshotChannel = null)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ScreenshotChannelId = screenshotChannel.Id);
 
             if (screenshotChannel != null)

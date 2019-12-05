@@ -5,15 +5,21 @@ using NukoBot.Database.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NukoBot.Modules.General
+namespace NukoBot.Modules.Overhaul
 {
-    public partial class General
+    public partial class Overhaul
     {
         [Command("Leaderboard")]
         [Alias("top", "topusers", "lb")]
         [Summary("View 3 users with the most points in the server.")]
         public async Task Leaderboard()
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             var users = (await _userRepository.AllAsync(x => x.GuildId == Context.Guild.Id)).OrderByDescending(x => x.Points);
             var message = string.Empty;
 

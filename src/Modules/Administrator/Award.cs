@@ -16,6 +16,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("44 easy01 \"@Jesus Christ#0000\" true")]
         public async Task Award([Summary("The round the user died on.")] int round, [Summary("The difficulty map the user played on.")] string mapName = null, [Summary("The user you wish to give the points to.")] IGuildUser user = null, [Summary("Whether or not the game was played with a friend in the server.")][Remainder] bool playedWithOther = false)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (user == null)
             {
                 if (mapName == null)

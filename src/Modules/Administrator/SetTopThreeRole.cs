@@ -12,6 +12,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("@Top 3")]
         public async Task SetTopThreeRole([Summary("The role to be given.")][Remainder] IRole topThreeRole)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             await _guildRepository.ModifyAsync(Context.DbGuild, x => x.TopThreeRole = topThreeRole.Id);
 
             if (topThreeRole != null)

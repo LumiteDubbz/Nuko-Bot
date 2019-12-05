@@ -13,6 +13,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("\"@Level 1\" 200")]
         public async Task ModifyRank(IRole role, double pointsRequired)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (Context.DbGuild.RankRoles.ElementCount == 0)
             {
                 await ReplyErrorAsync("this server has no rank roles.");

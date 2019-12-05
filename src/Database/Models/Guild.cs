@@ -45,5 +45,9 @@ namespace NukoBot.Database.Models
         // Misc.
 
         public string[] DisabledCommands { get; set; } = new string[] { };
+
+        // Bools
+
+        public bool OverhaulEnabled { get; set; } = true;
     }
 }

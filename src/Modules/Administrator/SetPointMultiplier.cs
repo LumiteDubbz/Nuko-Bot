@@ -12,6 +12,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("1.25")]
         public async Task SetPointMultiplier([Summary("The point multiplier.")][Remainder] double multiplier = 1)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (multiplier > Configuration.MaximumMultiplier || multiplier < Configuration.MinimumMultiplier)
             {
                 await ReplyErrorAsync($"you must set a multiplier between {Configuration.MinimumMultiplier}x and {Configuration.MaximumMultiplier}x.");

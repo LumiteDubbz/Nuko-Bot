@@ -13,6 +13,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("30 \"@Blaze King#9142\"")]
         public async Task CustomAward([Summary("The amount of points to be awarded.")] int points, [Summary("The user to award points to")][Remainder] IGuildUser user = null)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (user == null)
             {
                 await _guildRepository.ModifyAsync(Context.DbGuild, x => x.Points += points);

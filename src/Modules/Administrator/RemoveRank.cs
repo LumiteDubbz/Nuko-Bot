@@ -13,6 +13,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("@Level 3")]
         public async Task RemoveRank([Remainder] IRole role)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (Context.DbGuild.RankRoles.ElementCount == 0)
             {
                 await ReplyErrorAsync("this server has no rank roles.");

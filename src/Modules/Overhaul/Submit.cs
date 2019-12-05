@@ -4,9 +4,9 @@ using NukoBot.Common.Preconditions.Command;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NukoBot.Modules.General
+namespace NukoBot.Modules.Overhaul
 {
-    public partial class General
+    public partial class Overhaul
     {
         [Command("Submit")]
         [Alias("submit-screenshot")]
@@ -14,6 +14,12 @@ namespace NukoBot.Modules.General
         [RequireAttachedImage]
         public async Task Submit()
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (Context.Message.Attachments.ElementAt(0) == null)
             {
                 await ReplyErrorAsync("an unknown error occurred while submitting that image.");

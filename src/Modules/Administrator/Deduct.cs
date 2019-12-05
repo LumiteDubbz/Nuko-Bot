@@ -12,6 +12,12 @@ namespace NukoBot.Modules.Administrator
         [Remarks("100 @Vietnam_Vet#6221 Kid spammed a bunch")]
         public async Task Deduct([Summary("The amount of points to be taken away.")] int amountOfPoints, [Summary("The user you want to take ponts away from.")] IGuildUser user = null, [Remainder] string reason = null)
         {
+            if (!Context.DbGuild.OverhaulEnabled)
+            {
+                await ReplyErrorAsync("all Overhaul related commands are disabled on this server.");
+                return;
+            }
+
             if (user == null)
             {
                 if (Context.DbGuild.Points - amountOfPoints < 0)
