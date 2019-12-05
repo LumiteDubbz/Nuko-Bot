@@ -4,8 +4,6 @@ using NukoBot.Common;
 using NukoBot.Database.Repositories;
 using NukoBot.Services;
 using System;
-//using System.Net;
-//using Newtonsoft.Json;
 
 namespace NukoBot.Modules.General
 {
@@ -26,15 +24,5 @@ namespace NukoBot.Modules.General
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
             _pointService = _serviceProvider.GetRequiredService<PointService>();
         }
-
-        //[Command("Define")]
-        //[Alias("dictionary")]
-        //[Summary("Search for the definition of a word.")]
-        //public async Task Define([Summary("The word/s you want to search for.")][Remainder] string word)
-        //{
-        //    var webClient = new WebClient();
-        //    var url = $"https://dictionaryapi.com/api/v3/references/collegiate/json/{word}?key=aaaa";
-        //    var file = webClient.DownloadString(url);
-        //}
     }
 }
