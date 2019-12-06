@@ -1,13 +1,13 @@
 ﻿using Discord.WebSocket;
 using System.Threading.Tasks;
 using NukoBot.Common;
-using NukoBot.Services;
 using Discord;
 using Discord.Commands;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Services.Handlers;
 using System.Linq;
+using NukoBot.Common.Extensions;
 
 namespace NukoBot.Events
 {
@@ -47,7 +47,7 @@ namespace NukoBot.Events
                 var args = context.Message.Content.Split(' ');
                 var commandName = args.First().StartsWith(Configuration.Prefix) ? args.First().Remove(0, Configuration.Prefix.Length) : args[1];
 
-                if (context.DbGuild.DisabledCommands.Any(x => x == commandName))
+                if (context.DbGuild.DisabledCommands.Any(x => x == commandName.WithLowercaseFirstCharacter()))
                 {
                     return;
                 }

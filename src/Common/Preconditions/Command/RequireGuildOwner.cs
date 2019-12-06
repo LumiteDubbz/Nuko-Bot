@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
 using System.Threading.Tasks;
 
@@ -6,11 +7,13 @@ namespace NukoBot.Common.Preconditions.Command
 {
     public sealed class RequireGuildOwner : PreconditionAttribute
     {
-        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider serviceProvider)
+        public async override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider serviceProvider)
         {
-            if (context.Guild.OwnerId != context.User.Id) return Task.FromResult(PreconditionResult.FromError("This command may only by used by the guild owner."));
+            if (context.Channel is IDMChannel) return await Task.FromResult(PreconditionResult.FromError("this command can only be in a guild."));
 
-            return Task.FromResult(PreconditionResult.FromSuccess());
+            if (context.Guild.OwnerId != context.User.Id) return await Task.FromResult(PreconditionResult.FromError("this command may only by used by the guild owner."));
+
+            return await Task.FromResult(PreconditionResult.FromSuccess());
         }
     }
 }
