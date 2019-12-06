@@ -1,0 +1,10 @@
+site_name: NukoBot
+repo_url: https://github.com/LumiteDubbz/NukoBot
+site_description: "The documentation site for the Nuko Discord bot and programming project."
+site_author: Lumite_#0187
+copyright: Copyright (C) 2019 Lumite
+theme: material
+nav:
+- Home: 'index.md'
+- Setup: 'setup.md'
+- Commands: 'commands.md'
