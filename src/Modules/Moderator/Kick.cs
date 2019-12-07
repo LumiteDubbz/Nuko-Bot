@@ -15,12 +15,12 @@ namespace NukoBot.Modules.Moderator
         {
             if (_moderationService.GetPermissionLevel(Context.DbGuild, userToKick) > 0)
             {
-                await ReplyErrorAsync($"{userToKick.Mention} is a moderator and thus cannot be kicked.");
+                await ReplyErrorAsync($"**{userToKick.Mention}** is a moderator and thus cannot be kicked.");
                 return;
             }
 
-            string message = $"{Context.User.Mention} has kicked you from **{Context.Guild.Name}**";
-            string reply = $"You have successfully kicked {userToKick.Mention}";
+            string message = $"**{Context.User.Mention}** has kicked you from **{Context.Guild.Name}**";
+            string reply = $"you have successfully kicked **{userToKick.Mention}**";
 
             if (reason.Length > 0)
             {

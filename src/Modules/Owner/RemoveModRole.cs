@@ -17,11 +17,11 @@ namespace NukoBot.Modules.Owner
             {
                 await _guildRepository.ModifyAsync(Context.DbGuild, x => x.ModRoles.Remove(modRole.Id.ToString()));
 
-                await ReplyAsync($"You have successfully removed {modRole.Mention} from the list of moderators.");
+                await ReplyAsync($"You have successfully removed **{modRole.Mention}** from the list of moderators.");
             }
             else
             {
-                await ReplyErrorAsync($"The role {modRole.Mention} is not a moderator role, and therefore cannot be removed.");
+                await ReplyErrorAsync($"The role **{modRole.Mention}** is not a moderator role, and therefore cannot be removed.");
             }
         }
     }

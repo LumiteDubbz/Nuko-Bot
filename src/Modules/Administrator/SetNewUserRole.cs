@@ -16,7 +16,7 @@ namespace NukoBot.Modules.Administrator
 
             if (newUserRole != null)
             {
-                await ReplyAsync($"you have successfully set the new user role to {newUserRole.Mention}.");
+                await ReplyAsync($"you have successfully set the new user role to **{newUserRole.Mention}**.");
                 return;
             }
 

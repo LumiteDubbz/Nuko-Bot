@@ -16,7 +16,7 @@ namespace NukoBot.Modules.Moderator
         {
             if (amountOfMessages < Configuration.MinimumClearCount || amountOfMessages > Configuration.MaximumClearCount)
             {
-                await ReplyErrorAsync($"you must clear more than {Configuration.MinimumClearCount} and less than {Configuration.MaximumClearCount} messages.");
+                await ReplyErrorAsync($"you must clear more than **{Configuration.MinimumClearCount}** and less than **{Configuration.MaximumClearCount}** messages.");
                 return;
             }
 

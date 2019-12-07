@@ -10,17 +10,17 @@ namespace NukoBot.Modules.Administrator
         [Command("Ban")]
         [Alias("banish")]
         [Summary("Ban any user from being in the server.")]
-        [Remarks("\"@John Doe\" \"Sent NSFW content.\"")]
+        [Remarks("\"@John Doe#6634\" \"Sent NSFW content.\"")]
         public async Task Ban([Summary("The user to ban.")] IGuildUser userToBan, [Summary("The reason for banning the user.")][Remainder] string reason = null)
         {
             if (_moderationService.GetPermissionLevel(Context.DbGuild, userToBan) > 0)
             {
-                await ReplyErrorAsync($"{userToBan.Mention} is a moderator and thus cannot be banned.");
+                await ReplyErrorAsync($"**{userToBan.Mention}** is a moderator and thus cannot be banned.");
                 return;
             }
 
-            string message = $"{Context.User.Mention} has banned you from **{Context.Guild.Name}**";
-            string reply = $"You have successfully banned {userToBan.Mention}";
+            string message = $"**{Context.User.Mention}** has banned you from **{Context.Guild.Name}**";
+            string reply = $"You have successfully banned **{userToBan.Mention}**";
 
             if (reason.Length > 0)
             {

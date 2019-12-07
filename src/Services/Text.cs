@@ -6,12 +6,12 @@ namespace NukoBot.Services
 {
     public sealed class Text
     {
-        public Task SendAsync(IMessageChannel channel, string description, string title = null, Color? color = null, string imageUrl = null)
+        public Task SendAsync(IMessageChannel channel, string message, string title = null, Color? color = null, string imageUrl = null)
         {
             var builder = new EmbedBuilder
             {
                 Color = color ?? Configuration.Color(),
-                Description = description,
+                Description = message,
                 Title = title,
                 ImageUrl = imageUrl
             };
@@ -19,19 +19,24 @@ namespace NukoBot.Services
             return channel.SendMessageAsync("", false, builder.Build());
         }
 
-        public Task ReplyAsync(IUser user, IMessageChannel channel, string description, string title = null, Color? color = null)
+        public Task ReplyAsync(IUser user, IMessageChannel channel, string message, string title = null, Color? color = null)
         {
-            return SendAsync(channel, user.Mention + ", " + description, title, color);
+            return SendAsync(channel, user.Mention + ", " + message, title, color);
         }
 
-        public Task ReplyErrorAsync(IUser user, IMessageChannel channel, string description)
+        public Task ReplyErrorAsync(IUser user, IMessageChannel channel, string message)
         {
-            return ReplyAsync(user, channel, description, null, Configuration.ErrorColor);
+            return ReplyAsync(user, channel, message, null, Configuration.ErrorColor);
         }
 
-        public Task SendScreenshotAsync(IMessageChannel channel, string description, Attachment image)
+        public Task SendScreenshotAsync(IMessageChannel channel, string message, Attachment image)
         {
-            return SendAsync(channel, description, null, null, image.Url);
+            return SendAsync(channel, message, null, null, image.Url);
+        }
+
+        public Task SendImageAsync(IMessageChannel channel, string message, string imageUrl)
+        {
+            return SendAsync(channel, message, null, null, imageUrl);
         }
     }
 }

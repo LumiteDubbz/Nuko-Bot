@@ -61,7 +61,7 @@ namespace NukoBot.Modules.Administrator
 
                 await DmAsync(user, message);
 
-                await ReplyAsync($"you have successfully removed **{amountOfPoints}** from {user.Mention}.");
+                await ReplyAsync($"you have successfully removed **{amountOfPoints}** from **{user.Mention}**.");
             }
         }
     }

@@ -22,7 +22,7 @@ namespace NukoBot.Modules.Administrator
 
             if (screenshotChannel != null)
             {
-                await ReplyAsync($"you have successfully set the screenshot channel to {screenshotChannel.Mention}.");
+                await ReplyAsync($"you have successfully set the screenshot channel to **{screenshotChannel.Mention}**.");
                 return;
             }
 

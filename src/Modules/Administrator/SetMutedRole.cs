@@ -16,7 +16,7 @@ namespace NukoBot.Modules.Administrator
 
             if (mutedRole != null)
             {
-                await ReplyAsync($"you have successfully set the muted role to {mutedRole.Mention}.");
+                await ReplyAsync($"you have successfully set the muted role to **{mutedRole.Mention}**.");
                 return;
             }
 

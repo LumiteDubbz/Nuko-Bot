@@ -16,7 +16,7 @@ namespace NukoBot.Modules.Administrator
 
             if (modLogChannel != null)
             {
-                await ReplyAsync($"you have successfully set the mod log channel to {modLogChannel.Mention}.");
+                await ReplyAsync($"you have successfully set the mod log channel to **{modLogChannel.Mention}**.");
                 return;
             }
 

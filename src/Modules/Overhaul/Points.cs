@@ -13,7 +13,7 @@ namespace NukoBot.Modules.Overhaul
         [Alias("pointcount", "me", "self")]
         [Summary("View the amount of points you or a mentioned user has.")]
         [Remarks("@Cheese fries#8263")]
-        public async Task Points([Summary("The user you want to look at the results of.")][Remainder] IUser user = null)
+        public async Task Points([Summary("The user you want to look at the results of.")] [Remainder] IUser user = null)
         {
             if (!Context.DbGuild.OverhaulEnabled)
             {
@@ -26,7 +26,7 @@ namespace NukoBot.Modules.Overhaul
             if (user != null)
             {
                 var dbUser = await _userRepository.GetUserAsync(user.Id, Context.Guild.Id);
-                var otherUserMessage = $"{user.Mention} has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
+                var otherUserMessage = $"**{user.Mention}** has **{dbUser.Points}** points, contributing to this guild's total of **{Context.DbGuild.Points}** points.";
                 var userRank = await _pointService.GetRankAsync(Context, dbUser);
 
                 if (userRank != null)

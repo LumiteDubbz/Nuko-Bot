@@ -12,13 +12,13 @@ namespace NukoBot.Modules.Moderator
         [Alias("customsilence")]
         [Summary("Mute a user for a set amount of time.")]
         [Remarks("1 \"@Billy Hoe\" Called me an ass")]
-        public async Task CustomMuteAsync(double hours, IGuildUser userToMute, [Remainder] string reason = null)
+        public async Task CustomMute(double hours, IGuildUser userToMute, [Remainder] string reason = null)
         {
             if (hours < Configuration.MinimumMuteLength)
             {
                 var minTime = Configuration.MinimumMuteLength > 1 ? "hours" : "hour";
 
-                await ReplyErrorAsync($"you cannot mute anyone for less than {Configuration.MinimumMuteLength} {minTime}.");
+                await ReplyErrorAsync($"you cannot mute anyone for less than **{Configuration.MinimumMuteLength} {minTime}**.");
 
                 return;
             }
@@ -38,7 +38,7 @@ namespace NukoBot.Modules.Moderator
 
             await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromHours(hours));
 
-            await ReplyAsync($"you have successfully muted {userToMute.Mention} for {hours} {time}.");
+            await ReplyAsync($"you have successfully muted **{userToMute.Mention}** for **{hours} {time}**.");
 
             string message = $"**{Context.User.Mention}** has muted you in **{Context.Guild.Name}** for **{hours}** {time}";
 

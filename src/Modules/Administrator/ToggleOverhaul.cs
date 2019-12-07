@@ -8,7 +8,7 @@ namespace NukoBot.Modules.Administrator
         [Command("ToggleOverhaul")]
         [Alias("disableoverhaul", "enableoverhaul")]
         [Summary("Toggle the ability for all Overhaul-related commands to be ran in this server.")]
-        public async Task DisableOverhaul()
+        public async Task ToggleOverhaul()
         {
             string message;
 

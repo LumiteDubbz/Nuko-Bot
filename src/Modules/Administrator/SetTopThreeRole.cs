@@ -22,7 +22,7 @@ namespace NukoBot.Modules.Administrator
 
             if (topThreeRole != null)
             {
-                await ReplyAsync($"you have successfully set the top 3 role to {topThreeRole.Mention}.");
+                await ReplyAsync($"you have successfully set the top 3 role to **{topThreeRole.Mention}**.");
                 return;
             }
 

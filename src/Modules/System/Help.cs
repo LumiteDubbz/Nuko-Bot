@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using NukoBot.Common;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NukoBot.Modules.System

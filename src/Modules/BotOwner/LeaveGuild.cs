@@ -17,7 +17,7 @@ namespace NukoBot.Modules.BotOwner
 
             if (guild == null)
             {
-                await ReplyErrorAsync("That guild was not found, meaning the ID was wrong or this bot is not in that guild.");
+                await ReplyErrorAsync("that guild was not found, meaning the ID was wrong or this bot is not in that guild.");
                 return;
             }
 

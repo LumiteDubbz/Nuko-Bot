@@ -18,12 +18,12 @@ namespace NukoBot.Modules.Moderator
 
             if (mutedRole == null)
             {
-                await ReplyErrorAsync("there is no muted role set for this server. Please use the ``SetMutedRole`` command to remedy this error.");
+                await ReplyErrorAsync($"there is no muted role set for this server. Please use the `{Configuration.Prefix}SetMutedRole` command to remedy this error.");
                 return;
             }
             else if (_moderationService.GetPermissionLevel(Context.DbGuild, userToMute) > 0)
             {
-                await ReplyErrorAsync($"{userToMute.Mention} is a moderator and thus cannot be muted.");
+                await ReplyErrorAsync($"**{userToMute.Mention}** is a moderator and thus cannot be muted.");
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace NukoBot.Modules.Moderator
 
             await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromDays(365));
 
-            await ReplyAsync($"you have successfully muted {userToMute.Mention}.");
+            await ReplyAsync($"you have successfully muted **{userToMute.Mention}**.");
 
             string message = $"**{Context.User.Mention}** has permanently muted you in **{Context.Guild.Name}**";
 

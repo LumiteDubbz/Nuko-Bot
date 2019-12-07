@@ -44,5 +44,10 @@ namespace NukoBot.Common
         {
             await _text.SendScreenshotAsync(screenshotChannel, message, image);
         }
+
+        public async Task SendImageAsync(string message, string imageUrl)
+        {
+            await _text.SendImageAsync(Context.Channel, message, imageUrl);
+        }
     }
 }

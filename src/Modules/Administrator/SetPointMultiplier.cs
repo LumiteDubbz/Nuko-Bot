@@ -20,7 +20,7 @@ namespace NukoBot.Modules.Administrator
 
             if (multiplier > Configuration.MaximumMultiplier || multiplier < Configuration.MinimumMultiplier)
             {
-                await ReplyErrorAsync($"you must set a multiplier between {Configuration.MinimumMultiplier}x and {Configuration.MaximumMultiplier}x.");
+                await ReplyErrorAsync($"you must set a multiplier between **{Configuration.MinimumMultiplier}x** and **{Configuration.MaximumMultiplier}x**.");
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace NukoBot.Modules.Administrator
 
             if (multiplier > 1)
             {
-                await ReplyAsync($"you have successfully set this server's point multiplier to {multiplier}x.");
+                await ReplyAsync($"you have successfully set this server's point multiplier to **{multiplier}x**.");
                 return;
             }
 

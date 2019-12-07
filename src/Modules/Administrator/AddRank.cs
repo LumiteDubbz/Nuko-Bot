@@ -21,7 +21,7 @@ namespace NukoBot.Modules.Administrator
 
             if (role.Position > Context.Guild.CurrentUser.Roles.OrderByDescending(x => x.Position).First().Position)
             {
-                await ReplyErrorAsync($"My role must be higher in the role order than **{role.Mention}**.");
+                await ReplyErrorAsync($"my role must be higher in the role order than **{role.Mention}**.");
                 return;
             }
 
