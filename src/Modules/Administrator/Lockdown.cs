@@ -8,12 +8,14 @@ namespace NukoBot.Modules.Administrator
     public partial class Administrator
     {
         [Command("Lockdown")]
-        [Alias("lockdownserver", "close", "closeserver", "togglelockdown", "togglelock", "lock")]
+        [Alias("lockdownserver", "close", "closeserver", "togglelockdown", "togglelock", "lock", "unlock")]
         [Summary("Immediately ban all new users as soon as they join.")]
-        [Remarks("1")]
+        [Remarks("Preventing raid")]
         public async Task Lockdown([Remainder] string reason = null)
         {
             var message = "you have successfully ";
+
+            reason = reason != null ? reason : "";
 
             string action;
 
