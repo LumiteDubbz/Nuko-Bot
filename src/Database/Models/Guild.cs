@@ -48,6 +48,8 @@ namespace NukoBot.Database.Models
 
         // Bools
 
-        public bool OverhaulEnabled { get; set; } = true;
+        public bool OverhaulEnabled { get; set; } = false;
+
+        public bool LockedDown { get; set; } = false;
     }
 }
