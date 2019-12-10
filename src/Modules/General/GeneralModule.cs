@@ -13,16 +13,14 @@ namespace NukoBot.Modules.General
     public partial class General : Module
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
-        private readonly PointService _pointService;
+        private readonly ModerationService _moderationService;
 
         public General(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
-            _pointService = _serviceProvider.GetRequiredService<PointService>();
+            _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
         }
     }
 }
