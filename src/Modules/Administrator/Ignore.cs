@@ -11,12 +11,14 @@ namespace NukoBot.Modules.Administrator
         [Alias("acknowledge", "recognise", "recognize", "toggleignore")]
         [Summary("Specify a channel for the bot to ignore messages from.")]
         [Remarks("#general")]
-        public async Task Ignore(IMessageChannel channel)
+        public async Task Ignore(IMessageChannel channel = null)
         {
             var message = "you have successfully ";
             var ignoredChannels = Context.DbGuild.IgnoredChannels.ToList();
 
             string action;
+
+            channel ??= Context.Channel;
 
             if (Context.DbGuild.IgnoredChannels.Any(x => x == channel.Id)) {
                 ignoredChannels.Remove(channel.Id);
