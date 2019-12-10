@@ -44,6 +44,8 @@ namespace NukoBot.Events
             {
                 await context.InitializeAsync();
 
+                if (context.DbGuild.IgnoredChannels.Any(x => x == context.Channel.Id)) return;
+
                 var args = context.Message.Content.Split(' ');
                 var commandName = args.First().StartsWith(Configuration.Prefix) ? args.First().Remove(0, Configuration.Prefix.Length) : args[1];
 

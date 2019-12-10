@@ -15,7 +15,7 @@ namespace NukoBot.Modules.Administrator
         {
             var message = "you have successfully ";
 
-            reason = reason != null ? reason : "";
+            reason ??= "";
 
             string action;
 

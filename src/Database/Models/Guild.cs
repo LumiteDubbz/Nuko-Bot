@@ -42,9 +42,11 @@ namespace NukoBot.Database.Models
 
         public double PointMultiplier { get; set; } = 1;
 
-        // Misc.
+        // Arrays
 
         public string[] DisabledCommands { get; set; } = new string[] { };
+
+        public ulong[] IgnoredChannels { get; set; } = new ulong[] { };
 
         // Bools
 
