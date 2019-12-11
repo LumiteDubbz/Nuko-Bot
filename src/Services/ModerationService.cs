@@ -49,9 +49,13 @@ namespace NukoBot.Services
 
         public async Task InformUserAsync(IGuildUser user, string message)
         {
-            var userDm = await user.GetOrCreateDMChannelAsync();
+            try
+            {
+                var userDm = await user.GetOrCreateDMChannelAsync();
 
-            await _text.SendAsync(userDm, message);
+                await _text.SendAsync(userDm, message);
+            }
+            catch {}
         }
 
         public async Task ModLogAsync(Guild dbGuild, IGuild guild, string action, Color color, string reason, IGuildUser moderator, IGuildUser user)
@@ -94,10 +98,7 @@ namespace NukoBot.Services
 
                 await _guildRepository.ModifyAsync(x => x.Id == dbGuild.Id, x => x.CaseNumber++);
             }
-            catch
-            {
-                return;
-            }
+            catch {}
         }
     }
 }

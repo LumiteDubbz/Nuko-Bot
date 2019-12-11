@@ -35,7 +35,7 @@ namespace NukoBot.Modules.Moderator
 
             string message = $"**{Context.User.Mention}** has permanently muted you in **{Context.Guild.Name}**";
 
-            if (reason.Length > 0)
+            if (!string.IsNullOrWhiteSpace(reason))
             {
                 message += $" for **{reason}**";
             }

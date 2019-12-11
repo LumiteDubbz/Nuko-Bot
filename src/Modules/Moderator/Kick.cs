@@ -22,7 +22,7 @@ namespace NukoBot.Modules.Moderator
             string message = $"**{Context.User.Mention}** has kicked you from **{Context.Guild.Name}**";
             string reply = $"you have successfully kicked **{userToKick.Mention}**";
 
-            if (reason.Length > 0)
+            if (string.IsNullOrWhiteSpace(reason))
             {
                 message += $" for **{reason}**";
                 reply += $" for **{reason}**";

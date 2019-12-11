@@ -42,7 +42,7 @@ namespace NukoBot.Modules.Moderator
 
             string message = $"**{Context.User.Mention}** has muted you in **{Context.Guild.Name}** for **{hours}** {time}";
 
-            if (reason.Length > 0)
+            if (!string.IsNullOrWhiteSpace(reason))
             {
                 message += $" for **{reason}**";
             }

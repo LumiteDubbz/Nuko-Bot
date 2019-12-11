@@ -12,7 +12,7 @@ namespace NukoBot.Database.Repositories
 
         public Task InsertMuteAsync(IGuildUser user, TimeSpan muteLength)
         {
-            return InsertAsync(new Mute(user.Id, user.GuildId, muteLength.TotalHours));
+            return InsertAsync(new Mute(user.Id, user.GuildId, muteLength.TotalMilliseconds));
         }
 
         public Task<bool> IsMutedAsync(ulong userId, ulong guildId)

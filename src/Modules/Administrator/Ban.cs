@@ -22,7 +22,7 @@ namespace NukoBot.Modules.Administrator
             string message = $"**{Context.User.Mention}** has banned you from **{Context.Guild.Name}**";
             string reply = $"You have successfully banned **{userToBan.Mention}**";
 
-            if (reason.Length > 0)
+            if (!string.IsNullOrWhiteSpace(reason))
             {
                 message += $" for **{reason}**";
                 reply += $" for **{reason}**";

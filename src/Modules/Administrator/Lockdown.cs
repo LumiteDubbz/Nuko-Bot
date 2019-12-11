@@ -38,7 +38,7 @@ namespace NukoBot.Modules.Administrator
 
             message += $"{action} this server";
 
-            if (reason.Length > 0)
+            if (!string.IsNullOrWhiteSpace(reason))
             {
                 message += $" for **{reason}**";
             }
