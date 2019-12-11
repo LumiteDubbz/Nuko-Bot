@@ -1,6 +1,8 @@
 ﻿using Discord.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
+using NukoBot.Services;
 using System;
 
 namespace NukoBot.Modules.BotOwner
@@ -10,6 +12,13 @@ namespace NukoBot.Modules.BotOwner
     [RequireBotOwner]
     public partial class BotOwner : Module
     {
-        public BotOwner(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        private readonly IServiceProvider _serviceProvider;
+        private readonly EvaluationService _evaluationService;
+
+        public BotOwner(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            _evaluationService = _serviceProvider.GetRequiredService<EvaluationService>();
+        }
     }
 }

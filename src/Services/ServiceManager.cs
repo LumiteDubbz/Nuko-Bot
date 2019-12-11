@@ -33,6 +33,8 @@ namespace NukoBot.Services
              .AddSingleton(_client)
              .AddSingleton(_commandService)
              .AddSingleton(_credentials)
+             // DB
+             .AddSingleton(database)
              // DB Models
              .AddSingleton(database.GetCollection<Guild>("guilds"))
              .AddSingleton(database.GetCollection<Mute>("mutes"))
@@ -52,6 +54,7 @@ namespace NukoBot.Services
              // Handlers
              .AddSingleton<ErrorHandler>()
              // Services
+             .AddSingleton<EvaluationService>()
              .AddSingleton<ModerationService>()
              .AddSingleton<PointService>()
              .AddSingleton<Text>();
