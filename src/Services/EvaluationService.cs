@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using NukoBot.Common.Structures;
+using NukoBot.Database.Models;
 using System;
 using System.Linq;
 using System.Text;
@@ -16,14 +17,14 @@ namespace NukoBot.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly DiscordSocketClient _client;
-        private readonly IMongoDatabase _database;
+        private readonly IMongoCollection<User> _users;
         private readonly Text _text;
 
         public EvaluationService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
-            _database = _serviceProvider.GetRequiredService<IMongoDatabase>();
+            _users = _serviceProvider.GetRequiredService<IMongoCollection<User>>();
             _text = _serviceProvider.GetRequiredService<Text>();
         }
 
@@ -47,7 +48,7 @@ namespace NukoBot.Services
         {
             try
             {
-                var scriptResult = await script.RunAsync(new Globals(_client, guild, _database, _text));
+                var scriptResult = await script.RunAsync(new Globals(_client, guild, _text, _users));
                 return EvaluationResult.FromSuccess(scriptResult.ReturnValue?.ToString() ?? "Success.");
             } 
             catch(Exception error)

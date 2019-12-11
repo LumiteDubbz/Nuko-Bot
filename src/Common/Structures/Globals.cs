@@ -1,16 +1,17 @@
 ﻿using Discord;
 using MongoDB.Driver;
+using NukoBot.Database.Models;
 using NukoBot.Services;
 
 namespace NukoBot.Common.Structures
 {
     public class Globals
     {
-        public Globals(IDiscordClient client, IGuild guild, IMongoDatabase database, Text text)
+        public Globals(IDiscordClient client, IGuild guild, Text text, IMongoCollection<User> users)
         {
             Client = client;
             Guild = guild;
-            Database = database;
+            Users = users;
             Text = text;
         }
 
@@ -18,7 +19,7 @@ namespace NukoBot.Common.Structures
 
         public IGuild Guild { get; }
 
-        public IMongoDatabase Database { get; }
+        public IMongoCollection<User> Users { get; }
 
         public Text Text { get; }
     }
