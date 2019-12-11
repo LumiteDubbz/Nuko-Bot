@@ -36,18 +36,18 @@ namespace NukoBot.Events
 
             var argPos = 0;
 
-            if (!message.HasStringPrefix(Configuration.Prefix, ref argPos)) return;
-
             var context = new Context(message, _serviceProvider, _client);
 
             if (!(message.Channel is IDMChannel))
             {
                 await context.InitializeAsync();
 
+                if (!message.HasStringPrefix(context.DbGuild.Prefix, ref argPos)) return;
+
                 if (context.DbGuild.IgnoredChannels.Any(x => x == context.Channel.Id)) return;
 
                 var args = context.Message.Content.Split(' ');
-                var commandName = args.First().StartsWith(Configuration.Prefix) ? args.First().Remove(0, Configuration.Prefix.Length) : args[1];
+                var commandName = args.First().StartsWith(context.DbGuild.Prefix) ? args.First().Remove(0, context.DbGuild.Prefix.Length) : args[1];
 
                 if (context.DbGuild.DisabledCommands.Any(x => x == commandName.WithLowercaseFirstCharacter()))
                 {

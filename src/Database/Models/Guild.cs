@@ -1,6 +1,5 @@
-﻿using Discord.Commands;
-using MongoDB.Bson;
-using System.Collections.Generic;
+﻿using MongoDB.Bson;
+using NukoBot.Common;
 
 namespace NukoBot.Database.Models
 {
@@ -30,9 +29,11 @@ namespace NukoBot.Database.Models
 
         public ulong ScreenshotChannelId { get; set; }
 
-        // Messages
+        // Strings
 
         public string WelcomeMessage { get; set; } = string.Empty;
+
+        public string Prefix { get; set; } = Configuration.Prefix;
 
         // Numbers
 
