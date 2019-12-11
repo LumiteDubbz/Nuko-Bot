@@ -1,6 +1,10 @@
 ﻿using Discord.Commands;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using NukoBot.Common;
 using NukoBot.Common.Structures;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NukoBot.Modules.BotOwner
@@ -10,29 +14,39 @@ namespace NukoBot.Modules.BotOwner
         [Command("Evaluate")]
         [Alias("eval", "evalcode", "runcode")]
         [Summary("Evaluates given C# scripts.")]
-        [Remarks("Configuration.Token")]
+        [Remarks("Configuration.Version")]
         public async Task Evaluate([Remainder] string code)
         {
-            var script = CSharpScript.Create(code, globalsType: typeof(Globals));
-
-            if (!_evaluationService.TryCompile(script, out string errorMessage))
+            try
             {
-                await ReplyErrorAsync($"one or more errors occurred while compiling that script:\n\n**Code:**\n```cs\n{code}```\n\n**Error(s):**\n```{errorMessage}```");
-                return;
-            }
-            else
-            {
-                var result = await _evaluationService.EvaluateAsync(Context.Guild, script);
+                var result = await EvaluateAsync(Context, code);
 
-                if (result.Success)
+                if (result != null && result.ReturnValue != null && !string.IsNullOrWhiteSpace(result.ReturnValue.ToString()))
                 {
-                    await SendAsync($"**Code:**\n```cs\n{code}```\n\n**Result:**\n```{result.Result}```");
+                    await SendAsync(result.ReturnValue.ToString());
                 }
                 else
                 {
-                    await ReplyErrorAsync($"one or more runtime errors occurred:\n\n**Code:**\n```cs\n{code}```\n\n**Error(s):**\n```{result.Exception}```");
+                    await SendAsync("Success.");
                 }
             }
+            catch (Exception exception)
+            {
+                await ReplyErrorAsync(string.Concat("**", exception.GetType().ToString(), "**: ", exception.Message));
+            }
+        }
+
+        public async Task<ScriptState<object>> EvaluateAsync(Context context, string code)
+        {
+            var globals = new Globals(context, _guildRepository, _userRepository);
+            var scriptOptions = ScriptOptions.Default.WithImports("System", "System.Collections.Generic", "System.Threading.Tasks", "Discord", "Discord.WebSocket", "Discord.Commands", "NukoBot").WithReferences(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location)));
+            var script = CSharpScript.Create(code, scriptOptions, typeof(Globals));
+
+            script.Compile();
+
+            var result = await script.RunAsync(globals);
+
+            return result;
         }
     }
 }

@@ -1,26 +1,18 @@
-﻿using Discord;
-using MongoDB.Driver;
-using NukoBot.Database.Models;
-using NukoBot.Services;
+﻿using NukoBot.Database.Repositories;
 
 namespace NukoBot.Common.Structures
 {
-    public class Globals
+    public sealed class Globals
     {
-        public Globals(IDiscordClient client, IGuild guild, Text text, IMongoCollection<User> users)
+        public Context Context { get; set; }
+        public GuildRepository GuildRepository { get; set; }
+        public UserRepository UserRepository { get; set; }
+
+        public Globals(Context context, GuildRepository guildRepository, UserRepository userRepository)
         {
-            Client = client;
-            Guild = guild;
-            Users = users;
-            Text = text;
+            Context = context;
+            GuildRepository = guildRepository;
+            UserRepository = userRepository;
         }
-
-        public IDiscordClient Client { get; }
-
-        public IGuild Guild { get; }
-
-        public IMongoCollection<User> Users { get; }
-
-        public Text Text { get; }
     }
 }

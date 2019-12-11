@@ -15,7 +15,7 @@ namespace NukoBot.Modules.General
         {
             user ??= Context.User;
 
-            await SendImageAsync($"**{user.Username}#{user.Discriminator} ({user.Id})**\n\nCreated at: **{user.CreatedAt.Date + user.CreatedAt.TimeOfDay}**\nStatus: **{user.Status} ({user.Activity})**\nBot: **{user.IsBot.ToString().WithUppercaseFirstCharacter()}**", user.GetAvatarUrl());
+            await SendImageAsync($"**{user.Username}#{user.Discriminator} ({user.Id})\n\nCreated at:** {user.CreatedAt.Date + user.CreatedAt.TimeOfDay}\n**Status:** {user.Status} ({user.Activity})\n**Bot:** {user.IsBot.ToString().WithUppercaseFirstCharacter()}", user.GetAvatarUrl());
         }
     }
 }
