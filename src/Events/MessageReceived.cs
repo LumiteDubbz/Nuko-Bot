@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Services.Handlers;
 using System.Linq;
 using NukoBot.Common.Extensions;
+using NukoBot.Services;
 
 namespace NukoBot.Events
 {
@@ -17,6 +18,7 @@ namespace NukoBot.Events
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly ErrorHandler _errorHandler;
+        private readonly Text _text;
 
         public MessageReceived(CommandService commandService, IServiceProvider serviceProvider)
         {
@@ -24,6 +26,7 @@ namespace NukoBot.Events
             _client = _serviceProvider.GetRequiredService<DiscordSocketClient>();
             _commandService = commandService;
             _errorHandler = _serviceProvider.GetRequiredService<ErrorHandler>();
+            _text = _serviceProvider.GetRequiredService<Text>();
 
             _client.MessageReceived += HandleMessageAsync;
         }
@@ -49,9 +52,20 @@ namespace NukoBot.Events
                 var args = context.Message.Content.Split(' ');
                 var commandName = args.First().StartsWith(context.DbGuild.Prefix) ? args.First().Remove(0, context.DbGuild.Prefix.Length) : args[1];
 
-                if (context.DbGuild.DisabledCommands.Any(x => x == commandName.WithLowercaseFirstCharacter()))
+                if (context.DbGuild.DisabledCommands.Any(x => x == commandName.ToLower()))
                 {
                     return;
+                }
+
+                if (context.DbGuild.CustomCommands.Any())
+                {
+                    var customCommand = context.DbGuild.CustomCommands.SingleOrDefault(x => x.Name.ToLower() == commandName.ToLower());
+
+                    if (customCommand.Name != null)
+                    {
+                        await _text.SendAsync(context.Channel, customCommand.Value.AsString);
+                        return;
+                    }
                 }
             }
 

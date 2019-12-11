@@ -11,23 +11,13 @@ namespace NukoBot.Database.Models
 
         public ulong GuildId { get; set; }
 
-        // Roles
+        // BsonDocuments
 
         public BsonDocument ModRoles { get; set; } = new BsonDocument();
 
         public BsonDocument RankRoles { get; set; } = new BsonDocument();
 
-        public ulong NewUserRole { get; set; }
-
-        public ulong TopThreeRole { get; set; }
-
-        public ulong MutedRoleId { get; set; }
-
-        // Channels
-
-        public ulong ModLogChannelId { get; set; }
-
-        public ulong ScreenshotChannelId { get; set; }
+        public BsonDocument CustomCommands { get; set; } = new BsonDocument();
 
         // Strings
 
@@ -42,6 +32,16 @@ namespace NukoBot.Database.Models
         public int Points { get; set; } = 0;
 
         public double PointMultiplier { get; set; } = 1;
+
+        public ulong NewUserRole { get; set; }
+
+        public ulong TopThreeRole { get; set; }
+
+        public ulong MutedRoleId { get; set; }
+
+        public ulong ModLogChannelId { get; set; }
+
+        public ulong ScreenshotChannelId { get; set; }
 
         // Arrays
 

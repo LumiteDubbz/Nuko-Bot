@@ -7,7 +7,7 @@ namespace NukoBot.Modules.Administrator
     public partial class Administrator
     {
         [Command("SetNukoPrefix")]
-        [Alias("changenukoprefix", "updatenukoprefix", "setcustomnukoprefix")]
+        [Alias("changenukoprefix", "updatenukoprefix", "setcustomnukoprefix", "nukoprefix")]
         [Summary("Set a custom command prefix for the server.")]
         [Remarks("-")]
         public async Task SetNukoPrefix(string prefix = null)

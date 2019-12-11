@@ -21,7 +21,7 @@ namespace NukoBot.Modules.Owner
             }
             else
             {
-                await ReplyErrorAsync($"The role **{modRole.Mention}** is not a moderator role, and therefore cannot be removed.");
+                await ReplyErrorAsync($"the role **{modRole.Mention}** is not a moderator role, and therefore cannot be removed.");
             }
         }
     }
