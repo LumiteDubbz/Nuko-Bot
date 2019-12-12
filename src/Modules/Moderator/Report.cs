@@ -24,10 +24,9 @@ namespace NukoBot.Modules.Moderator
 
                 foreach (var warning in dbUser.Warnings)
                 {
-                    if (warning.CreatedAt.AddDays(Context.DbGuild.DaysUntilWarningExpires) >= DateTime.Now)
+                    if (warning.CreatedAt.AddDays(Context.DbGuild.DaysUntilWarningExpires) <= DateTime.Now && !warning.Expired)
                     {
-                        var dbWarning = Context.DbUser.Warnings.Single(x => x.CreatedAt == warning.CreatedAt);
-                        await _userRepository.ModifyUserAsync(user, x => dbWarning.Expired = true);
+                        await _userRepository.ModifyAsync(dbUser, x => x.Warnings.Single(x => x.CreatedAt == warning.CreatedAt).Expired = true);
                     }
 
                     var isExpired = warning.Expired ? "expired" : "not expired";
@@ -38,12 +37,11 @@ namespace NukoBot.Modules.Moderator
                 message += "\n" + warnings.Remove(warnings.Length - 1);
             }
 
-            var isMuted = await _muteRepository.IsMutedAsync(user.Id, user.GuildId) ? "\nCurrently muted." : "\nNot currently muted.";
-            var hasBeenMuted = Context.DbUser.HasBeenMuted ? "\nHas been muted in the past." : "\nHas never been muted.";
-            var hasBeenKicked = Context.DbUser.HasBeenKicked ? "\nHas been kicked in the past." : "\nHas never been kicked.";
-            var hasBeenBanned = Context.DbUser.HasBeenBanned ? "\nHas been banned in the past." : "\nHas never been banned.";
+            var muteStatus = await _muteRepository.IsMutedAsync(user.Id, user.GuildId) ? "\nIs currently muted." : dbUser.HasBeenMuted ? "\nHas been muted in the past." : "\nNot currently muted.";
+            var kickStatus = dbUser.HasBeenKicked ? "\nHas been kicked in the past." : "\nHas never been kicked.";
+            var banStatus = Context.Guild.GetBansAsync().Result.Any(x => x.User.Id == user.Id) ? "\nIs currently banned." : dbUser.HasBeenBanned ? "\nHas been banned in the past." : "\nHas never been banned.";
 
-            message += isMuted + hasBeenMuted + hasBeenKicked + hasBeenBanned;
+            message += muteStatus + kickStatus + banStatus;
 
             await SendAsync(message);
         }

@@ -27,6 +27,8 @@ namespace NukoBot.Modules.Moderator
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Warn", Configuration.WarnColor, warning, (IGuildUser)Context.User, user);
 
+            await _moderationService.HandleWarningAsync(user, Context);
+
             await ReplyAsync($"you have successfully warned **{user.Mention}** for **{warning}**.");
         }
     }

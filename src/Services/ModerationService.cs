@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Microsoft.Extensions.DependencyInjection;
+using NukoBot.Common;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
 using System;
@@ -12,12 +13,16 @@ namespace NukoBot.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly GuildRepository _guildRepository;
+        private readonly UserRepository _userRepository;
+        private readonly MuteRepository _muteRepository;
         private readonly Text _text;
 
         public ModerationService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
+            _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
+            _muteRepository = _serviceProvider.GetRequiredService<MuteRepository>();
             _text = _serviceProvider.GetRequiredService<Text>();
         }
 
@@ -56,6 +61,45 @@ namespace NukoBot.Services
                 await _text.SendAsync(userDm, message);
             }
             catch {}
+        }
+
+        public async Task HandleWarningAsync(IGuildUser user, Context context)
+        {
+            var dbUser = await _userRepository.GetUserAsync(user.Id, user.GuildId);
+
+            if (dbUser.Warnings.Count >= context.DbGuild.MaxmimumWarningsBeforeAction)
+            {
+                switch (context.DbGuild.WarnPunishment)
+                {
+                    case "mute":
+                        var mutedRole = context.Guild.GetRole(context.DbGuild.MutedRoleId);
+
+                        if (mutedRole == null)
+                        {
+                            await _text.ReplyErrorAsync(context.User, context.Channel, $"there is no muted role set for this server. Please use the `{Configuration.Prefix}SetMutedRole` command to remedy this error.");
+                            return;
+                        }
+
+                        await user.AddRoleAsync(mutedRole);
+
+                        await _muteRepository.InsertMuteAsync(user, TimeSpan.FromHours(context.DbGuild.WarnMuteLength));
+
+                        await ModLogAsync(context.DbGuild, context.Guild, "Mute", Configuration.MuteColor, "Exceeded maximum warnings before automatic action.", (IGuildUser)context.User, user);
+                        break;
+                    case "kick":
+                        await user.KickAsync("Exceeded maximum warnings before automatic action.");
+
+                        await ModLogAsync(context.DbGuild, context.Guild, "Kick", Configuration.KickColor, "Exceeded maximum warnings before automatic action.", (IGuildUser)context.User, user);
+                        break;
+                    case "ban":
+                        await user.BanAsync(reason: "Exceeded maximum warnings before automatic action.");
+
+                        await ModLogAsync(context.DbGuild, context.Guild, "Ban", Configuration.BanColor, "Exceeded maximum warnings before automatic action.", (IGuildUser)context.User, user);
+                        break;
+                    default:
+                        return;
+                }
+            }
         }
 
         public async Task ModLogAsync(Guild dbGuild, IGuild guild, string action, Color color, string reason, IGuildUser moderator, IGuildUser user)

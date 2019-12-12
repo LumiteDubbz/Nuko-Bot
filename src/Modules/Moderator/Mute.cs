@@ -31,8 +31,6 @@ namespace NukoBot.Modules.Moderator
 
             await _muteRepository.InsertMuteAsync(userToMute, TimeSpan.FromDays(365));
 
-            await ReplyAsync($"you have successfully muted **{userToMute.Mention}**.");
-
             string message = $"**{Context.User.Mention}** has permanently muted you in **{Context.Guild.Name}**";
 
             if (!string.IsNullOrWhiteSpace(reason))
@@ -43,6 +41,12 @@ namespace NukoBot.Modules.Moderator
             await _moderationService.InformUserAsync(userToMute, message + ".");
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Mute", Configuration.MuteColor, reason, Context.User as IGuildUser, userToMute);
+
+            var dbUser = await _userRepository.GetUserAsync(userToMute.Id, userToMute.GuildId);
+
+            if (!dbUser.HasBeenMuted) await _userRepository.ModifyUserAsync(userToMute, x => x.HasBeenMuted = true);
+
+            await ReplyAsync($"you have successfully muted **{userToMute.Mention}**.");
         }
     }
 }

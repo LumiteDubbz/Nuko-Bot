@@ -25,6 +25,8 @@ namespace NukoBot.Database.Models
 
         public string Prefix { get; set; } = Configuration.Prefix;
 
+        public string WarnPunishment { get; set; } = Configuration.DefaultWarnPunishment;
+
         // Numbers
 
         public int CaseNumber { get; set; } = 1;
@@ -43,7 +45,11 @@ namespace NukoBot.Database.Models
 
         public ulong ScreenshotChannelId { get; set; }
 
-        public int DaysUntilWarningExpires { get; set; }
+        public int DaysUntilWarningExpires { get; set; } = Configuration.DaysUntilWarningExpires;
+
+        public int MaxmimumWarningsBeforeAction { get; set; } = Configuration.MaximumWarningsBeforeAction;
+
+        public double WarnMuteLength { get; set; } = Configuration.WarnMuteLength;
 
         // Arrays
 

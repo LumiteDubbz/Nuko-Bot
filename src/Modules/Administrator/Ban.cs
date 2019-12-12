@@ -34,6 +34,10 @@ namespace NukoBot.Modules.Administrator
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Ban", Configuration.KickColor, reason, Context.User as IGuildUser, userToBan);
 
+            var dbUser = await _userRepository.GetUserAsync(userToBan.Id, userToBan.GuildId);
+
+            if (!dbUser.HasBeenBanned) await _userRepository.ModifyUserAsync(userToBan, x => x.HasBeenBanned = true);
+
             await ReplyAsync(reply + ".");
         }
     }

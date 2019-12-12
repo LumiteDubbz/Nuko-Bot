@@ -34,6 +34,10 @@ namespace NukoBot.Modules.Moderator
 
             await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Kick", Configuration.KickColor, reason, Context.User as IGuildUser, userToKick);
 
+            var dbUser = await _userRepository.GetUserAsync(userToKick.Id, userToKick.GuildId);
+
+            if (!dbUser.HasBeenKicked) await _userRepository.ModifyUserAsync(userToKick, x => x.HasBeenKicked = true);
+
             await ReplyAsync(reply + ".");
         }
     }

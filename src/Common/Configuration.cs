@@ -11,7 +11,8 @@ namespace NukoBot.Common
             SupportServerLink = "https://discord.gg/MU9jaut",
             GitRepository = "https://github.com/LumiteDubbz/NukoBot",
             BotInviteLink = "https://discordapp.com/oauth2/authorize?client_id=636923604277395456&scope=bot&permissions=8",
-            HelpMessage = $"Hey, I'm Nuko, a Discord bot for community management in Mayrom's new mod server.\n\nTo view all command modules, say `{Prefix}modules`.\n\nTo view all commands in any given module, say `{Prefix}module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `{Prefix}support` command and join the server.**";
+            HelpMessage = $"Hey, I'm Nuko, a Discord bot for community management in Mayrom's new mod server.\n\nTo view all command modules, say `{Prefix}modules`.\n\nTo view all commands in any given module, say `{Prefix}module [moduleName]`.\n\n**If you encounter a bug or want to give feedback, please use the `{Prefix}support` command and join the server.**",
+            DefaultWarnPunishment = "kick";
 
         public static readonly string[] Authors = {
             "Lumite_#0187",
@@ -22,10 +23,13 @@ namespace NukoBot.Common
             MaximumClearCount = 150,
             MinimumClearCount = 1,
             MinimumMuteLength = 1,
-            TwoPlayerBonusPointPercentage = 10;
+            TwoPlayerBonusPointPercentage = 10,
+            DaysUntilWarningExpires = 30,
+            MaximumWarningsBeforeAction = 2;
 
         public static readonly double MaximumMultiplier = 10,
             MinimumMultiplier = 0.1,
+            WarnMuteLength = 24,
             WeightedPointIncrement = 0.25;
 
         public static readonly TimeSpan AutoUnmuteCooldown = TimeSpan.FromMinutes(1),
