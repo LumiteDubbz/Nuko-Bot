@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Scripting;
 using NukoBot.Common;
 using NukoBot.Common.Structures;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace NukoBot.Modules.BotOwner
         public async Task<ScriptState<object>> EvaluateAsync(Context context, string code)
         {
             var globals = new Globals(context, _guildRepository, _userRepository);
-            var scriptOptions = ScriptOptions.Default.WithImports("System", "System.Collections.Generic", "System.Threading.Tasks", "Discord", "Discord.WebSocket", "Discord.Commands", "NukoBot").WithReferences(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location)));
+            var scriptOptions = ScriptOptions.Default.WithImports("System", "System.Collections.Generic", "System.Threading.Tasks", "Discord", "Discord.WebSocket", "Discord.Commands", "NukoBot", "NukoBot.Common").WithReferences(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location)));
             var script = CSharpScript.Create(code, scriptOptions, typeof(Globals));
 
             script.Compile();

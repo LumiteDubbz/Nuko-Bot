@@ -3,8 +3,6 @@ using Discord;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
-using System.Linq;
-using NukoBot.Common.Structures;
 
 namespace NukoBot.Database.Repositories
 {

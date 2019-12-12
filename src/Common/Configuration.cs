@@ -43,6 +43,9 @@ namespace NukoBot.Common
             MuteColor = new Color(255, 140, 25),
             UnmuteColor = new Color(85, 255, 0),
             ClearColor = new Color(85, 255, 0),
+            WarnColor = new Color(255, 140, 25),
+            LockdownColor = new Color(255, 0, 0),
+            UnlockColor = new Color(85, 255, 0),
             ErrorColor = new Color(255, 0, 0);
 
         private static readonly Color[] Colors = {

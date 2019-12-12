@@ -14,6 +14,7 @@ namespace NukoBot.Modules.Moderator
     public partial class Moderator : Module
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly UserRepository _userRepository;
         private readonly PollRepository _pollRepository;
         private readonly MuteRepository _muteRepository;
         private readonly ModerationService _moderationService;
@@ -21,6 +22,7 @@ namespace NukoBot.Modules.Moderator
         public Moderator(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
             _muteRepository = _serviceProvider.GetRequiredService<MuteRepository>();
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();

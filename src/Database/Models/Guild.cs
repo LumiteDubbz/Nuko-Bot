@@ -43,6 +43,8 @@ namespace NukoBot.Database.Models
 
         public ulong ScreenshotChannelId { get; set; }
 
+        public int DaysUntilWarningExpires { get; set; }
+
         // Arrays
 
         public string[] DisabledCommands { get; set; } = new string[] { };

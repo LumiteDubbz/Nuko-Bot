@@ -25,7 +25,7 @@ namespace NukoBot.Modules.Administrator
 
                 action = "**unlocked**";
 
-                await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Unlock", Configuration.UnmuteColor, reason, (IGuildUser) Context.User, null);
+                await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Unlock", Configuration.UnlockColor, reason, (IGuildUser) Context.User, null);
             }
             else
             {
@@ -33,7 +33,7 @@ namespace NukoBot.Modules.Administrator
 
                 action = "**locked**";
 
-                await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Lock", Configuration.BanColor, reason, (IGuildUser) Context.User, null);
+                await _moderationService.ModLogAsync(Context.DbGuild, Context.Guild, "Lock", Configuration.LockdownColor, reason, (IGuildUser) Context.User, null);
             }
 
             message += $"{action} this server";
