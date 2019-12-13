@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis.Scripting;
 using NukoBot.Common;
 using NukoBot.Common.Structures;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

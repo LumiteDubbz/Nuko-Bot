@@ -37,7 +37,7 @@ namespace NukoBot.Modules.Moderator
                 message += "\n" + warnings.Remove(warnings.Length - 1);
             }
 
-            var muteStatus = await _muteRepository.IsMutedAsync(user.Id, user.GuildId) ? "\nIs currently muted." : dbUser.HasBeenMuted ? "\nHas been muted in the past." : "\nNot currently muted.";
+            var muteStatus = await _muteRepository.IsMutedAsync(user.Id, user.GuildId) ? "\nIs currently muted." : dbUser.HasBeenMuted ? "\nHas been muted in the past." : "\nHas never been muted.";
             var kickStatus = dbUser.HasBeenKicked ? "\nHas been kicked in the past." : "\nHas never been kicked.";
             var banStatus = Context.Guild.GetBansAsync().Result.Any(x => x.User.Id == user.Id) ? "\nIs currently banned." : dbUser.HasBeenBanned ? "\nHas been banned in the past." : "\nHas never been banned.";
 
