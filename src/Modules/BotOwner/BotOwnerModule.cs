@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Common.Preconditions.Command;
-using NukoBot.Database.Repositories;
+using NukoBot.Services;
 using System;
 
 namespace NukoBot.Modules.BotOwner
@@ -13,14 +13,12 @@ namespace NukoBot.Modules.BotOwner
     public partial class BotOwner : Module
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly GuildRepository _guildRepository;
-        private readonly UserRepository _userRepository;
+        private readonly EvaluationService _evaluationService;
 
         public BotOwner(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _guildRepository = _serviceProvider.GetRequiredService<GuildRepository>();
-            _userRepository = _serviceProvider.GetRequiredService<UserRepository>();
+            _evaluationService = _serviceProvider.GetRequiredService<EvaluationService>();
         }
     }
 }

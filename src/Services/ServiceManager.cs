@@ -52,6 +52,7 @@ namespace NukoBot.Services
              // Handlers
              .AddSingleton<ErrorHandler>()
              // Services
+             .AddSingleton<EvaluationService>()
              .AddSingleton<ModerationService>()
              .AddSingleton<PointService>()
              .AddSingleton<Text>();
