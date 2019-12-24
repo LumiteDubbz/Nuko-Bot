@@ -12,7 +12,7 @@ namespace NukoBot.Modules.Administrator
         [Remarks("@Muted")]
         public async Task SetMutedRole([Summary("The role you want to set as the muted role.")][Remainder] IRole mutedRole = null)
         {
-            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.MutedRoleId = mutedRole.Id);
+            await _guildRepository.ModifyAsync(Context.DbGuild, x => x.MutedRoleId = (mutedRole == null ? 0 : mutedRole.Id));
 
             if (mutedRole != null)
             {

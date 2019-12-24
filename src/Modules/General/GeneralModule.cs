@@ -14,12 +14,14 @@ namespace NukoBot.Modules.General
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly PollRepository _pollRepository;
+        private readonly CommandService _commandService;
         private readonly ModerationService _moderationService;
 
         public General(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _pollRepository = _serviceProvider.GetRequiredService<PollRepository>();
+            _commandService = _serviceProvider.GetRequiredService<CommandService>();
             _moderationService = _serviceProvider.GetRequiredService<ModerationService>();
         }
     }
