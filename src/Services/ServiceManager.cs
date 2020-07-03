@@ -1,14 +1,14 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using NukoBot.Common;
-using NukoBot.Events;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using System;
+using NukoBot.Common;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
-using NukoBot.Services.Timers;
+using NukoBot.Events;
 using NukoBot.Services.Handlers;
+using NukoBot.Services.Timers;
+using System;
 
 namespace NukoBot.Services
 {

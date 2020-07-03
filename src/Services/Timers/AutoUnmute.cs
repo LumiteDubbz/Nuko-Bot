@@ -1,13 +1,13 @@
-﻿using Discord;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
+using Discord;
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace NukoBot.Services.Timers
 {

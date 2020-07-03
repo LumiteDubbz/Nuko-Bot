@@ -1,10 +1,10 @@
 ﻿using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using NukoBot.Common;
 using NukoBot.Common.Extensions;
-using System;
+using NukoBot.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace NukoBot.Services.Handlers
 {

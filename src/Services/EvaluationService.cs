@@ -1,12 +1,12 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.DependencyInjection;
-using NukoBot.Common;
 using NukoBot.Common.Structures;
+using NukoBot.Common;
 using NukoBot.Database.Repositories;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace NukoBot.Services
 {

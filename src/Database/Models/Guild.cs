@@ -62,5 +62,9 @@ namespace NukoBot.Database.Models
         public bool OverhaulEnabled { get; set; } = false;
 
         public bool LockedDown { get; set; } = false;
+
+        public bool LogMessageDeletions { get; set; } = false;
+
+        public bool LogMessageEdits { get; set; } = false;
     }
 }

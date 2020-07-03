@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Database.Repositories;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace NukoBot.Services.Timers
 {

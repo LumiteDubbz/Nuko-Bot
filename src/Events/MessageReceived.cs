@@ -1,14 +1,13 @@
-﻿using Discord.WebSocket;
-using System.Threading.Tasks;
-using NukoBot.Common;
+﻿using Discord.Commands;
+using Discord.WebSocket;
 using Discord;
-using Discord.Commands;
-using System;
 using Microsoft.Extensions.DependencyInjection;
+using NukoBot.Common;
 using NukoBot.Services.Handlers;
-using System.Linq;
-using NukoBot.Common.Extensions;
 using NukoBot.Services;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
 
 namespace NukoBot.Events
 {
@@ -34,11 +33,9 @@ namespace NukoBot.Events
         private async Task HandleMessageAsync(SocketMessage socketMessage)
         {
             if (!(socketMessage is SocketUserMessage message)) return;
-
             if (message.Source != MessageSource.User) return;
 
             var argPos = 0;
-
             var context = new Context(message, _serviceProvider, _client);
 
             if (!(message.Channel is IDMChannel))
@@ -46,7 +43,6 @@ namespace NukoBot.Events
                 await context.InitializeAsync();
 
                 if (!message.HasStringPrefix(context.DbGuild.Prefix, ref argPos)) return;
-
                 if (context.DbGuild.IgnoredChannels.Any(x => x == context.Channel.Id)) return;
 
                 var args = context.Message.Content.Split(' ');

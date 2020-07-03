@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NukoBot.Common;
 using NukoBot.Database.Models;
 using NukoBot.Database.Repositories;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace NukoBot.Services
 {

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Discord.Commands;
+using Discord.WebSocket;
+using Discord;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using NukoBot.Common;
+using NukoBot.Database.Repositories;
+using NukoBot.Services;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using NukoBot.Common;
-using NukoBot.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using NukoBot.Database.Repositories;
+using System;
 
 namespace NukoBot
 {
