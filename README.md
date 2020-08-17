@@ -1,3 +1,16 @@
+# Archive notice
+This project, along with all of my other Discord-related projects have been **archived**.
+
+This means:
+- The code **will** stay public.
+- The code **can** be forked and cloned like usual.
+- I, personally, will **not** be updating this code for any reason, including security patches.
+
+This is because:
+- I have quit Discord.
+- I have no interest in returning to Discord.
+- I still want these projects to exist for other people to use and as a catalogue of my old work.
+
 <center><h1>Nuko</h1>
 
 <a href="https://github.com/LumiteDubbz/NukoBot/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a> <a href="#"><img src="https://img.shields.io/github/last-commit/lumitedubbz/NukoBot" alt="Latest commit" /></a>
